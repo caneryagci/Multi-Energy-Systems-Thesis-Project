@@ -1,2 +1,2 @@
 # Multi Energy Systems
-This thesis project focuses on...
+Investigating Unknown (In)flexibilities Provided by the Detailed Modelling of Power to X Converters Considering Grid Support Strategies
