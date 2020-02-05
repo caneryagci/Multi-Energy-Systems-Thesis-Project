@@ -1,5 +1,5 @@
 %% Curve fitting
-% open "sftool" for 2-D curve fitting. Find COP(Tamb,Tsource/sink) equations' coefficients. 
+% open "sftool" for 2-D curve fitting. Find COP(Tamb,Tsource/sink(LWC)) equations' coefficients. 
 
 %LWC_column = [30 30 30 30 30 30 30 30 30 35 35 35 35 35 35 35 35 35 40 40 40 40 40 40 40 40 40 45 45 45 45 45 45 45 50 50 50 50 50 50 55 55 55 55 55]; %Leaving Water Condensor temperature [°C]
 %Tamb_column = [-20 -15 -10 -5 0 5 10 15 20 -20 -15 -10 -5 0 5 10 15 20 -20 -15 -10 -5 0 5 10 15 20 -10 -5 0 5 10 15 20 -5 0 5 10 15 20 0 5 10 15 20];
@@ -32,7 +32,7 @@ for i= 1 :1: 25
     T(i)= Tamb;
 end
 
-%% Current sweep
+%% Tamb sweep
 plot(T,COP_30,T,COP_40,T,COP_50,'LineWidth',1.5);
 grid on;
 grid minor;
