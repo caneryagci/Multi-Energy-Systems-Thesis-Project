@@ -20,13 +20,13 @@ e_B = (lambda)/(lambda+r);
 K_a = exp((-52300/R)*((1/T)-(1/298))); %maybe 52.300(?)dissociation equilibrium constant for acid sites
 beta = ((lambda+1)-sqrt(((lambda+1)^2)-4*lambda*(1-(1/K_a))))/(2*(1-(1/K_a)));
 
-    n_h2 = zeros(200,1);
-    I = zeros(200,1);
-    j = zeros(200,1);
-    V = zeros(200,1);
-    i_A0 = zeros(200,1);
-    i_C0 = zeros(200,1);
-    P_in = zeros(200,1); 
+    n_h2 = zeros(300,1);
+    I = zeros(300,1);
+    j = zeros(300,1);
+    V = zeros(300,1);
+    i_A0 = zeros(300,1);
+    i_C0 = zeros(300,1);
+    P_in = zeros(300,1); 
 
 
 
@@ -73,7 +73,7 @@ gama_M = 150; %roughness factor
 
 
 
-for i= 1 :1: 200
+for i= 1 :1: 300
     n_h2(i) = 5.2e-6*(0.01*i);   
     I(i) = 2*F*n_h2(i);
     j(i)= I(i)/A;
@@ -84,14 +84,18 @@ for i= 1 :1: 200
 end
 
 %% Current sweep
-plot(I,V,I,P_in,'LineWidth',1.5);
+% plot(I,V,I,P_in,'LineWidth',1.5);
+plot(I,V,'LineWidth',1.5);
 grid on;
 grid minor;
-legend('E_total(V)','P_in(W)','Location','northeast');
+title('Detailed Model @80C');
+yline(1.755,'-.b','y = 1.755V','LineWidth',2);
+% legend('E_total(V)','P_in(W)','Location','northeast');
+legend('E_total(V)','Location','northeast');
 xlabel('Current Density(A.m-2)');
 ylabel('Cell Voltage(V)');
-ylim([0 4]);
-xlim([0 2]);
+ylim([0 2.5]);
+xlim([0 3]);
 
 
 

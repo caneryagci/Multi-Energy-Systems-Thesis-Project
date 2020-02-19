@@ -77,7 +77,8 @@ end
 plot(j,E_total,j,Erev_0,j,Erev_0_T25,j,Erev_0_T50,'LineWidth',1.5);
 grid on;
 grid minor;
-legend('E_total','Erev_0','Erev_0_T25','Erev_0_T50','Location','northeast');
+title('Simple(Linear) Model');
+legend('Ecell(total)','Erev@25C','Erev@50C','Erev@80C','Location','northeast');
 xlabel('Current Density(A.m-2)');
 ylabel('Cell Voltage(V)');
 ylim([1 2]);
