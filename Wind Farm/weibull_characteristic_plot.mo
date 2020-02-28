@@ -1,5 +1,4 @@
 model weibull_characteristic_plot
-
   parameter Real lambda(min=0) = 11 "Scale parameter in m/s";
   parameter Real shape(min=0) = 2.02 "Shape parameter in p.u.";
   parameter Integer n = 60 "Number of intervals";

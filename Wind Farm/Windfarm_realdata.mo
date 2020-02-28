@@ -10,12 +10,12 @@ model Windfarm_realdata
   OpenIPSL.Electrical.Buses.InfiniteBus infiniteBus1(P_0 = 0.001, Q_0 = 0.00001, V_0 = 1, V_b = 0.4, angle_0 = 0, displayPF = false)  annotation(
     Placement(visible = true, transformation(origin = {-54, 56}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
   Modelica.Blocks.Sources.CombiTimeTable combiTimeTable1(fileName = "C:/Users/Caner/Desktop/Multi-Energy-Systems-Thesis-Project/Wind Farm/wind_speeds.txt", tableName = "tab1", tableOnFile = true)  annotation(
-    Placement(visible = true, transformation(origin = {-82, -18}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
+    Placement(visible = true, transformation(origin = {-80, -18}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
   Modelica.Blocks.Math.Mean mean1 annotation(
     Placement(visible = true, transformation(origin = {54, 34}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
 equation
   connect(combiTimeTable1.y[1], windPlant1.windSpeed) annotation(
-    Line(points = {{-70, -18}, {-44, -18}}, color = {0, 0, 127}));
+    Line(points = {{-69, -18}, {-44, -18}}, color = {0, 0, 127}));
   connect(windPlant1.p, bus1.p) annotation(
     Line(points = {{-34, -8}, {-34, 3}, {-40, 3}, {-40, 12}}, color = {0, 0, 255}));
   connect(twoWindingTransformer1.p, bus1.p) annotation(
