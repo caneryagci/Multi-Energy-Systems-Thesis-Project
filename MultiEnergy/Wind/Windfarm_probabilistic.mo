@@ -1,7 +1,9 @@
+within Wind;
+
 model Windfarm_probabilistic
-  Modelica.Blocks.Sources.CombiTimeTable combiTimeTable1(extrapolation = Modelica.Blocks.Types.Extrapolation.NoExtrapolation, fileName = "C:/Users/Caner/Desktop/Multi-Energy-Systems-Thesis-Project/Wind Farm/scale(hourly).txt", tableName = "tab1", tableOnFile = true)  annotation(
+  Modelica.Blocks.Sources.CombiTimeTable combiTimeTable1(extrapolation = Modelica.Blocks.Types.Extrapolation.NoExtrapolation, fileName = "C:/Users/Caner/Desktop/Multi-Energy-Systems-Thesis-Project/Wind Farm/scale(hourly).txt", tableName = "tab1", tableOnFile = true) annotation(
     Placement(visible = true, transformation(origin = {-186, -16}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
-  Modelica.Blocks.Sources.CombiTimeTable combiTimeTable2(extrapolation = Modelica.Blocks.Types.Extrapolation.NoExtrapolation, fileName = "C:/Users/Caner/Desktop/Multi-Energy-Systems-Thesis-Project/Wind Farm/shape_k(hourly).txt", tableName = "tab1", tableOnFile = true)  annotation(
+  Modelica.Blocks.Sources.CombiTimeTable combiTimeTable2(extrapolation = Modelica.Blocks.Types.Extrapolation.NoExtrapolation, fileName = "C:/Users/Caner/Desktop/Multi-Energy-Systems-Thesis-Project/Wind Farm/shape_k(hourly).txt", tableName = "tab1", tableOnFile = true) annotation(
     Placement(visible = true, transformation(origin = {-186, -44}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
   weibull_random_wind_speed_generator weibull_random_wind_speed_generator1 annotation(
     Placement(visible = true, transformation(origin = {-138, -28}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
@@ -9,21 +11,21 @@ model Windfarm_probabilistic
     Placement(visible = true, transformation(origin = {-144, 26}, extent = {{-12, -10}, {12, 10}}, rotation = 0)));
   OpenIPSL.Electrical.Buses.Bus bus1 annotation(
     Placement(visible = true, transformation(origin = {-82, -56}, extent = {{-10, -10}, {10, 10}}, rotation = -90)));
-  OpenIPSL.Electrical.Branches.PSAT.TwoWindingTransformer twoWindingTransformer1(V_b = 0.4, Vn = 40, kT = 33 / 0.4)  annotation(
+  OpenIPSL.Electrical.Branches.PSAT.TwoWindingTransformer twoWindingTransformer1(V_b = 0.4, Vn = 40, kT = 33 / 0.4) annotation(
     Placement(visible = true, transformation(origin = {-82, -78}, extent = {{-10, -10}, {10, 10}}, rotation = -90)));
   OpenIPSL.Electrical.Buses.Bus bus2 annotation(
     Placement(visible = true, transformation(origin = {-82, -106}, extent = {{-10, -10}, {10, 10}}, rotation = -90)));
   OpenIPSL.Electrical.Buses.Bus bus3 annotation(
     Placement(visible = true, transformation(origin = {-82, -160}, extent = {{-10, -10}, {10, 10}}, rotation = -90)));
-  OpenIPSL.Electrical.Branches.PwLine pwLine1(B = 0.001 / 2,G = 0, R = 0.01, X = 0.1)  annotation(
+  OpenIPSL.Electrical.Branches.PwLine pwLine1(B = 0.001 / 2, G = 0, R = 0.01, X = 0.1) annotation(
     Placement(visible = true, transformation(origin = {-82, -132}, extent = {{-10, -10}, {10, 10}}, rotation = -90)));
-  OpenIPSL.Electrical.Loads.PSAT.LOADPQ loadpq1(P_0 = 0.6, Q_0 = 0.1, forcePQ = true)  annotation(
+  OpenIPSL.Electrical.Loads.PSAT.LOADPQ loadpq1(P_0 = 0.6, Q_0 = 0.1, forcePQ = true) annotation(
     Placement(visible = true, transformation(origin = {-82, -180}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
-  OpenIPSL.Electrical.Machines.PSAT.Order3 order31(D = 0, M = 10,Sn = 100, T1d0 = 8, Vn = 400, ra = 0.001, x1d = 0.302, xd = 1.9, xq = 1.7)  annotation(
+  OpenIPSL.Electrical.Machines.PSAT.Order3 order31(D = 0, M = 10, Sn = 100, T1d0 = 8, Vn = 400, ra = 0.001, x1d = 0.302, xd = 1.9, xq = 1.7) annotation(
     Placement(visible = true, transformation(origin = {6, -40}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
   OpenIPSL.Electrical.Buses.Bus bus4 annotation(
     Placement(visible = true, transformation(origin = {38, -60}, extent = {{-10, -10}, {10, 10}}, rotation = -90)));
-  OpenIPSL.Electrical.Branches.PSAT.TwoWindingTransformer twoWindingTransformer2(kT = 33 / 0.4)  annotation(
+  OpenIPSL.Electrical.Branches.PSAT.TwoWindingTransformer twoWindingTransformer2(kT = 33 / 0.4) annotation(
     Placement(visible = true, transformation(origin = {40, -80}, extent = {{-10, -10}, {10, 10}}, rotation = -90)));
   OpenIPSL.Electrical.Wind.PSAT.PSAT_Type_3.PSAT_WT psat_wt1 annotation(
     Placement(visible = true, transformation(origin = {-98, -30}, extent = {{-10, -10}, {10, 10}}, rotation = 90)));
@@ -57,4 +59,5 @@ equation
     Diagram(coordinateSystem(extent = {{-200, -200}, {200, 200}})),
     Icon(coordinateSystem(extent = {{-200, -200}, {200, 200}})),
     version = "",
-    __OpenModelica_commandLineOptions = "");end Windfarm_probabilistic;
+    __OpenModelica_commandLineOptions = "");
+end Windfarm_probabilistic;

@@ -16,6 +16,7 @@ model weibull_characteristic_plot
   Real p_wind[n]; // MW;
   Real total[n];
   Real Pavg;
+  
  // Modelica.Blocks.Interfaces.RealOutput v(unit = "m/s") "Wind velocity" annotation(Placement(transformation(extent = {{100, -10}, {120, 10}})));
   
 equation
@@ -30,7 +31,7 @@ for i in 1:n loop
       p_wind[i]=0;
     end if;
   end for;
-    
-  total = weibull .* p_wind;
+  
+  total = (weibull .* p_wind);
   Pavg = sum(total); // MWh(multiply by minutes or hours for hourly daily average?)
 end weibull_characteristic_plot;

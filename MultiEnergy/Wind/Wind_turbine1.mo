@@ -1,11 +1,13 @@
+within Wind;
+
 model Wind_turbine1 "Wind Turbine"
   import Modelica.Constants.pi;
   //Modelica.SIunits.Power power "Power of flange_a";
   Modelica.Blocks.Interfaces.RealInput windspeed annotation(
     Placement(visible = true, transformation(origin = {-174, -18}, extent = {{-20, -20}, {20, 20}}, rotation = 0), iconTransformation(origin = {-80, -2}, extent = {{-20, -20}, {20, 20}}, rotation = 0)));
- /* Modelica.Blocks.Interfaces.RealOutput p_wind annotation(
-    Placement(visible = true, transformation(origin = {148, -30}, extent = {{-10, -10}, {10, 10}}, rotation = 0), iconTransformation(origin = {106, 68}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
-*/
+  /* Modelica.Blocks.Interfaces.RealOutput p_wind annotation(
+      Placement(visible = true, transformation(origin = {148, -30}, extent = {{-10, -10}, {10, 10}}, rotation = 0), iconTransformation(origin = {106, 68}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
+  */
   Modelica.SIunits.Power p_wind "Power of wind";
   //MW
   parameter Real Sbase = 100 "Power Rating [Normalization Factor] (MVA)";
@@ -20,13 +22,13 @@ model Wind_turbine1 "Wind Turbine"
   parameter Real D = 90 "Rotor Diameter";
   parameter Real beta = 1 "Blade(Pitch)angle in degrees";
   /*
-            parameter Real lambdaMin "Minimum tip speed ratio of control range";
-            parameter Real lambdaMax "Maximum tip speed ratio of control range";
-            parameter Real lambdaOpt "Optimum tip speed ratio, matching betaOpt";
-            parameter Real betaMin "Minimum pitch angle";
-            parameter Real betaMax "Maximum pitch angle";
-            parameter Real betaOpt "Optimum pitch angle, matching lambdaOpt";
-           */
+              parameter Real lambdaMin "Minimum tip speed ratio of control range";
+              parameter Real lambdaMax "Maximum tip speed ratio of control range";
+              parameter Real lambdaOpt "Optimum tip speed ratio, matching betaOpt";
+              parameter Real betaMin "Minimum pitch angle";
+              parameter Real betaMax "Maximum pitch angle";
+              parameter Real betaOpt "Optimum pitch angle, matching lambdaOpt";
+             */
   Real Cp "Power coefficient";
   Real lambda "Tip speed ratio";
   Real lambdaLimited(min = 0) "Positive tip speed ratio";
@@ -40,7 +42,7 @@ equation
 //w=(2*pi*N)/60;
 //w=windspeed/
   w = 9 * windspeed / (D / 2);
-  omega_m=w;
+  omega_m = w;
 //Lambda constant value = 9
 // Tip speed ratio
   lambda * windspeed = w * D / 2;
