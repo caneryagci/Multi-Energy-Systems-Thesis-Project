@@ -1,59 +1,88 @@
 within Wind;
 
 model Windfarm_probabilistic
-  Modelica.Blocks.Sources.CombiTimeTable combiTimeTable1(extrapolation = Modelica.Blocks.Types.Extrapolation.NoExtrapolation, fileName = "C:/Users/Caner/Desktop/Multi-Energy-Systems-Thesis-Project/Wind Farm/scale(hourly).txt", tableName = "tab1", tableOnFile = true) annotation(
-    Placement(visible = true, transformation(origin = {-186, -16}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
-  Modelica.Blocks.Sources.CombiTimeTable combiTimeTable2(extrapolation = Modelica.Blocks.Types.Extrapolation.NoExtrapolation, fileName = "C:/Users/Caner/Desktop/Multi-Energy-Systems-Thesis-Project/Wind Farm/shape_k(hourly).txt", tableName = "tab1", tableOnFile = true) annotation(
-    Placement(visible = true, transformation(origin = {-186, -44}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
-  weibull_random_wind_speed_generator weibull_random_wind_speed_generator1 annotation(
-    Placement(visible = true, transformation(origin = {-138, -28}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
-  inner OpenIPSL.Electrical.SystemBase SysData annotation(
-    Placement(visible = true, transformation(origin = {-144, 26}, extent = {{-12, -10}, {12, 10}}, rotation = 0)));
-  OpenIPSL.Electrical.Buses.Bus bus1 annotation(
-    Placement(visible = true, transformation(origin = {-82, -56}, extent = {{-10, -10}, {10, 10}}, rotation = -90)));
-  OpenIPSL.Electrical.Branches.PSAT.TwoWindingTransformer twoWindingTransformer1(V_b = 0.4, Vn = 40, kT = 33 / 0.4) annotation(
-    Placement(visible = true, transformation(origin = {-82, -78}, extent = {{-10, -10}, {10, 10}}, rotation = -90)));
-  OpenIPSL.Electrical.Buses.Bus bus2 annotation(
-    Placement(visible = true, transformation(origin = {-82, -106}, extent = {{-10, -10}, {10, 10}}, rotation = -90)));
-  OpenIPSL.Electrical.Buses.Bus bus3 annotation(
-    Placement(visible = true, transformation(origin = {-82, -160}, extent = {{-10, -10}, {10, 10}}, rotation = -90)));
-  OpenIPSL.Electrical.Branches.PwLine pwLine1(B = 0.001 / 2, G = 0, R = 0.01, X = 0.1) annotation(
-    Placement(visible = true, transformation(origin = {-82, -132}, extent = {{-10, -10}, {10, 10}}, rotation = -90)));
-  OpenIPSL.Electrical.Loads.PSAT.LOADPQ loadpq1(P_0 = 0.6, Q_0 = 0.1, forcePQ = true) annotation(
-    Placement(visible = true, transformation(origin = {-82, -180}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
-  OpenIPSL.Electrical.Machines.PSAT.Order3 order31(D = 0, M = 10, Sn = 100, T1d0 = 8, Vn = 400, ra = 0.001, x1d = 0.302, xd = 1.9, xq = 1.7) annotation(
-    Placement(visible = true, transformation(origin = {6, -40}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
-  OpenIPSL.Electrical.Buses.Bus bus4 annotation(
-    Placement(visible = true, transformation(origin = {38, -60}, extent = {{-10, -10}, {10, 10}}, rotation = -90)));
-  OpenIPSL.Electrical.Branches.PSAT.TwoWindingTransformer twoWindingTransformer2(kT = 33 / 0.4) annotation(
-    Placement(visible = true, transformation(origin = {40, -80}, extent = {{-10, -10}, {10, 10}}, rotation = -90)));
-  OpenIPSL.Electrical.Wind.PSAT.PSAT_Type_3.PSAT_WT psat_wt1 annotation(
-    Placement(visible = true, transformation(origin = {-98, -30}, extent = {{-10, -10}, {10, 10}}, rotation = 90)));
+inner outer PowerSystems.System system;
+  PowerSystems.AC3ph.Inverters.InverterAverage inverter annotation(
+    Placement(visible = true, transformation(origin = {100, -36}, extent = {{10, -10}, {-10, 10}}, rotation = 0)));
+  PowerSystems.AC1ph_DC.Sensors.PVImeter PVImeter1(av = true, tcst = 0.1)  annotation(
+    Placement(visible = true, transformation(origin = {132, -36}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
+  PowerSystems.AC3ph.Inverters.InverterAverage inverter1 annotation(
+    Placement(visible = true, transformation(origin = {-130, -126}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
+  PowerSystems.AC3ph.Nodes.BusBar bus1 annotation(
+    Placement(visible = true, transformation(origin = {-94, -124}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
+  PowerSystems.AC3ph.Sensors.Psensor Psensor1 annotation(
+    Placement(visible = true, transformation(origin = {-72, -124}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
+  PowerSystems.AC3ph.Transformers.TrafoIdeal trafo annotation(
+    Placement(visible = true, transformation(origin = {-36, -124}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
+  PowerSystems.Common.Thermal.BdCondV bdCond(m = 2)  annotation(
+    Placement(visible = true, transformation(origin = {57, -7}, extent = {{-9, -9}, {9, 9}}, rotation = 0)));
+  PowerSystems.Common.Thermal.BdCondV bdCond1 annotation(
+    Placement(visible = true, transformation(origin = {101, -13}, extent = {{-9, -9}, {9, 9}}, rotation = 0)));
+  PowerSystems.Common.Thermal.BdCondV bdCond2 annotation(
+    Placement(visible = true, transformation(origin = {-128, -98}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
+  Modelica.Blocks.Sources.RealExpression vPhasor_set(y = {0.5 - min(windSpeed, 15) / 20, 0.25 * windSpeed / 15})  annotation(
+    Placement(visible = true, transformation(origin = {54, 8}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
+  PowerSystems.AC3ph.Inverters.Select select1 annotation(
+    Placement(visible = true, transformation(origin = {-128, -88}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
+  PowerSystems.Mechanics.Rotational.Rotor rotor11 annotation(
+    Placement(visible = true, transformation(origin = {14, -34}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
+  Modelica.Mechanics.Rotational.Components.IdealGear idealGear1 annotation(
+    Placement(visible = true, transformation(origin = {-26, -34}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
+  PowerSystems.AC3ph.Ports.ACdq0_p term annotation(
+    Placement(visible = true, transformation(origin = {6, -138}, extent = {{-10, -10}, {10, 10}}, rotation = 0), iconTransformation(origin = {6, -138}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
+  Modelica.Blocks.Interfaces.RealInput windSpeed annotation(
+    Placement(visible = true, transformation(origin = {-158, -30}, extent = {{-20, -20}, {20, 20}}, rotation = 0), iconTransformation(origin = {-158, -30}, extent = {{-20, -20}, {20, 20}}, rotation = 0)));
+  PowerSystems.AC3ph.Machines.Asynchron_dfig asynchron annotation(
+    Placement(visible = true, transformation(origin = {50, -34}, extent = {{10, -10}, {-10, 10}}, rotation = 0)));
+  Rotor1 rotor12 annotation(
+    Placement(visible = true, transformation(origin = {-88, -26}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
 equation
-  connect(combiTimeTable2.y[1], weibull_random_wind_speed_generator1.shape) annotation(
-    Line(points = {{-175, -44}, {-155, -44}, {-155, -32}, {-150, -32}}, color = {0, 0, 127}));
-  connect(combiTimeTable1.y[1], weibull_random_wind_speed_generator1.scale) annotation(
-    Line(points = {{-175, -16}, {-157, -16}, {-157, -23}, {-150, -23}}, color = {0, 0, 127}));
-  connect(twoWindingTransformer2.n, bus2.p) annotation(
-    Line(points = {{40, -92}, {-82, -92}, {-82, -106}, {-82, -106}}, color = {0, 0, 255}));
-  connect(bus4.p, twoWindingTransformer2.p) annotation(
-    Line(points = {{38, -60}, {40, -60}, {40, -68}, {40, -68}}, color = {0, 0, 255}));
-  connect(order31.p, bus4.p) annotation(
-    Line(points = {{16, -40}, {36, -40}, {36, -60}, {38, -60}, {38, -60}}, color = {0, 0, 255}));
-  connect(order31.vf0, order31.vf) annotation(
-    Line(points = {{-2, -29}, {-4, -29}, {-4, -27}, {-16, -27}, {-16, -37}, {-6, -37}, {-6, -35}}, color = {0, 0, 127}));
-  connect(order31.pm0, order31.pm) annotation(
-    Line(points = {{-2, -51}, {-8, -51}, {-8, -51}, {-14, -51}, {-14, -43}, {-6, -43}, {-6, -45}}, color = {0, 0, 127}));
-  connect(loadpq1.p, bus3.p) annotation(
-    Line(points = {{-82, -170}, {-82, -160}}, color = {0, 0, 255}));
-  connect(pwLine1.n, bus3.p) annotation(
-    Line(points = {{-82, -142}, {-82, -142}, {-82, -160}, {-82, -160}}, color = {0, 0, 255}));
-  connect(pwLine1.p, bus2.p) annotation(
-    Line(points = {{-82, -122}, {-82, -122}, {-82, -106}, {-82, -106}}, color = {0, 0, 255}));
-  connect(twoWindingTransformer1.n, bus2.p) annotation(
-    Line(points = {{-82, -90}, {-82, -90}, {-82, -106}, {-82, -106}}, color = {0, 0, 255}));
-  connect(twoWindingTransformer1.p, bus1.p) annotation(
-    Line(points = {{-82, -66}, {-82, -66}, {-82, -56}, {-82, -56}}, color = {0, 0, 255}));
+  connect(rotor12.flange, idealGear1.flange_a) annotation(
+    Line(points = {{-78, -26}, {-44, -26}, {-44, -34}, {-36, -34}, {-36, -34}}));
+  connect(windSpeed, rotor12.v) annotation(
+    Line(points = {{-158, -30}, {-100, -30}, {-100, -26}, {-100, -26}}, color = {0, 0, 127}));
+  connect(asynchron.term, bus1.term) annotation(
+    Line(points = {{60, -34}, {68, -34}, {68, -104}, {-104, -104}, {-104, -124}, {-94, -124}, {-94, -124}}, color = {0, 120, 120}));
+  connect(rotor11.flange_b, asynchron.airgap) annotation(
+    Line(points = {{24, -34}, {36, -34}, {36, -28}, {50, -28}, {50, -28}}));
+  connect(asynchron.term_r, inverter.AC) annotation(
+    Line(points = {{60, -28}, {84, -28}, {84, -36}, {90, -36}, {90, -36}}, color = {0, 120, 120}));
+  connect(asynchron.phiRotor, inverter.theta) annotation(
+    Line(points = {{40, -24}, {34, -24}, {34, -4}, {106, -4}, {106, -26}, {106, -26}}, color = {0, 0, 127}));
+  connect(bdCond.heat, asynchron.heat) annotation(
+    Line(points = {{58, -16}, {56, -16}, {56, -22}, {56, -22}}, color = {176, 0, 0}));
+  connect(rotor11.flange_b, asynchron.airgap) annotation(
+    Line(points = {{24, -34}, {36, -34}, {36, -26}, {56, -26}, {56, -26}}));
+  connect(windSpeed, rotor1.v) annotation(
+    Line(points = {{-158, -30}, {-80, -30}}, color = {0, 0, 127}));
+  connect(trafo.term_n, term) annotation(
+    Line(points = {{-26, -124}, {12, -124}, {12, -138}, {6, -138}}, color = {0, 120, 120}));
+  connect(rotor1.flange, idealGear1.flange_a) annotation(
+    Line(points = {{-58, -30}, {-50, -30}, {-50, -34}, {-36, -34}, {-36, -34}}));
+  connect(idealGear1.flange_b, rotor11.flange_a) annotation(
+    Line(points = {{-16, -34}, {4, -34}, {4, -34}, {4, -34}}));
+  connect(select1.vPhasor_out[1], inverter1.vPhasor[1]) annotation(
+    Line(points = {{-122, -98}, {-110, -98}, {-110, -116}, {-124, -116}, {-124, -116}}, color = {0, 0, 127}, thickness = 0.5));
+  connect(select1.theta_out, inverter1.theta) annotation(
+    Line(points = {{-134, -98}, {-142, -98}, {-142, -116}, {-136, -116}, {-136, -116}}, color = {0, 0, 127}));
+  connect(bdCond2.heat, inverter1.heat) annotation(
+    Line(points = {{-128, -108}, {-129, -108}, {-129, -106}, {-128, -106}, {-128, -114}, {-130, -114}, {-130, -116}, {-130, -116}}, color = {176, 0, 0}));
+  connect(Psensor1.term_n, trafo.term_p) annotation(
+    Line(points = {{-62, -124}, {-46, -124}, {-46, -124}, {-46, -124}}, color = {0, 120, 120}));
+  connect(bus1.term, Psensor1.term_p) annotation(
+    Line(points = {{-94, -124}, {-82, -124}, {-82, -122}, {-82, -122}, {-82, -124}, {-82, -124}}, color = {0, 120, 120}));
+  connect(inverter1.AC, bus1.term) annotation(
+    Line(points = {{-120, -126}, {-94, -126}, {-94, -122}, {-94, -122}, {-94, -124}, {-94, -124}}, color = {0, 120, 120}));
+  connect(PVImeter1.term_n, inverter1.DC) annotation(
+    Line(points = {{142, -36}, {152, -36}, {152, -66}, {-152, -66}, {-152, -126}, {-140, -126}}, color = {0, 0, 255}));
+  connect(inverter.DC, PVImeter1.term_p) annotation(
+    Line(points = {{110, -36}, {122, -36}, {122, -36}, {122, -36}}, color = {0, 0, 255}));
+  connect(vPhasor_set.y, inverter.vPhasor[1]) annotation(
+    Line(points = {{65, 8}, {94, 8}, {94, -26}}, color = {0, 0, 127}));
+  connect(bdCond1.heat, inverter.heat) annotation(
+    Line(points = {{102, -22}, {100, -22}, {100, -26}, {100, -26}}, color = {176, 0, 0}));
+  connect(rotor1.flange, idealGear1.flange_a) annotation(
+    Line(points = {{-56, -32}, {-44, -32}, {-44, -34}, {-36, -34}, {-36, -34}}));
   annotation(
     uses(Modelica(version = "3.2.3"), OpenIPSL(version = "1.5.0")),
     Diagram(coordinateSystem(extent = {{-200, -200}, {200, 200}})),
