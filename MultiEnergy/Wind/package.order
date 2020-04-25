@@ -1,10 +1,5 @@
 weibull_random_wind_speed_generator
 CpValue
-Windfarm_probabilistic
-Elec
-ElecDyn
-generator
-mechanical
-Pitch
 Rotor
-Asynchron_dfig_Can
+Windfarm
+SynchronousMachine

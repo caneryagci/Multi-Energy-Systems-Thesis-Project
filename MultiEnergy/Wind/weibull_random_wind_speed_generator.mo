@@ -1,6 +1,57 @@
 within Wind;
 
-model weibull_random_wind_speed_generator
+model weibull_random_wind_speed_generator/*
+      // Random number generators with exposed state
+        parameter Integer localSeed = 614657
+          "Local seed to initialize random number generator";
+          
+        output Real r64 "Random number generated with Xorshift64star";
+        //output Real r128 "Random number generated with Xorshift128plus";
+        //output Real r1024 "Random number generated with Xorshift1024star";
+        parameter Integer id = Modelica.Math.Random.Utilities.initializeImpureRandom(globalSeed) "A unique number used to sort equations correctly";
+        discrete Real rImpure "Impure Real random number";
+        Integer iImpure "Impure Integer random number";
+        
+      protected
+        //parameter Modelica.SIunits.Time t0(fixed=false) "Start time of simulation";
+        //Real x "Integrator state";
+        discrete Integer state64[2](   each start=0, each fixed = true);
+        //discrete Integer state128[4](  each start=0, each fixed = true);
+        //discrete Integer state1024[33](each start=0, each fixed = true);
+        
+      algorithm
+        when initial() then
+          // Generate initial state from localSeed and globalSeed
+          state64   := Modelica.Math.Random.Generators.Xorshift64star.initialState(  localSeed, globalSeed);
+          //state128  := Modelica.Math.Random.Generators.Xorshift128plus.initialState( localSeed, globalSeed);
+          //state1024 := Modelica.Math.Random.Generators.Xorshift1024star.initialState(localSeed, globalSeed);
+          r64       := 0.97;
+          //r128      := 0.001;
+          //r1024     := 0.001;
+        elsewhen sample(0,samplePeriod) then
+          (r64,  state64)   := Modelica.Math.Random.Generators.Xorshift64star.random(  pre(state64));
+          //(r128, state128)  := Modelica.Math.Random.Generators.Xorshift128plus.random( pre(state128));
+          //(r1024,state1024) := Modelica.Math.Random.Generators.Xorshift1024star.random(pre(state1024));
+        end when;
+      
+      // Impure random number generators with hidden state
+      algorithm
+        when initial() then
+          rImpure := 0.000001;
+          iImpure := 1;
+        elsewhen sample(0,samplePeriod) then
+          rImpure := Modelica.Math.Random.Utilities.impureRandom(id=id);
+          iImpure := Modelica.Math.Random.Utilities.impureRandomInteger(
+                id=id,
+                imin=-1234,
+                imax=2345);
+        end when;
+        
+      initial equation
+        //t0 = time;
+       // x = x0;
+        //Mean_ws = 0;
+         */
   Modelica.Blocks.Interfaces.RealInput scale(min = 0) annotation(
     Placement(visible = true, transformation(origin = {-42, 48}, extent = {{-20, -20}, {20, 20}}, rotation = 0), iconTransformation(origin = {-80, 60}, extent = {{-20, -20}, {20, 20}}, rotation = 0)));
   Modelica.Blocks.Interfaces.RealInput shape(min = 0) annotation(
@@ -29,62 +80,7 @@ model weibull_random_wind_speed_generator
   Modelica.Blocks.Interfaces.RealOutput windspeed "Weibull random wind speed" annotation(
     Placement(visible = true, transformation(origin = {98, 2}, extent = {{-10, -10}, {10, 10}}, rotation = 0), iconTransformation(origin = {90, 0}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
   //  Real Mean_ws "Average of wind speed for a specified time period";
-  /*
-    // Random number generators with exposed state
-      parameter Integer localSeed = 614657
-        "Local seed to initialize random number generator";
-        
-      output Real r64 "Random number generated with Xorshift64star";
-      //output Real r128 "Random number generated with Xorshift128plus";
-      //output Real r1024 "Random number generated with Xorshift1024star";
-      parameter Integer id = Modelica.Math.Random.Utilities.initializeImpureRandom(globalSeed) "A unique number used to sort equations correctly";
-      discrete Real rImpure "Impure Real random number";
-      Integer iImpure "Impure Integer random number";
-      
-    protected
-      //parameter Modelica.SIunits.Time t0(fixed=false) "Start time of simulation";
-      //Real x "Integrator state";
-      discrete Integer state64[2](   each start=0, each fixed = true);
-      //discrete Integer state128[4](  each start=0, each fixed = true);
-      //discrete Integer state1024[33](each start=0, each fixed = true);
-      
-    algorithm
-      when initial() then
-        // Generate initial state from localSeed and globalSeed
-        state64   := Modelica.Math.Random.Generators.Xorshift64star.initialState(  localSeed, globalSeed);
-        //state128  := Modelica.Math.Random.Generators.Xorshift128plus.initialState( localSeed, globalSeed);
-        //state1024 := Modelica.Math.Random.Generators.Xorshift1024star.initialState(localSeed, globalSeed);
-        r64       := 0.97;
-        //r128      := 0.001;
-        //r1024     := 0.001;
-      elsewhen sample(0,samplePeriod) then
-        (r64,  state64)   := Modelica.Math.Random.Generators.Xorshift64star.random(  pre(state64));
-        //(r128, state128)  := Modelica.Math.Random.Generators.Xorshift128plus.random( pre(state128));
-        //(r1024,state1024) := Modelica.Math.Random.Generators.Xorshift1024star.random(pre(state1024));
-      end when;
-    
-    // Impure random number generators with hidden state
-    algorithm
-      when initial() then
-        rImpure := 0.000001;
-        iImpure := 1;
-      elsewhen sample(0,samplePeriod) then
-        rImpure := Modelica.Math.Random.Utilities.impureRandom(id=id);
-        iImpure := Modelica.Math.Random.Utilities.impureRandomInteger(
-              id=id,
-              imin=-1234,
-              imax=2345);
-      end when;
-      
-    initial equation
-      //t0 = time;
-     // x = x0;
-      //Mean_ws = 0;
-       */
-  Modelica.Blocks.Sources.CombiTimeTable scalee(extrapolation = Modelica.Blocks.Types.Extrapolation.NoExtrapolation, fileName = "C:/Users/Caner/Desktop/Multi-Energy-Systems-Thesis-Project/Wind Farm/scale(hourly).txt", tableName = "tab1", tableOnFile = true)  annotation(
-    Placement(visible = true, transformation(origin = {-80, 48}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
-  Modelica.Blocks.Sources.CombiTimeTable shapee(extrapolation = Modelica.Blocks.Types.Extrapolation.NoExtrapolation, fileName = "C:/Users/Caner/Desktop/Multi-Energy-Systems-Thesis-Project/Wind Farm/shape_k(hourly).txt", tableName = "tab1", tableOnFile = true)  annotation(
-    Placement(visible = true, transformation(origin = {-78, -36}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
+  
 equation
 // Random wind speed generator
 //windspeed = scale .* (-log(r64)) .^ (1./shape);

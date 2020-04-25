@@ -1,5 +1,7 @@
-model windfarm_caner
-  Wind.weibull_random_wind_speed_generator weibull_random_wind_speed_generator annotation(
+within Wind;
+
+model Windfarm
+ Wind.weibull_random_wind_speed_generator weibull_random_wind_speed_generator annotation(
     Placement(visible = true, transformation(origin = {-24, 20}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
   Modelica.Blocks.Sources.CombiTimeTable scale(fileName = "C:/Users/Caner/Desktop/Multi-Energy-Systems-Thesis-Project/Wind Farm/scale(hourly).txt", tableName = "tab1", tableOnFile = true)  annotation(
     Placement(visible = true, transformation(origin = {-74, 32}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
@@ -64,4 +66,5 @@ protected
     Diagram(coordinateSystem(extent = {{-200, -200}, {200, 200}}, initialScale = 0.1)),
     Icon(coordinateSystem(extent = {{-200, -200}, {200, 200}})),
     version = "");
-end windfarm_caner;
+
+end Windfarm;

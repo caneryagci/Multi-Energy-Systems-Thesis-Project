@@ -26,7 +26,6 @@ model Rotor "Wind Turbine"
   parameter Real Radapt=ngb*l "r_{gearbox}*r";
   parameter Real beta = 1 "Blade(Pitch)angle in degrees";
   parameter Real poles = 2 "Number of poles-pair";
-  parameter Real omega_m0 = 120 "rad/s";
   //parameter Real R = 17 "Rotor length (radius)(Diameter/2)";
   parameter Modelica.SIunits.Power P_nom = 1e6 "Nominal power";
   parameter Real freq=50 "frequency rating (Hz)";
@@ -36,19 +35,11 @@ model Rotor "Wind Turbine"
   Real lambda "Tip speed ratio";
   Real lambdai;
   //Real lambdaLimited(min = 0) "Positive tip speed ratio";
-  //Modelica.SIunits.Angle phi "Absolute rotation angle of flange";
-  //Modelica.SIunits.AngularVelocity wm = der(phi);
-  //Real wm(unit = "rad/s") "Angular velocity of flange";
-  //Real Tm "Engine Shaft Torque";
-  //Modelica.SIunits.Torque tau (start=-P_nom/10);
+ 
   Modelica.Blocks.Interfaces.RealInput omega_m annotation(
     Placement(visible = true, transformation(origin = {-104, 60}, extent = {{-20, -20}, {20, 20}}, rotation = 0), iconTransformation(origin = {-80, 66}, extent = {{-20, -20}, {20, 20}}, rotation = 0)));
 equation
-// Angular velocity
-//w = der(phi); //phi=angle of flange
-//w=(2*pi*N)/60;
 
-//omega_m = w;
 // Tip speed ratio
   //lambda * windspeed = wm * R;
 //lambdaLimited = if noEvent(lambda < 0) then 0 else lambda;
