@@ -1,4 +1,6 @@
-model electrolyser
+within Hydrogen;
+
+model Electrolyser
   import SI = Modelica.SIunits;
   import Modelica.Constants.pi;
   import Modelica.Math;
@@ -45,7 +47,13 @@ model electrolyser
   Real Q "Heat produced by cell";
   Real Rmem;
   parameter Real Vtn=1.48 "minimum energy in form of electricity to heat to perform electrolysis(V)";
-  parameter Real n_cells = 1 "number of cells";
+  parameter Real n_cells = 10 "number of cells";
+  parameter Real LHV= 3.0 "Lower heating value hydrogen";
+  Real nH "Total hydrogen production rate in Nm3/h";
+  Real nO "Total oxygen production rate";
+  Real efficiency1;
+  Real efficiency2;
+  
   Modelica.Electrical.Analog.Interfaces.PositivePin p annotation (
     Placement(transformation(extent = {{-110, -10}, {-90, 10}})));
   Modelica.Electrical.Analog.Interfaces.NegativePin n annotation (
@@ -65,7 +73,7 @@ equation
 //Current and Current density
   //i_an = i_an_std *  Modelica.Math.exp(-1 * Eexc / R * (1 / Top / (1 / Tstd)));
   jcell * A = Icell;
-  Icell = Pdc / Vcell;
+  Icell*n_cells = Pdc / Vcell;
 //Partial pressures
   ppHtO_Pa = 6.1078e-3 *  Modelica.Math.exp(17.2694 * ((Top - 273.15) / (Top - 34.85)));
   ppH_Pa = Pcat - ppHtO_Pa;
@@ -77,13 +85,20 @@ equation
 //Heat Loss from Electric Power
   Q=((Vcell-Vtn)*Icell)*n_cells;
 //Mass/flow equations
-
+  nH=(n_cells*Icell/(2*F))*(22.414*3.6);//(Nm3/h)/(mol/s)
+  nO=(n_cells*Icell/(4*F));
+//efficiency
+  efficiency1=nH*3000/Pdc;// LHV*kW
+  efficiency2=1.25/Vcell;
 //Pin
-  Vcell = p.v - n.v;
+  Vcell*n_cells = p.v - n.v;
   0 = p.i + n.i;
   Icell = p.i;
   LossPower = Q;
   annotation(
     uses(Modelica(version = "3.2.3")),
     Icon(graphics = {Rectangle(extent = {{-100, 100}, {100, -100}})}, coordinateSystem(initialScale = 0.1)));
-end electrolyser;
+
+
+
+end Electrolyser;
