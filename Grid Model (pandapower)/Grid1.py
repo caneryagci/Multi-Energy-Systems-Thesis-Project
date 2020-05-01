@@ -5,6 +5,7 @@ Created on Fri May  1 12:38:34 2020
 @author: Caner
 """
 import pandapower as pp
+import pandapower.toolbox as tb
 import pandapower.networks as nw
 from pandapower.plotting import simple_plot, simple_plotly, pf_res_plotly
 #create empty net
@@ -32,8 +33,12 @@ pp.create_line(net, from_bus=b2, to_bus=b3, length_km=0.1, name="Line",std_type=
 #run power flow
 pp.runpp(net)
 
+
 #Results
 print(net)
 print(net.res_bus)
-simple_plot(net)
+#tb.lf_info(net)
+#simple_plot(net)
 #pf_res_plotly(net)
+
+#simple_plotly(net, respect_switches=True, use_line_geodata=None, on_map=False, projection=None, map_style='basic', figsize=1, aspectratio='auto', line_width=1, bus_size=10, ext_grid_size=20.0, bus_color='blue', line_color='grey', trafo_color='green', ext_grid_color='yellow')
