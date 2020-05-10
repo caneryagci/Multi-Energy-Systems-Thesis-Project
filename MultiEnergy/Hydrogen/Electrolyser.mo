@@ -27,6 +27,7 @@ model Electrolyser
   Real Vohm "Ohmic Overpotential";
   Real Vrev "Reverse cell voltage";
   SI.Power Pdc "Electric power input of the electrolyzer";
+  Real Pdc_mw "Electric power input of the electrolyzer in MW";
   //SI.Power Pel "Electric power consumed by the electrolyzer";
   Real ppH_atm;
   Real ppO_atm;
@@ -63,6 +64,8 @@ model Electrolyser
   extends Modelica.Electrical.Analog.Interfaces.ConditionalHeatPort(T = Tstd);
   Modelica.Blocks.Interfaces.RealOutput nH annotation(
     Placement(visible = true, transformation(origin = {-1.9984e-15, 112}, extent = {{-14, -14}, {14, 14}}, rotation = 90), iconTransformation(origin = {-1.9984e-15, 112}, extent = {{-14, -14}, {14, 14}}, rotation = 90)));
+initial equation
+Pdc_mw=5;
 equation
 //Voltages
   Vcell = Vocv + Vact + Vohm;
@@ -77,6 +80,7 @@ equation
 //i_an = i_an_std *  Modelica.Math.exp(-1 * Eexc / R * (1 / Top / (1 / Tstd)));
   jcell * A = Icell;
   Icell * n_cells = Pdc / Vcell;
+  Pdc=Pdc_mw*1e6;
 //Partial pressures
   ppHtO_Pa = 6.1078e-3 * Modelica.Math.exp(17.2694 * ((Top - 273.15) / (Top - 34.85)));
   ppH_Pa = Pcat - ppHtO_Pa;
@@ -88,7 +92,8 @@ equation
 //Heat Loss from Electric Power
   Q = (Vcell - Vtn) * Icell * n_cells;
 //Mass/flow equations
-  nH = n_cells * Icell / (2 * F) * (22.414 * 3.6);//(Nm3/h)/(mol/s)
+  nH = n_cells * Icell / (2 * F) * (22.414 * 3.6);
+//(Nm3/h)/(mol/s)
   nO = n_cells * Icell / (4 * F);
 //efficiency
   efficiency1 = nH * 3000 / Pdc;// LHV*kW(=3000)
@@ -100,5 +105,6 @@ equation
   LossPower = Q;
   annotation(
     uses(Modelica(version = "3.2.3")),
-    Icon(graphics = {Rectangle(extent = {{-100, 100}, {100, -100}})}, coordinateSystem(initialScale = 0.1)));
+    Icon(graphics = {Rectangle(extent = {{-100, 100}, {100, -100}}), Text(origin = {16, -9}, lineColor = {0, 0, 255}, extent = {{-68, 49}, {48, -29}}, textString = "Electrolyser")}, coordinateSystem(initialScale = 0.1)),
+  Diagram);
 end Electrolyser;

@@ -34,7 +34,7 @@ model Rotor "Wind Turbine"
   Real Cp "Power coefficient";
   Real lambda "Tip speed ratio";
   Real lambdai;
-  //Real lambdaLimited(min = 0) "Positive tip speed ratio";
+  Real lambdaLimited(min = 0) "Positive tip speed ratio";
  
   Modelica.Blocks.Interfaces.RealInput omega_m annotation(
     Placement(visible = true, transformation(origin = {-104, 60}, extent = {{-20, -20}, {20, 20}}, rotation = 0), iconTransformation(origin = {-80, 66}, extent = {{-20, -20}, {20, 20}}, rotation = 0)));
@@ -57,8 +57,12 @@ equation
 //Power Coefficient Calculation
   Cp = c1 * (c2 * lambdai - c3 * beta - c4) * exp(-c5 * lambdai) + c6 * lambda;
   lambdai = 1 / (lambda + 0.08 * beta) - 0.035 / (beta ^ 3 + 1);
+  // Tip speed ratio
   lambda = omega_m*wbase*Radapt/(windspeed);
-  annotation(
+  lambdaLimited = if noEvent(lambda<0) then 0 else lambda;
+  
+
+annotation(
     uses(Modelica(version = "3.2.3")),
     Icon(graphics = {Text(origin = {-84, -24}, extent = {{-2, 2}, {2, -2}}, textString = "windspeed"), Text(origin = {-83, 40}, extent = {{-7, -6}, {3, 4}}, textString = "omega_m"), Text(origin = {41, -15}, lineColor = {0, 0, 255}, extent = {{-79, 41}, {11, -13}}, textString = "Rotor"), Rectangle(extent = {{-100, 100}, {100, -100}})}, coordinateSystem(initialScale = 0.1)),
     Diagram,

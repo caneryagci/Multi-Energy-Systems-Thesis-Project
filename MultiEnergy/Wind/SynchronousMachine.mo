@@ -67,8 +67,8 @@ model SynchronousMachine
     Placement(visible = true, transformation(origin = {106, 0}, extent = {{-10, -10}, {10, 10}}, rotation = 0), iconTransformation(origin = {100, -60}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
   Modelica.Blocks.Interfaces.RealOutput PPu "Active Power Production [pu base PNom]" annotation(
     Placement(visible = true, transformation(origin = {106, 20}, extent = {{-10, -10}, {10, 10}}, rotation = 0), iconTransformation(origin = {100, -20}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
- Modelica.Blocks.Interfaces.RealOutput Qactual annotation(
-    Placement(visible = true, transformation(origin = {106, 38}, extent = {{-10, -10}, {10, 10}}, rotation = 0), iconTransformation(origin = {106, 38}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
+ Modelica.Blocks.Interfaces.RealOutput QPu annotation(
+    Placement(visible = true, transformation(origin = {106, 38}, extent = {{-10, -10}, {10, 10}}, rotation = 0), iconTransformation(origin = {100, -86}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
 initial equation
 // Scaling factor for excitation p.u. voltage
   if excitationPuType == PowerGrids.Types.Choices.ExcitationPuType.Kundur then
@@ -133,7 +133,7 @@ equation
 // Output signal equations
   VPu = port.VPu;
   PPu = -port.P / PNom;
-  Qactual = -port.Q;
+  QPu = -port.Q /SNom;
   annotation(
     Documentation(info = "<html><head></head><body><p>Model of a sychronous machine with four windings. The transformer voltage terms are neglected if <code>neglectTransformerTerms=true</code>. The model parameters refer directly to internal physical parameters such as inductances and resistances.</p>
 <p>The model is taken from the theory manual of the Eurostag software. For consistency with the base class <a href=\"modelica://PowerGrids.Electrical.BaseClasses.OnePortACdq\">OnePortACdq</a>, however, the currents ifPu, idPu and iqPu are all assumed to be positive entering, while the Eurostag manual assumes them to be all positive leaving. Therefore, all the current and fluxes have an opposite sign in the Park equations.</p>

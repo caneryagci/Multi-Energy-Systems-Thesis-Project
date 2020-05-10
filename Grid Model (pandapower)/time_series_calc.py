@@ -10,7 +10,7 @@ import pandas as pd
 import pandapower as pp
 from pandapower.timeseries.data_sources.frame_data import DFData
 import pandapower.networks as nw
-import matplotlib.pyplot as plt
+
 from pandapower.control.controller.const_control import ConstControl
 from pandapower.timeseries.run_time_series import run_timeseries
 from pandapower.timeseries.output_writer import OutputWriter

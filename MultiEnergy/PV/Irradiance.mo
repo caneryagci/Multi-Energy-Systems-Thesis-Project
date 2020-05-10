@@ -27,7 +27,7 @@ model Irradiance
 equation
   total_prob = sum(pdf_beta);
   total_Ir = pdf_beta .* IrDiscrete/total_prob;
-  Irradiance = sum(total_Ir)*3;
+  Irradiance = sum(total_Ir)*4.5;
   annotation(
     uses(Modelica(version = "3.2.3")),
     Icon(graphics = {Text(origin = {-101, 42}, extent = {{-5, 0}, {5, 0}}, textString = "alfa"), Text(origin = {-98, -17}, extent = {{4, 1}, {-4, -1}}, textString = "beta"), Text(origin = {-101, -80}, extent = {{3, 0}, {-3, 0}}, textString = "B_int"), Text(origin = {102, -14}, extent = {{2, -2}, {-2, 2}}, textString = "Irradiance"), Rectangle(extent = {{-100, 100}, {100, -100}})}, coordinateSystem(initialScale = 0.1)));
