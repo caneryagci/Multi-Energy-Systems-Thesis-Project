@@ -1,12 +1,12 @@
 within Hydrogen;
 
-model Electrolyser
+model Electrolyser3
+  //extends Modelica.Electrical.Analog.Interfaces.OnePort;
   import SI = Modelica.SIunits;
   import Modelica.Constants.pi;
   import Modelica.Math;
   import ModelicaReference.Operators;
   import Modelica.ComplexMath;
-  
   
   parameter Real Vstd = 1.23 "Cell voltage at standard conditions";
   parameter Real Top = 333.15 "Anode side cell membrane average temperature";
@@ -19,7 +19,7 @@ model Electrolyser
   Real Vohm "Ohmic Overpotential";
   Real Vrev "Reverse cell voltage";
   SI.Power Pdc "Electric power input of the electrolyzer";
-  Real Pdc_mw "Electric power input of the electrolyzer in MW";
+  //Real Pdc_mw "Electric power input of the electrolyzer in MW";
   //SI.Power Pel "Electric power consumed by the electrolyzer";
   Real ppH_atm;
   Real ppO_atm;
@@ -43,21 +43,24 @@ model Electrolyser
   Real Q "Heat produced by cell";
   Real Rmem;
   parameter Real Vtn = 1.48 "minimum energy in form of electricity to heat to perform electrolysis(V)";
-  parameter Real n_cells = 10 "number of cells";
+  parameter Real n_cells = 500*10 "number of series cells";
+  parameter Real n_cells_series = 500 "number of series cells";
+  parameter Real n_cells_parallel = 50 "number of series cells";
   parameter Real LHV = 3.0 "Lower heating value hydrogen";
   //Real nH "Total hydrogen production rate in Nm3/h";
   Real nO "Total oxygen production rate";
   Real efficiency1;
   Real efficiency2;
-  Modelica.Electrical.Analog.Interfaces.PositivePin p annotation(
-    Placement(transformation(extent = {{-110, -10}, {-90, 10}})));
-  Modelica.Electrical.Analog.Interfaces.NegativePin n annotation(
-    Placement(visible = true, transformation(extent = {{110, -10}, {90, 10}}, rotation = 0), iconTransformation(extent = {{110, 24}, {90, 44}}, rotation = 0)));
+  //Real Vdc;
   extends Modelica.Electrical.Analog.Interfaces.ConditionalHeatPort(T = Tstd);
-  Modelica.Blocks.Interfaces.RealOutput nH annotation(
-    Placement(visible = true, transformation(origin = {-1.9984e-15, 112}, extent = {{-14, -14}, {14, 14}}, rotation = 90), iconTransformation(origin = {-1.9984e-15, 112}, extent = {{-14, -14}, {14, 14}}, rotation = 90)));
-initial equation
-Pdc_mw=5;
+  Modelica.Blocks.Interfaces.RealInput nH (start=100) annotation(
+    Placement(visible = true, transformation(origin = {-100, 78}, extent = {{-14, -14}, {14, 14}}, rotation = 0), iconTransformation(origin = {-84, 74}, extent = {{-14, -14}, {14, 14}}, rotation = 0)));
+  Modelica.Blocks.Interfaces.RealOutput Pdc_mw annotation(
+    Placement(visible = true, transformation(origin = {100, 60}, extent = {{-10, -10}, {10, 10}}, rotation = 0), iconTransformation(origin = {102, 78}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
+  Modelica.Blocks.Interfaces.RealOutput Vdc annotation(
+    Placement(visible = true, transformation(origin = {92, 28}, extent = {{-10, -10}, {10, 10}}, rotation = 0), iconTransformation(origin = {100, 30}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
+  Modelica.Blocks.Interfaces.RealOutput Idc annotation(
+    Placement(visible = true, transformation(origin = {92, -4}, extent = {{-10, -10}, {10, 10}}, rotation = 0), iconTransformation(origin = {98, -18}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
 equation
 //Voltages
   Vcell = Vocv + Vact + Vohm;
@@ -71,8 +74,8 @@ equation
 //Current and Current density
 //i_an = i_an_std *  Modelica.Math.exp(-1 * Eexc / R * (1 / Top / (1 / Tstd)));
   jcell * A = Icell;
-  Icell * n_cells = Pdc / Vcell;
-  Pdc=Pdc_mw*1e6;
+  Pdc  = (Icell*n_cells_parallel)/ (Vcell*n_cells_series);
+  Pdc_mw=Pdc/1e6;
 //Partial pressures
   ppHtO_Pa = 6.1078e-3 * Modelica.Math.exp(17.2694 * ((Top - 273.15) / (Top - 34.85)));
   ppH_Pa = Pcat - ppHtO_Pa;
@@ -91,12 +94,15 @@ equation
   efficiency1 = nH * 3000 / Pdc;// LHV*kW(=3000)
   efficiency2 = 1.25 / Vcell;
 //Pin
-  Vcell * n_cells = p.v - n.v;
-  0 = p.i + n.i;
-  Icell = p.i;
+ Vdc = Vcell * n_cells_series;
+ Idc = Icell * n_cells_parallel;
+  //Icell = p.i;
   LossPower = Q;
   annotation(
     uses(Modelica(version = "3.2.3")),
-    Icon(graphics = {Rectangle(extent = {{-100, 100}, {100, -100}}), Text(origin = {16, -9}, lineColor = {0, 0, 255}, extent = {{-68, 49}, {48, -29}}, textString = "Electrolyser")}, coordinateSystem(initialScale = 0.1)),
+    Icon(graphics = {Rectangle(extent = {{-100, 100}, {100, -100}}), Text(origin = {16, -9}, lineColor = {0, 0, 255}, extent = {{-68, 49}, {48, -29}}, textString = "Electrolyser"), Text(origin = {-83, 91}, extent = {{-9, 5}, {9, -5}}, textString = "nH2i_set"), Text(origin = {106, 90}, extent = {{-8, 4}, {8, -4}}, textString = "Pdc_MW"), Text(origin = {100, 45}, extent = {{-8, 5}, {8, -5}}, textString = "Vdc"), Text(origin = {97, 5}, extent = {{-7, 5}, {7, -5}}, textString = "Idc")}, coordinateSystem(initialScale = 0.1)),
   Diagram);
-end Electrolyser;
+
+
+
+end Electrolyser3;

@@ -8,24 +8,24 @@ model Rotor "Wind Turbine"
   parameter Real c4 = 5;
   parameter Real c5 = 21;
   parameter Real c6 = 0.0068;
-  Modelica.Blocks.Interfaces.RealInput windspeed annotation(
+  Modelica.Blocks.Interfaces.RealInput windspeed(start=15) annotation(
     Placement(visible = true, transformation(origin = {-106, -20}, extent = {{-20, -20}, {20, 20}}, rotation = 0), iconTransformation(origin = {-80, -2}, extent = {{-20, -20}, {20, 20}}, rotation = 0)));
   Modelica.Blocks.Interfaces.RealOutput p_wind(start = 1, final quantity = "Power", final unit = "W") "Power of wind(MW)" annotation(
     Placement(visible = true, transformation(origin = {102, -22}, extent = {{-10, -10}, {10, 10}}, rotation = 0), iconTransformation(origin = {106, 68}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
   parameter Real Sbase = 100 "Power Rating [Normalization Factor] (MVA)";
   parameter Real rho = 1.225 "Air Density (kg/m^3)";
   parameter Modelica.SIunits.Velocity Vcutin = 4 "Cut-in velocity";
-  parameter Modelica.SIunits.Velocity Vrated = 12 "Rated velocity";
+  parameter Modelica.SIunits.Velocity Vrated = 13.5 "Rated velocity";
   parameter Modelica.SIunits.Velocity Vcutoff = 22 "Cut-off velocity";
   parameter Modelica.SIunits.Velocity Vmax = 25 "Maximum velocity (v<=Vmax)";
-  parameter Modelica.SIunits.Area area = 7000 "Swept Area(m2)";
+  parameter Modelica.SIunits.Area area = 9000 "Swept Area(m2)";
   //parameter SI.Angle beta=1 "Pitch angle in degree";
   //parameter Real D = 70 "Rotor Diameter";
-  parameter Real l=75 "Blade length (m)";
-  parameter Real ngb=0.01123596 "gear box ratio";
+  parameter Real l=107 "Blade length (m)";
+  parameter Real ngb=0.0084033613 "gear box ratio";//0.01123596
   parameter Real Radapt=ngb*l "r_{gearbox}*r";
   parameter Real beta = 1 "Blade(Pitch)angle in degrees";
-  parameter Real poles = 2 "Number of poles-pair";
+  //parameter Real poles = 2 "Number of poles-pair";
   //parameter Real R = 17 "Rotor length (radius)(Diameter/2)";
   parameter Modelica.SIunits.Power P_nom = 1e6 "Nominal power";
   parameter Real freq=50 "frequency rating (Hz)";
