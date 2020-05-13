@@ -1,6 +1,7 @@
 within Hydrogen;
 
 model Electrolyser3
+
   //extends Modelica.Electrical.Analog.Interfaces.OnePort;
   import SI = Modelica.SIunits;
   import Modelica.Constants.pi;
@@ -45,7 +46,7 @@ model Electrolyser3
   parameter Real Vtn = 1.48 "minimum energy in form of electricity to heat to perform electrolysis(V)";
   parameter Real n_cells = 500*10 "number of series cells";
   parameter Real n_cells_series = 500 "number of series cells";
-  parameter Real n_cells_parallel = 50 "number of series cells";
+  parameter Real n_cells_parallel = 200 "number of parallel cells";
   parameter Real LHV = 3.0 "Lower heating value hydrogen";
   //Real nH "Total hydrogen production rate in Nm3/h";
   Real nO "Total oxygen production rate";
@@ -74,8 +75,8 @@ equation
 //Current and Current density
 //i_an = i_an_std *  Modelica.Math.exp(-1 * Eexc / R * (1 / Top / (1 / Tstd)));
   jcell * A = Icell;
-  Pdc  = (Icell*n_cells_parallel)/ (Vcell*n_cells_series);
-  Pdc_mw=Pdc/1e6;
+  Pdc  = (Icell*n_cells_parallel)* (Vcell*n_cells_series);
+  Pdc_mw=Pdc/150e6;
 //Partial pressures
   ppHtO_Pa = 6.1078e-3 * Modelica.Math.exp(17.2694 * ((Top - 273.15) / (Top - 34.85)));
   ppH_Pa = Pcat - ppHtO_Pa;
@@ -87,7 +88,8 @@ equation
 //Heat Loss from Electric Power
   Q = (Vcell - Vtn) * Icell * n_cells;
 //Mass/flow equations
-  nH = n_cells * Icell / (2 * F) * (22.414 * 3.6);
+  nH = n_cells * Icell / (2 * F);
+  //nH = n_cells * Icell / (2 * F) * (22.414 * 3.6);
 //(Nm3/h)/(mol/s)
   nO = n_cells * Icell / (4 * F);
 //efficiency
@@ -102,6 +104,7 @@ equation
     uses(Modelica(version = "3.2.3")),
     Icon(graphics = {Rectangle(extent = {{-100, 100}, {100, -100}}), Text(origin = {16, -9}, lineColor = {0, 0, 255}, extent = {{-68, 49}, {48, -29}}, textString = "Electrolyser"), Text(origin = {-83, 91}, extent = {{-9, 5}, {9, -5}}, textString = "nH2i_set"), Text(origin = {106, 90}, extent = {{-8, 4}, {8, -4}}, textString = "Pdc_MW"), Text(origin = {100, 45}, extent = {{-8, 5}, {8, -5}}, textString = "Vdc"), Text(origin = {97, 5}, extent = {{-7, 5}, {7, -5}}, textString = "Idc")}, coordinateSystem(initialScale = 0.1)),
   Diagram);
+
 
 
 

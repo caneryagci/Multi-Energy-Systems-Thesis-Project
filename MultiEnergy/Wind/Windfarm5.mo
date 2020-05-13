@@ -1,16 +1,18 @@
 within Wind;
 
 model Windfarm5
-
+  outer iPSL.Electrical.SystemBase sysData annotation(
+    Placement(visible = true, transformation(origin = {70, 90}, extent = {{-10, -10}, {14, 10}}, rotation = 0)));
+  
   import Modelica.Constants.pi;
   import Modelica.Constants.eps;
-  parameter Real _V0=PCC_voltage.k "Terminal Voltage from Power Flow";
-  parameter Real _Ang0=0.421202138172605 "Terminal Angle from Power Flow";
-  parameter Real _P0=1.62 "Active Power from Power Flow";
-  parameter Real _Q0=-0.370492231185345 "Reactive Power from Power Flow";
-  parameter Real GEN_base=150 "Base Power from the Electrical Generator";
-  parameter Real WT_base=150 "Base Power from the Turbine";
-  parameter Real SYS_base=150 "Base Power from the power system";
+  parameter Real _V0=1.01 "Terminal Voltage from Power Flow";
+  parameter Real _Ang0=0 "Terminal Angle from Power Flow";
+  parameter Real _P0=1.3 "Active Power from Power Flow";
+  parameter Real _Q0=-0.0003 "Reactive Power from Power Flow";
+  parameter Real GEN_base=1 "Base Power from the Electrical Generator";
+  parameter Real WT_base=1 "Base Power from the Turbine";
+  parameter Real SYS_base=1 "Base Power from the power system";
   parameter Real freq=50 "Steady state Frequency of the power system";
   parameter Real poles=3 "Number of pole pairs";
   parameter Real Tp=0.3 "Time Constant Pitch command";
@@ -44,22 +46,32 @@ model Windfarm5
   Real P "Active Power produced in SYS_base";
   Real Q "Reactive Power produced in SYS_base";
   iPSL.Electrical.Wind.GE.Type_3.Turbine.Turbine_Model turbine_Model1(
-    eps=Modelica.Constants.eps,
-    GEN_base=GEN_base,
+    
+    Dtg=Dtg,
+    GEN_base= 1,
+    H=H,
+    Hg=Hg,
+    KI=Kl,
     Kic=Kic,
     Kip=Kip,
     Kitrq=Kitrq,
     Kpc=Kpc,
     Kpp=Kpp,
     Kptrq=Kptrq,
+    Ktg=Ktg,
+    Tp=Tp,
+    Tpc=Tpc,
+    WT_base= 1,eps=Modelica.Constants.eps,
     pimax=pimax,
     pimin=pimin,
     pirat=pirat,
     pwmax=pwmax,
     pwmin=pwmin,
     pwrat=pwrat,
-    Tp=Tp,
-    Tpc=Tpc,
+    wbase=wbase,
+    wndtge_ang0=wndtge_ang0,
+    wndtge_kp=wndtge_kp,
+    wndtge_spd0=wndtge_spd0,
     wt_x0_0=wt_x0_0,
     wt_x1_0=wt_x1_0,
     wt_x2_0=wt_x2_0,
@@ -69,19 +81,9 @@ model Windfarm5
     wt_x6_0=wt_x6_0,
     wt_x7_0=wt_x7_0,
     wt_x8_0=wt_x8_0,
-    wt_x9_0=wt_x9_0,
-    WT_base=WT_base,
-    Dtg=Dtg,
-    H=H,
-    Hg=Hg,
-    KI=Kl,
-    Ktg=Ktg,
-    wndtge_kp=wndtge_kp,
-    wbase=wbase,
-    wndtge_ang0=wndtge_ang0,
-    wndtge_spd0=wndtge_spd0) annotation (Placement(visible=true, transformation(
-        origin={-46.6105,53.4541},
-        extent={{-10, -10}, {10, 10}},
+    wt_x9_0=wt_x9_0) annotation (Placement(visible=true, transformation(
+        origin={-94.1105, 25.9541},
+        extent={{-17.5, -17.5}, {17.5, 17.5}},
         rotation=0)));
   iPSL.Electrical.Wind.GE.Type_3.Electrical_Control.Electrical_Control electrical_Control1(
     ex_x0_0=ex_x0_0,
@@ -92,35 +94,33 @@ model Windfarm5
     KVi=KVi,
     xiqmax=xiqmax,
     xiqmin=xiqmin) annotation (Placement(visible=true, transformation(
-        origin={-10,57.46},
-        extent={{-10, -10}, {10, 10}},
+        origin={-15, 22.46},
+        extent={{-30, -30}, {30, 30}},
         rotation=0)));
   iPSL.Electrical.Wind.GE.Type_3.Generator.Generator generator1(
-    freq=freq,
-    ge_x0_0=ge_x0_0,
-    ge_x1_0=ge_x1_0,
-    ge_x2_0=ge_x2_0,
-    GEN_base=GEN_base,
+    
+    GEN_base= 1,
     Kpllp=Kpllp,
     Lpp=Lpp,
-    SYS_base=SYS_base) annotation (Placement(visible=true, transformation(
-        origin={45, 60},
-        extent={{-10, -10}, {10, 10}},
+    SYS_base= 1,freq=freq,
+    ge_x0_0=ge_x0_0,
+    ge_x1_0=ge_x1_0,
+    ge_x2_0=ge_x2_0) annotation (Placement(visible=true, transformation(
+        origin={87.5, 32.5},
+        extent={{-22.5, -22.5}, {22.5, 22.5}},
         rotation=0)));
-  iPSL.Electrical.SystemBase sysData annotation(
-    Placement(visible = true, transformation(origin = {110, 80}, extent = {{-10, -10}, {14, 10}}, rotation = 0)));
   Modelica.Blocks.Sources.CombiTimeTable windspeed(fileName = "C:/Users/Caner/Desktop/Multi-Energy-Systems-Thesis-Project/Co_simulation/Case 1/windspeed.txt", smoothness = Modelica.Blocks.Types.Smoothness.ContinuousDerivative, tableName = "tab1", tableOnFile = true) annotation(
-    Placement(visible = true, transformation(origin = {-99, 62}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
+    Placement(visible = true, transformation(origin = {-134, 62}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
   iPSL.Electrical.Buses.Bus PVbus annotation(
-    Placement(visible = true, transformation(origin = {54, -24}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
-  iPSL.Electrical.Branches.PSAT.TwoWindingTransformer twoWindingTransformer(Sn = 500, V_b = 12500, Vn = 12500, kT = 12500 / 575) annotation(
-    Placement(visible = true, transformation(origin = {26, -24}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
+    Placement(visible = true, transformation(origin = {71.5, -56.5}, extent = {{-12.5, -12.5}, {12.5, 12.5}}, rotation = 0)));
+  iPSL.Electrical.Branches.PSAT.TwoWindingTransformer twoWindingTransformer(Sb = 100,Sn = 500, V_b = 12500, Vn = 12500, fn = 50, kT = 12500 / 750) annotation(
+    Placement(visible = true, transformation(origin = {43.5, -56.5}, extent = {{-12.5, -12.5}, {12.5, 12.5}}, rotation = 0)));
   iPSL.Electrical.Buses.Bus PQbus annotation(
-    Placement(visible = true, transformation(origin = {-2, -24}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
-  Modelica.Blocks.Sources.Constant PCC_voltage(k = 1.01) annotation(
-    Placement(visible = true, transformation(origin = {-66, -24}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
+    Placement(visible = true, transformation(origin = {10.5, -56.5}, extent = {{-12.5, -12.5}, {12.5, 12.5}}, rotation = 0)));
   iPSL.Electrical.Buses.InfiniteBus2 infiniteBus21(angle = 0) annotation(
-    Placement(visible = true, transformation(origin = {-36, -24}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
+    Placement(visible = true, transformation(origin = {-58.5, -46.5}, extent = {{-12.5, -12.5}, {12.5, 12.5}}, rotation = 0)));
+  Modelica.Blocks.Sources.Step step(height = 0.02, offset = 1, startTime = 40)  annotation(
+    Placement(visible = true, transformation(origin = {-110, -50}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
 protected
   function cp_init
     input Real lambda;
@@ -230,8 +230,8 @@ protected
 
   Modelica.Blocks.Sources.Constant const(k=qgen)
     annotation (Placement(visible=true, transformation(
-        origin={-44.2929,70.7071},
-        extent={{-4.2929,-4.2929},{4.2929,4.2929}},
+        origin={-79.2929, 70.7071},
+        extent={{-9.2929, -9.2929}, {9.2929, 9.2929}},
         rotation=0)));
   parameter Real Lpp=Xpp;
   parameter Real wbase=2*Modelica.Constants.pi*freq/poles;
@@ -326,42 +326,38 @@ initial algorithm
   wt_x9_0 := 0.0;
   wndtge_ang0 := -pmech/(Ktg*genbc_k_speed);
 equation
-  connect(generator1.Pgen, turbine_Model1.Pelec) annotation(
-    Line(points = {{53, 58}, {60, 58}, {60, 40.4416}, {-59.6231, 40.4416}, {-59.6231, 47.1382}, {-54.6105, 47.1382}}, color = {0, 0, 127}));
-  connect(turbine_Model1.Pord, electrical_Control1.Pord) annotation(
-    Line(points = {{-38.6105, 60.0863}, {-23.0125, 60.0863}, {-23.0125, 60.1186}, {-18, 60.1186}}, color = {0, 0, 127}));
-  connect(const.y, electrical_Control1.Qord) annotation(
-    Line(points = {{-39.5707, 70.7071}, {-18, 70.7071}, {-18, 65.46}}, color = {0, 0, 127}));
   P = generator1.Pgen * GEN_base / SYS_base;
   Q = generator1.Qgen * GEN_base / SYS_base;
   connect(electrical_Control1.Ipcmd, generator1.Ipcmd) annotation(
-    Line(points = {{-2, 64.9992}, {31.9874, 64.9992}, {31.9874, 65.1648}, {37, 65.1648}}, color = {0, 0, 127}));
+    Line(points = {{9, 45}, {30.5, 45}, {30.5, 44}, {69.5, 44}}, color = {0, 0, 127}));
   connect(electrical_Control1.Efd, generator1.Efd) annotation(
-    Line(points = {{-2, 58.7152}, {31.9874, 58.7152}, {31.9874, 54.3398}, {37, 54.3398}}, color = {0, 0, 127}));
-  connect(generator1.Qgen, electrical_Control1.Qgen) annotation(
-    Line(points = {{53, 54}, {58.0125, 54}, {58.0125, 44.4475}, {-18, 44.4475}, {-18, 49.46}}, color = {0, 0, 127}));
-  connect(generator1.Vt, electrical_Control1.Vterm) annotation(
-    Line(points = {{53, 67.4254}, {58.0125, 67.4254}, {58.0125, 73.0125}, {-23.0125, 73.0125}, {-23.0125, 55.46}, {-18, 55.46}}, color = {0, 0, 127}));
-  connect(windspeed.y[1], turbine_Model1.Wind_Speed) annotation(
-    Line(points = {{-88, 62}, {-75, 62}, {-75, 60}, {-55, 60}}, color = {0, 0, 127}));
+    Line(points = {{9, 26}, {23.75, 26}, {23.75, 20}, {69.5, 20}}, color = {0, 0, 127}));
   connect(PVbus.p, generator1.p) annotation(
-    Line(points = {{55, -25}, {80, -25}, {80, 30}, {45, 30}, {45, 50}, {45, 50}}, color = {0, 0, 255}));
+    Line(points = {{71.5, -56.5}, {87.5, -56.5}, {87.5, 8}}, color = {0, 0, 255}));
   connect(PVbus.p, twoWindingTransformer.n) annotation(
-    Line(points = {{54, -24}, {37, -24}}, color = {0, 0, 255}));
+    Line(points = {{71.5, -56.5}, {57, -56.5}}, color = {0, 0, 255}));
   connect(twoWindingTransformer.p, PQbus.p) annotation(
-    Line(points = {{15, -24}, {-2, -24}}, color = {0, 0, 255}));
-  connect(PCC_voltage.y, infiniteBus21.V) annotation(
-    Line(points = {{-55, -24}, {-47, -24}}, color = {0, 0, 127}));
+    Line(points = {{30, -56.5}, {10.5, -56.5}}, color = {0, 0, 255}));
   connect(PQbus.p, infiniteBus21.p) annotation(
-    Line(points = {{-2, -24}, {-25, -24}}, color = {0, 0, 255}));
-  annotation (
-    
-    Diagram(coordinateSystem(
-        extent={{-148.5,-105.0},{148.5,105.0}},
-        preserveAspectRatio=true,
-        initialScale=0.1,
-        grid={5,5})),Icon(coordinateSystem(initialScale = 0.1, grid = {10, 10}), graphics = {Rectangle(extent = {{-100, 100}, {100, -100}}), Text(lineColor = {0, 0, 255},extent = {{-60, 40}, {60, -40}}, textString = "WF")}),
-    Documentation(info="<html>
+    Line(points = {{10.5, -56.5}, {0.25, -56.5}, {0.25, -46.5}, {-45, -46.5}}, color = {0, 0, 255}));
+  connect(turbine_Model1.Pord, electrical_Control1.Pord) annotation(
+    Line(points = {{-80, 38}, {-55, 38}, {-55, 30}, {-40, 30}}, color = {0, 0, 127}));
+  connect(windspeed.y[1], turbine_Model1.Wind_Speed) annotation(
+    Line(points = {{-125, 60}, {-120, 60}, {-120, 40}, {-110, 40}, {-110, 40}}, color = {0, 0, 127}));
+  connect(generator1.Pgen, turbine_Model1.Pelec) annotation(
+    Line(points = {{105, 30}, {120, 30}, {120, -20}, {-130, -20}, {-130, 15}, {-110, 15}, {-110, 15}}, color = {0, 0, 127}));
+  connect(generator1.Qgen, electrical_Control1.Qgen) annotation(
+    Line(points = {{105, 20}, {110, 20}, {110, -15}, {-60, -15}, {-60, 0}, {-40, 0}, {-40, 0}}, color = {0, 0, 127}));
+  connect(const.y, electrical_Control1.Qord) annotation(
+    Line(points = {{-70, 70}, {-65, 70}, {-65, 45}, {-40, 45}, {-40, 45}}, color = {0, 0, 127}));
+  connect(generator1.Vt, electrical_Control1.Vterm) annotation(
+    Line(points = {{105, 50}, {125, 50}, {125, 70}, {-60, 70}, {-60, 15}, {-40, 15}, {-40, 15}}, color = {0, 0, 127}));
+  connect(step.y, infiniteBus21.V) annotation(
+    Line(points = {{-99, -50}, {-89.5, -50}, {-89.5, -46.5}, {-72, -46.5}}, color = {0, 0, 127}));
+  annotation(
+    Diagram(coordinateSystem(extent = {{-148.5, -85}, {138.5, 105}}, grid = {5, 5}, initialScale = 0.1), graphics = {Text(origin = {-62.5, -25}, lineColor = {0, 0, 255}, extent = {{-7.5, 0}, {12.5, -5}}, textString = "Infinite Bus")}),
+    Icon(coordinateSystem(grid = {5, 5}, extent = {{-148.5, -85}, {138.5, 105}}, initialScale = 0.1), graphics = {Rectangle(extent = {{-100, 100}, {100, -100}}), Text(lineColor = {0, 0, 255}, extent = {{-60, 40}, {60, -40}}, textString = "WF")}),
+    Documentation(info = "<html>
 <table cellspacing=\"1\" cellpadding=\"1\" border=\"1\"><tr>
 <td align=center  width=50%><p>Development level</p></td>
 <td align=center width=25% bgcolor=yellow><p> 2 </p></td>
@@ -385,7 +381,7 @@ equation
 <td><p><a href=\"mailto:luigiv@kth.se\">luigiv@kth.se</a></p></td>
 </tr>
 </table>
-</html>", revisions="<html>
+</html>", revisions = "<html>
 <!--DISCLAIMER-->
 <p>Copyright 2015-2016 RTE (France), SmarTS Lab (Sweden), AIA (Spain) and DTU (Denmark)</p>
 <ul>

@@ -5,47 +5,59 @@ model Static_generator "Constant PQ Generator, Solar Photo-Voltaic Generator"
     Placement(visible = true, transformation(origin = {145, 2.7992}, extent = {{-10, -10}, {10, 10}}, rotation = 0), iconTransformation(origin = {110, 0}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
   parameter Real S_b = 100 "System base power (MVA)" annotation(
     Dialog(group = "Power flow data"));
-  parameter Real Sn = 10 "Nominal power (MVA)";
-  parameter Real V_0 = 1.00018548610126 "Voltage magnitude (pu) from PF" annotation(
+  parameter Real Sn = 100 "Nominal power (MVA)";
+  /*parameter Real V_0 = 1.00018548610126 "Voltage magnitude (pu) from PF" annotation(
     Dialog(group = "Power flow data"));
   parameter Real angle_0 = -0.0000253046024029618 "Voltage angle (deg) from Power Flow" annotation(
     Dialog(group = "Power flow data"));
+  
   parameter Real P_0 = 0.1 "Active power (pu) from PF" annotation(
     Dialog(group = "Power flow data"));
   parameter Real Q_0 = 0.001 "Reactive power (pu) from Power Flow" annotation(
     Dialog(group = "Power flow data"));
+  */
   parameter Real Td = 15 "d-axis inverter time constant (s)";
   parameter Real Tq = 15 "q-axis inverter time constant (s)";
-  //Real v "Bus voltage magnitude (pu)";
+  Real v "Bus voltage magnitude (pu)";
   Real anglev "Bus voltage angle (deg)";
   Real id "d-axis current (pu)";
   Real iq "q-axis current (pu)";
-  Real vd(start = vd0) "d-axis voltage (pu)";
-  Real vq(start = vq0) "q-axis voltage (pu)";
-  Real P(start = Pref) "Active power (pu)";
-  Real Q(start = Qref) "Reactive power (pu)";
-  //Real idref1(start = idref) "d-axis current setpoint";
-  //Real iqref1(start = iqref) "q-axis current setpoint";
+  Real vd "d-axis voltage (pu)";
+  Real vq "q-axis voltage (pu)";
+  Real P "Active power (pu)";
+  Real Q "Reactive power (pu)";
+  Real idref1 "d-axis current setpoint";
+  Real iqref1 "q-axis current setpoint";
   parameter Real CoB = Sn / S_b;
-  parameter Real Pref = P_0 * CoB "Initialitation";
-  parameter Real Qref = Q_0 * CoB "Initialitation";
-  parameter Real vd0 = -V_0 * sin(angle_0) "Initialitation";
-  parameter Real vq0 = V_0 * cos(angle_0) "Initialitation";
-  //parameter Real idref = (vq0 * Qref + Pref * vd0) / (vq0 ^ 2 + vd0 ^ 2) "Initialitation";
-  //parameter Real iqref = ((-vd0 * Qref) + Pref * vq0) / (vq0 ^ 2 + vd0 ^ 2) "Initialitation";
-  Modelica.Blocks.Interfaces.RealInput idref annotation(
-    Placement(visible = true, transformation(origin = {-150, 80}, extent = {{-20, -20}, {20, 20}}, rotation = 0), iconTransformation(origin = {-120, 60}, extent = {{-20, -20}, {20, 20}}, rotation = 0)));
+  Real Pref  "Initialitation";
+  Real Qref "Initialitation";
+  Real vd0  "Initialitation";
+  Real vq0  "Initialitation";
+  /*Modelica.Blocks.Interfaces.RealInput idref annotation(
+    Placement(visible = true, transformation(origin = {-150, 90}, extent = {{-20, -20}, {20, 20}}, rotation = 0), iconTransformation(origin = {-5, 85}, extent = {{-15, -15}, {15, 15}}, rotation = -90)));
   Modelica.Blocks.Interfaces.RealInput iqref annotation(
-    Placement(visible = true, transformation(origin = {-150, 20}, extent = {{-20, -20}, {20, 20}}, rotation = 0), iconTransformation(origin = {-120, 0}, extent = {{-20, -20}, {20, 20}}, rotation = 0)));
-  Modelica.Blocks.Interfaces.RealOutput v annotation(
-    Placement(visible = true, transformation(origin = {150, 75}, extent = {{-10, -10}, {10, 10}}, rotation = 0), iconTransformation(origin = {110, 70}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
+    Placement(visible = true, transformation(origin = {-150, 55}, extent = {{-20, -20}, {20, 20}}, rotation = 0), iconTransformation(origin = {-65, 85}, extent = {{-15, -15}, {15, 15}}, rotation = -90)));
+  */
+  Modelica.Blocks.Interfaces.RealInput V_0 annotation(
+    Placement(visible = true, transformation(origin = {-150, 5}, extent = {{-20, -20}, {20, 20}}, rotation = 0), iconTransformation(origin = {-90, 35}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
+  Modelica.Blocks.Interfaces.RealInput angle_0 annotation(
+    Placement(visible = true, transformation(origin = {-150, -30}, extent = {{-20, -20}, {20, 20}}, rotation = 0), iconTransformation(origin = {-90, 0}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
+  Modelica.Blocks.Interfaces.RealInput P_0(start=0.1) annotation(
+    Placement(visible = true, transformation(origin = {-150, -60}, extent = {{-20, -20}, {20, 20}}, rotation = 0), iconTransformation(origin = {-90, -40}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
+  Modelica.Blocks.Interfaces.RealInput Q_0 annotation(
+    Placement(visible = true, transformation(origin = {-150, -90}, extent = {{-20, -20}, {20, 20}}, rotation = 0), iconTransformation(origin = {-90, -80}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
 equation
+  Pref = P_0 * CoB "Initialitation";
+  Qref = Q_0 * CoB "Initialitation";
+  vd0 = -V_0 * sin(angle_0) "Initialitation";
+  vq0 = V_0 * cos(angle_0) "Initialitation";
+  
   P = vd * id + vq * iq;
   Q = vq * id - vd * iq;
-  //idref1 = (vq * Qref + Pref * vd) / (vq ^ 2 + vd ^ 2);
-  //iqref1 = ((-vd * Qref) + Pref * vq) / (vq ^ 2 + vd ^ 2);
-  der(id) = (idref - id) / Td;
-  der(iq) = (iqref - iq) / Tq;
+  idref1 = (vq * Qref + Pref * vd) / (vq ^ 2 + vd ^ 2);
+  iqref1 = ((-vd * Qref) + Pref * vq) / (vq ^ 2 + vd ^ 2);
+  der(id) = (idref1 - id) / Td;
+  der(iq) = (iqref1 - iq) / Tq;
   v = sqrt(p.vr ^ 2 + p.vi ^ 2);
   anglev = atan2(p.vi, p.vr);
   p.ir = -iq "change of sign due to the fact than in modelica when entering is + and in this case is going out";
@@ -53,7 +65,7 @@ equation
   p.vr = vq;
   p.vi = -vd;
   annotation(
-    Icon(coordinateSystem( initialScale = 0.1, grid = {10, 10}), graphics = {Rectangle(fillColor = {255, 255, 255}, extent = {{-100, -100}, {100, 100}}), Text(origin = {0, 15.3102}, fillPattern = FillPattern.Solid, extent = {{-31.415, -20.0667}, {31.415, 20.0667}}, textString = "%name", fontName = "Arial"), Text(origin = {110, 90}, extent = {{-10, 0}, {10, -10}}, textString = "Vac"), Text(origin = {-125, 85}, extent = {{-5, 5}, {5, -5}}, textString = "idref"), Text(origin = {-115, 15}, extent = {{-5, 5}, {5, -5}}, textString = "iqref")}),
+    Icon(coordinateSystem( initialScale = 0.1, grid = {10, 10}), graphics = {Rectangle(fillColor = {255, 255, 255}, extent = {{-100, -100}, {100, 100}}), Text(origin = {20, 5.31}, lineColor = {0, 0, 255}, fillPattern = FillPattern.Solid, extent = {{-31.42, -20.07}, {31.42, 20.07}}, textString = "%name", fontName = "Arial"), Text(origin = {100, 70}, lineColor = {0, 0, 255}, extent = {{-50, 20}, {10, -10}}, textString = "Vac"), Text(origin = {-5, 75}, lineColor = {0, 0, 255}, extent = {{-5, 5}, {45, -35}}, textString = "idref"), Text(origin = {-65, 65}, lineColor = {0, 0, 255}, extent = {{-5, 5}, {35, -25}}, textString = "iqref"), Text(origin = {-70, 45}, lineColor = {0, 0, 255}, extent = {{-10, 5}, {40, -35}}, textString = "V_0"), Text(origin = {-75, 5}, lineColor = {0, 0, 255}, extent = {{-5, 5}, {55, -35}}, textString = "angle_0"), Text(origin = {-70, -55}, lineColor = {0, 0, 255}, extent = {{0, -5}, {40, 35}}, textString = "P_0"), Text(origin = {-75, -75}, lineColor = {0, 0, 255}, extent = {{-5, 5}, {55, -25}}, textString = "Q_0")}),
     Diagram(coordinateSystem(extent = {{-148.5, -105.0}, {148.5, 105.0}}, preserveAspectRatio = true, initialScale = 0.1, grid = {5, 5})),
     Documentation(info = "<html>
 <table cellspacing=\"1\" cellpadding=\"1\" border=\"1\"><tr>
