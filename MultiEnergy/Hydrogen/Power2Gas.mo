@@ -10,8 +10,6 @@ model Power2Gas
     Placement(visible = true, transformation(origin = {-184, 26}, extent = {{-8, -8}, {8, 8}}, rotation = 0)));
   Hydrogen.Electrolyser3 electrolyser3(n_cells_parallel = 500, n_cells_series = 200)  annotation(
     Placement(visible = true, transformation(origin = {-57, -13}, extent = {{-35, -35}, {35, 35}}, rotation = 0)));
-  iPSL.Electrical.Solar.KTH.PFblocks.Controller controller annotation(
-    Placement(visible = true, transformation(origin = {51, 7}, extent = {{-23, -23}, {23, 23}}, rotation = 0)));
   Modelica.Blocks.Sources.Constant const2(k = 700)  annotation(
     Placement(visible = true, transformation(origin = {-6, -26}, extent = {{-6, -6}, {6, 6}}, rotation = 0)));
   Modelica.Blocks.Sources.Constant PCC_voltage(k = 1.01) annotation(
@@ -28,23 +26,13 @@ model Power2Gas
     Placement(visible = true, transformation(origin = {-34, 58}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
   Hydrogen.Static_generator static_generator(Td = 3, Tq = 3)  annotation(
     Placement(visible = true, transformation(origin = {141, -47}, extent = {{-29, -29}, {29, 29}}, rotation = 0)));
-  Modelica.Blocks.Sources.RealExpression realExpression1(y = 1.00)  annotation(
-    Placement(visible = true, transformation(origin = {35, -37}, extent = {{-7, -7}, {7, 7}}, rotation = 0)));
-  Modelica.Blocks.Sources.RealExpression realExpression2(y = -0.0)  annotation(
-    Placement(visible = true, transformation(origin = {35, -49}, extent = {{-7, -7}, {7, 7}}, rotation = 0)));
-  Modelica.Blocks.Sources.RealExpression realExpression3(y = 0.5)  annotation(
-    Placement(visible = true, transformation(origin = {35, -60}, extent = {{-7, -8}, {7, 8}}, rotation = 0)));
-  Modelica.Blocks.Sources.RealExpression realExpression4(y = 0.1)  annotation(
-    Placement(visible = true, transformation(origin = {35, -73}, extent = {{-7, -7}, {7, 7}}, rotation = 0)));
   Modelica.Blocks.Sources.RealExpression realExpression5(y = static_generator.v)  annotation(
     Placement(visible = true, transformation(origin = {26, 62}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
   iPSL.Electrical.SystemBase sysData annotation(
     Placement(visible = true, transformation(origin = {158, 102}, extent = {{-10, -10}, {14, 10}}, rotation = 0)));
+  iPSL.Electrical.Solar.KTH.PFblocks.Controller controller annotation(
+    Placement(visible = true, transformation(origin = {51, 7}, extent = {{-23, -23}, {23, 23}}, rotation = 0)));
 equation
-  connect(const2.y, controller.Vdcref) annotation(
-    Line(points = {{1, -26}, {6, -26}, {6, -11}, {23, -11}}, color = {0, 0, 127}));
-  connect(electrolyser3.Vdc, controller.udc) annotation(
-    Line(points = {{-22, -2.5}, {2.5, -2.5}, {2.5, 0}, {23, 0}}, color = {0, 0, 127}));
   connect(PCC_voltage.y, infiniteBus21.V) annotation(
     Line(points = {{-51, -110}, {-43, -110}}, color = {0, 0, 127}));
   connect(twoWindingTransformer.p, PQbus.p) annotation(
@@ -53,22 +41,12 @@ equation
     Line(points = {{58, -110}, {41, -110}}, color = {0, 0, 255}));
   connect(PQbus.p, infiniteBus21.p) annotation(
     Line(points = {{2, -110}, {-21, -110}}, color = {0, 0, 255}));
-  connect(realExpression.y, controller.Vacref) annotation(
-    Line(points = {{-22, 58}, {-8, 58}, {-8, 12}, {24, 12}, {24, 12}}, color = {0, 0, 127}));
   connect(controller.id_ref, static_generator.idref) annotation(
     Line(points = {{76, 16}, {84, 16}, {84, 44}, {140, 44}, {140, -22}}, color = {0, 0, 127}));
   connect(controller.iq_ref, static_generator.iqref) annotation(
     Line(points = {{76, -4}, {88, -4}, {88, 40}, {122, 40}, {122, -22}}, color = {0, 0, 127}));
   connect(static_generator.p, PVbus.p) annotation(
     Line(points = {{173, -47}, {184, -47}, {184, -110}, {58, -110}}, color = {0, 0, 255}));
-  connect(realExpression1.y, static_generator.V_0) annotation(
-    Line(points = {{43, -37}, {115, -37}}, color = {0, 0, 127}));
-  connect(realExpression2.y, static_generator.angle_0) annotation(
-    Line(points = {{43, -49}, {85, -49}, {85, -47}, {115, -47}}, color = {0, 0, 127}));
-  connect(realExpression3.y, static_generator.P_0) annotation(
-    Line(points = {{43, -60}, {110, -60}, {110, -59}, {115, -59}}, color = {0, 0, 127}));
-  connect(realExpression4.y, static_generator.Q_0) annotation(
-    Line(points = {{43, -73}, {109.5, -73}, {109.5, -70}, {115, -70}}, color = {0, 0, 127}));
   connect(ramp.y, storage.p_tank_bar) annotation(
     Line(points = {{-175, 26}, {-162, 26}, {-162, 23}, {-157, 23}}, color = {0, 0, 127}));
   connect(const.y, storage.nH2_o) annotation(
@@ -77,6 +55,12 @@ equation
     Line(points = {{-114, 14}, {-104, 14}, {-104, 8}, {-88, 8}}, color = {0, 0, 127}));
   connect(realExpression5.y, controller.uac) annotation(
     Line(points = {{38, 62}, {52, 62}, {52, 40}, {10, 40}, {10, 22}, {24, 22}, {24, 24}}, color = {0, 0, 127}));
+  connect(realExpression.y, controller.Vacref) annotation(
+    Line(points = {{-22, 58}, {-8, 58}, {-8, 12}, {24, 12}, {24, 12}}, color = {0, 0, 127}));
+  connect(electrolyser3.Vdc, controller.udc) annotation(
+    Line(points = {{-22, -2.5}, {2.5, -2.5}, {2.5, 0}, {23, 0}}, color = {0, 0, 127}));
+  connect(const2.y, controller.Vdcref) annotation(
+    Line(points = {{1, -26}, {6, -26}, {6, -11}, {23, -11}}, color = {0, 0, 127}));
 protected
   annotation(
     uses(Modelica(version = "3.2.3"), iPSL(version = "1.1.0")),

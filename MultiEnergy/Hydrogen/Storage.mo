@@ -9,7 +9,7 @@ model Storage
 
 parameter Real R=8.314 "Gas constant";
 parameter Real T= 273.14+70 "Tank Temperature";
-parameter Real V=1 "Volume of the tank";
+parameter Real V=10 "Volume of the tank";
 Real p_tank(start=8e5) "Pressure in Pa";
   Modelica.Blocks.Interfaces.RealInput p_tank_bar annotation(
     Placement(visible = true, transformation(origin = {-100, 46}, extent = {{-20, -20}, {20, 20}}, rotation = 0), iconTransformation(origin = {-80, 38}, extent = {{-20, -20}, {20, 20}}, rotation = 0)));

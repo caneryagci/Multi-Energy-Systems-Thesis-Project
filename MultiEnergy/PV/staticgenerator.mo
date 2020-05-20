@@ -1,12 +1,12 @@
-within Hydrogen;
+within PV;
 
-model Static_generator "Constant PQ Generator, Solar Photo-Voltaic Generator"
+model staticgenerator
   iPSL.Connectors.PwPin p annotation(
     Placement(visible = true, transformation(origin = {145, 2.7992}, extent = {{-10, -10}, {10, 10}}, rotation = 0), iconTransformation(origin = {110, 0}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
   parameter Real S_b = 100 "System base power (MVA)" annotation(
     Dialog(group = "Power flow data"));
   parameter Real Sn = 100 "Nominal power (MVA)";
-  /*parameter Real V_0 = 1.0 "Voltage magnitude (pu) from PF" annotation(
+  parameter Real V_0 = 1.0 "Voltage magnitude (pu) from PF" annotation(
     Dialog(group = "Power flow data"));
   parameter Real angle_0 = -0.0000253046024029618 "Voltage angle (deg) from Power Flow" annotation(
     Dialog(group = "Power flow data"));
@@ -15,7 +15,7 @@ model Static_generator "Constant PQ Generator, Solar Photo-Voltaic Generator"
     Dialog(group = "Power flow data"));
   parameter Real Q_0 = 0.001 "Reactive power (pu) from Power Flow" annotation(
     Dialog(group = "Power flow data"));
-  */
+  
   parameter Real Td = 15 "d-axis inverter time constant (s)";
   parameter Real Tq = 15 "q-axis inverter time constant (s)";
   Real v "Bus voltage magnitude (pu)";
@@ -29,10 +29,10 @@ model Static_generator "Constant PQ Generator, Solar Photo-Voltaic Generator"
   Real idref1 "d-axis current setpoint";
   Real iqref1 "q-axis current setpoint";
   parameter Real CoB = Sn / S_b;
-  //Real Pref  "Initialitation";
-  //Real Qref "Initialitation";
-  //Real vd0  "Initialitation";
-  //Real vq0  "Initialitation";
+  Real Pref  "Initialitation";
+  Real Qref "Initialitation";
+  Real vd0  "Initialitation";
+  Real vq0  "Initialitation";
   Modelica.Blocks.Interfaces.RealInput idref annotation(
     Placement(visible = true, transformation(origin = {-150, 90}, extent = {{-20, -20}, {20, 20}}, rotation = 0), iconTransformation(origin = {-5, 85}, extent = {{-15, -15}, {15, 15}}, rotation = -90)));
   Modelica.Blocks.Interfaces.RealInput iqref annotation(
@@ -48,26 +48,20 @@ model Static_generator "Constant PQ Generator, Solar Photo-Voltaic Generator"
       Placement(visible = true, transformation(origin = {-150, -90}, extent = {{-20, -20}, {20, 20}}, rotation = 0), iconTransformation(origin = {-90, -80}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
   */
   Modelica.Blocks.Interfaces.RealOutput Pac annotation(
-    Placement(visible = true, transformation(origin = {150, 55}, extent = {{-10, -10}, {10, 10}}, rotation = 0), iconTransformation(origin = {110, 40}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
+    Placement(visible = true, transformation(origin = {150, -75}, extent = {{-10, -10}, {10, 10}}, rotation = 0), iconTransformation(origin = {110, -70}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
   Modelica.Blocks.Interfaces.RealOutput Vt annotation(
     Placement(visible = true, transformation(origin = {150, 75}, extent = {{-10, -10}, {10, 10}}, rotation = 0), iconTransformation(origin = {110, 70}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
-  Modelica.Blocks.Interfaces.RealOutput vd1 annotation(
-    Placement(visible = true, transformation(origin = {150, -50}, extent = {{-10, -10}, {10, 10}}, rotation = 0), iconTransformation(origin = {110, -40}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
-  Modelica.Blocks.Interfaces.RealOutput vq1 annotation(
-    Placement(visible = true, transformation(origin = {150, -80}, extent = {{-10, -10}, {10, 10}}, rotation = 0), iconTransformation(origin = {110, -80}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
-  Modelica.Blocks.Interfaces.RealOutput angle annotation(
-    Placement(visible = true, transformation(origin = {95, -100}, extent = {{-10, -10}, {10, 10}}, rotation = -90), iconTransformation(origin = {35, -110}, extent = {{-10, -10}, {10, 10}}, rotation = -90)));
 equation
-  //Pref = P_0 * CoB "Initialitation";
-  //Qref = Q_0 * CoB "Initialitation";
-  //vd0 = -V_0 * sin(angle_0) "Initialitation";
-  //vq0 = V_0 * cos(angle_0) "Initialitation";
+  Pref = P_0 * CoB "Initialitation";
+  Qref = Q_0 * CoB "Initialitation";
+  vd0 = -V_0 * sin(angle_0) "Initialitation";
+  vq0 = V_0 * cos(angle_0) "Initialitation";
   
   P = vd * id + vq * iq;
   Pac=P;
   Q = vq * id - vd * iq;
-//idref1 = (vq * Qref + Pref * vd) / (vq ^ 2 + vd ^ 2);
-//iqref1 = ((-vd * Qref) + Pref * vq) / (vq ^ 2 + vd ^ 2);
+  //idref1 = (vq * Qref + Pref * vd) / (vq ^ 2 + vd ^ 2);
+  //iqref1 = ((-vd * Qref) + Pref * vq) / (vq ^ 2 + vd ^ 2);
   idref1=idref;
   iqref1=iqref;
   der(id) = (idref1 - id) / Td;
@@ -79,11 +73,8 @@ equation
   p.ii = id "change of sign due to the fact than in modelica when entering is + and in this case is going out";
   p.vr = vq;
   p.vi = -vd;
-  angle=anglev;
-  vd1 = vd;
-  vq1 = vq;
   annotation(
-    Icon(coordinateSystem( initialScale = 0.1, grid = {10, 10}), graphics = {Rectangle(fillColor = {255, 255, 255}, extent = {{-100, -100}, {100, 100}}), Text(origin = {20, 5.31}, lineColor = {0, 0, 255}, fillPattern = FillPattern.Solid, extent = {{-31.42, -20.07}, {31.42, 20.07}}, textString = "%name", fontName = "Arial"), Text(origin = {100, 70}, lineColor = {0, 0, 255}, extent = {{-50, 20}, {10, -10}}, textString = "Vac"), Text(origin = {-5, 75}, lineColor = {0, 0, 255}, extent = {{-5, 5}, {45, -35}}, textString = "idref"), Text(origin = {-65, 65}, lineColor = {0, 0, 255}, extent = {{-5, 5}, {35, -25}}, textString = "iqref"), Text(origin = {-5,-75}, lineColor = {0, 0, 255}, extent = {{-5, 5}, {55, -35}}, textString = "angle_0"), Text(origin = {50, 25}, lineColor = {0, 0, 255}, extent = {{0, -5}, {40, 35}}, textString = "P_ac"), Text(origin = {-85, -45}, lineColor = {0, 0, 255}, extent = {{-5, 5}, {55, -25}}, textString = "Q_0")}),
+    Icon(coordinateSystem( initialScale = 0.1, grid = {10, 10}), graphics = {Rectangle(fillColor = {255, 255, 255}, extent = {{-100, -100}, {100, 100}}), Text(origin = {20, 5.31}, lineColor = {0, 0, 255}, fillPattern = FillPattern.Solid, extent = {{-31.42, -20.07}, {31.42, 20.07}}, textString = "%name", fontName = "Arial"), Text(origin = {100, 70}, lineColor = {0, 0, 255}, extent = {{-50, 20}, {10, -10}}, textString = "Vac"), Text(origin = {-5, 75}, lineColor = {0, 0, 255}, extent = {{-5, 5}, {45, -35}}, textString = "idref"), Text(origin = {-65, 65}, lineColor = {0, 0, 255}, extent = {{-5, 5}, {35, -25}}, textString = "iqref"), Text(origin = {-70, 45}, lineColor = {0, 0, 255}, extent = {{-10, 5}, {40, -35}}, textString = "V_0"), Text(origin = {-75, 5}, lineColor = {0, 0, 255}, extent = {{-5, 5}, {55, -35}}, textString = "angle_0"), Text(origin = {-70, -55}, lineColor = {0, 0, 255}, extent = {{0, -5}, {40, 35}}, textString = "P_0"), Text(origin = {-75, -75}, lineColor = {0, 0, 255}, extent = {{-5, 5}, {55, -25}}, textString = "Q_0")}),
     Diagram(coordinateSystem(extent = {{-148.5, -105.0}, {148.5, 105.0}}, preserveAspectRatio = true, initialScale = 0.1, grid = {5, 5})),
     Documentation(info = "<html>
 <table cellspacing=\"1\" cellpadding=\"1\" border=\"1\"><tr>
@@ -123,4 +114,6 @@ equation
 <p>This Source Code Form is subject to the terms of the Mozilla Public License, v. 2.0. </p>
 <p>If a copy of the MPL was not distributed with this file, You can obtain one at <a href=\"http://mozilla.org/MPL/2.0/\"> http://mozilla.org/MPL/2.0</a>.</p>
 </html>"));
-end Static_generator;
+
+
+end staticgenerator;
