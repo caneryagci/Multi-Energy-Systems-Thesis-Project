@@ -12,3 +12,17 @@ Controller
 Model_validation
 EM_test
 staticgen
+Storage_model
+Electrolyser4
+Power2Gas_4
+Storage2
+Controller_DSM
+controller_validation
+electrolyser_detailed
+electrolyser_simple
+electrochemical
+thermal
+massflow
+pressure
+electrochemical_simple
+Model_validation2

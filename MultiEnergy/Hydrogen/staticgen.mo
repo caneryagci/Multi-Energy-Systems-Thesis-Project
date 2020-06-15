@@ -30,10 +30,10 @@ model staticgen
     Placement(visible = true, transformation(origin = {-140, -10}, extent = {{-20, -20}, {20, 20}}, rotation = 0), iconTransformation(origin = {-80, 0}, extent = {{-20, -20}, {20, 20}}, rotation = 0)));
   Modelica.Blocks.Interfaces.RealInput P_0 annotation(
     Placement(visible = true, transformation(origin = {-140, -60}, extent = {{-20, -20}, {20, 20}}, rotation = 0), iconTransformation(origin = {-80, -70}, extent = {{-20, -20}, {20, 20}}, rotation = 0)));
-  Modelica.Blocks.Interfaces.RealOutput Qgen annotation(
-    Placement(visible = true, transformation(origin = {155, 65}, extent = {{-10, -10}, {10, 10}}, rotation = 0), iconTransformation(origin = {105, -80}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
   Modelica.Blocks.Interfaces.RealOutput Pgen annotation(
-    Placement(visible = true, transformation(origin = {155, 35}, extent = {{-10, -10}, {10, 10}}, rotation = 0), iconTransformation(origin = {110, -40}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
+    Placement(visible = true, transformation(origin = {155, 35}, extent = {{-10, -10}, {10, 10}}, rotation = 0), iconTransformation(origin = {115, -35}, extent = {{-15, -15}, {15, 15}}, rotation = 0)));
+  Modelica.Blocks.Interfaces.RealOutput Qgen annotation(
+    Placement(visible = true, transformation(origin = {145, 80}, extent = {{-10, -10}, {10, 10}}, rotation = 0), iconTransformation(origin = {115, -75}, extent = {{-15, -15}, {15, 15}}, rotation = 0)));
 protected
   parameter Real CoB = Sn / S_b;
   //parameter Real Pref = P_0 * CoB "Initialitation";
@@ -58,7 +58,7 @@ equation
   p.vi = -vd;
   Pgen=P;
   Qgen=Q;
-  annotation(Icon(coordinateSystem( initialScale = 0.1, grid = {10, 10}), graphics = {Rectangle(fillColor = {255, 255, 255}, extent = {{-100, -100}, {100, 100}}), Text(origin = {0, 15.3102}, fillPattern = FillPattern.Solid, extent = {{-31.415, -20.0667}, {31.415, 20.0667}}, textString = "%name", fontName = "Arial"), Text(origin = {-45, 70}, extent = {{-15, 20}, {25, -30}}, textString = "V"), Text(origin = {-30, -20}, extent = {{-40, 40}, {40, -40}}, textString = "Vangle"), Text(origin = {-25, -65}, extent = {{35, -35}, {-35, 35}}, textString = "Pord")}), Diagram(coordinateSystem(extent = {{-148.5, -105.0}, {148.5, 105.0}}, preserveAspectRatio = true, initialScale = 0.1, grid = {5, 5})), Documentation(info = "<html>
+  annotation(Icon(coordinateSystem( initialScale = 0.1, grid = {10, 10}), graphics = {Rectangle(fillColor = {255, 255, 255}, extent = {{-100, -100}, {100, 100}}), Text(origin = {-20, -4.69}, lineColor = {0, 0, 255}, fillPattern = FillPattern.Solid, extent = {{-31.42, -20.07}, {81.42, 70.07}}, textString = "Staticgen", fontName = "Arial"), Text(origin = {-45, 70}, extent = {{-15, 20}, {25, -30}}, textString = "V"), Text(origin = {-30, -20}, extent = {{-40, 40}, {30, -40}}, textString = "Vangle"), Text(origin = {-25, -65}, extent = {{25, -35}, {-35, 35}}, textString = "Pord"), Text(origin = {85, -45}, extent = {{-45, 35}, {5, -5}}, textString = "Pgen"), Text(origin = {-30, 20},extent = {{70, -70}, {120, -110}}, textString = "Qgen")}), Diagram(coordinateSystem(extent = {{-148.5, -105.0}, {148.5, 105.0}}, preserveAspectRatio = true, initialScale = 0.1, grid = {5, 5})), Documentation(info = "<html>
 <table cellspacing=\"1\" cellpadding=\"1\" border=\"1\"><tr>
 <td align=center  width=50%><p>Development level</p></td>
 <td align=center width=25% bgcolor=yellow><p> 2 </p></td>

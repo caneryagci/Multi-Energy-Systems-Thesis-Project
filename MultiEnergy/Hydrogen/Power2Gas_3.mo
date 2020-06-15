@@ -9,7 +9,7 @@ model Power2Gas_3
   parameter Real q0=0 "Power flow, node reactive power";
   */
   Hydrogen.Electrolyser3 electrolyser3 annotation(
-    Placement(visible = true, transformation(origin = {-52, 10}, extent = {{-26, -26}, {26, 26}}, rotation = 0)));
+    Placement(visible = true, transformation(origin = {-54, 10}, extent = {{-26, -26}, {26, 26}}, rotation = 0)));
   Modelica.Blocks.Sources.Constant const(k = 60000) annotation(
     Placement(visible = true, transformation(origin = {-168, -6}, extent = {{-8, -8}, {8, 8}}, rotation = 0)));
   Hydrogen.Storage storage annotation(
@@ -43,7 +43,7 @@ model Power2Gas_3
   iPSL.Electrical.Branches.PSAT.TwoWindingTransformer twoWindingTransformer1(Sn = 100, V_b = 12500, Vn = 12500, kT = 12500 / 575) annotation(
     Placement(visible = true, transformation(origin = {58, -66}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
   Modelica.Blocks.Sources.RealExpression realExpression2(y = -0.0000253046024029618) annotation(
-    Placement(visible = true, transformation(origin = {9, -17}, extent = {{-7, -7}, {7, 7}}, rotation = 0)));
+    Placement(visible = true, transformation(origin = {19, 5}, extent = {{-7, -7}, {7, 7}}, rotation = 0)));
   Modelica.Blocks.Sources.Step step(height = 0.03, offset = 1.0, startTime = 80)  annotation(
     Placement(visible = true, transformation(origin = {-66, -62}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
   Hydrogen.staticgen staticgen annotation(
@@ -52,7 +52,7 @@ equation
   connect(const.y, storage.nH2_o) annotation(
     Line(points = {{-159, -6}, {-150.5, -6}, {-150.5, 4}, {-140, 4}}, color = {0, 0, 127}));
   connect(storage.nH2_i, electrolyser3.nH) annotation(
-    Line(points = {{-100, 14}, {-90, 14}, {-90, 30}, {-74, 30}, {-74, 30}}, color = {0, 0, 127}));
+    Line(points = {{-100, 14}, {-90, 14}, {-90, 27}, {-76, 27}}, color = {0, 0, 127}));
   connect(ramp.y, storage.p_tank_bar) annotation(
     Line(points = {{-159, 30}, {-152, 30}, {-152, 22}, {-140, 22}}, color = {0, 0, 127}));
   connect(twoWindingTransformer1.p, bus.p) annotation(
@@ -64,11 +64,11 @@ equation
   connect(step.y, infiniteBus2.V) annotation(
     Line(points = {{-54, -62}, {-28, -62}, {-28, -68}, {-1, -68}}, color = {0, 0, 127}));
   connect(realExpression2.y, staticgen.angle_0) annotation(
-    Line(points = {{16, -16}, {34, -16}, {34, 6}, {65, 6}}, color = {0, 0, 127}));
+    Line(points = {{27, 5}, {34, 5}, {34, 6}, {65, 6}}, color = {0, 0, 127}));
   connect(step.y, staticgen.V_0) annotation(
     Line(points = {{-54, -62}, {-16, -62}, {-16, 18}, {65, 18}}, color = {0, 0, 127}));
   connect(electrolyser3.Pdc_mw, staticgen.P_0) annotation(
-    Line(points = {{-26, 30}, {48, 30}, {48, -5}, {65, -5}}, color = {0, 0, 127}));
+    Line(points = {{-27, 30}, {48, 30}, {48, -5}, {65, -5}}, color = {0, 0, 127}));
   connect(staticgen.p, bus1.p) annotation(
     Line(points = {{96, 6}, {100, 6}, {100, -66}, {86, -66}}, color = {0, 0, 255}));
   annotation (
