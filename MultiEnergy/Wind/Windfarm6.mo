@@ -1,13 +1,12 @@
 within Wind;
 
 model Windfarm6
-
-  import Modelica.Constants.pi;
+import Modelica.Constants.pi;
   import Modelica.Constants.eps;
-  parameter Real _V0=1.01 "Terminal Voltage from Power Flow";
+  parameter Real _V0=1.05 "Terminal Voltage from Power Flow";
   parameter Real _Ang0=0.0001 "Terminal Angle from Power Flow";
   parameter Real _P0=1.0 "Active Power from Power Flow";
-  parameter Real _Q0=-0.0001 "Reactive Power from Power Flow";
+  parameter Real _Q0=-0.01 "Reactive Power from Power Flow";
   parameter Real GEN_base=100 "Base Power from the Electrical Generator";
   parameter Real WT_base=100 "Base Power from the Turbine";
   parameter Real SYS_base=100 "Base Power from the power system";
@@ -18,23 +17,23 @@ model Windfarm6
   parameter Real Kip=25.0 "Gain of integrator of Pitch Control";
   parameter Real Kpc=3.0 "Pitch Compensation gain";
   parameter Real Kic=30.0 "Gain of integrator of Pitch Compensation";
-  parameter Real pimax=27.0 "Maximum pitch angle";
+  parameter Real pimax=90.0 "Maximum pitch angle";
   parameter Real pimin=0.0 "minimum pitch angle";
-  parameter Real pirat=10.0 "maximum variation rate of pitch angle";
+  parameter Real pirat=20.0 "maximum variation rate of pitch angle";
   parameter Real pwmax=1.12 "Maximal power taken from the wind";
-  parameter Real pwmin=0.1 "Minimal power taken from the wind";
-  parameter Real pwrat=0.45 "maximum variation rate of power taken from the wind";
+  parameter Real pwmin=0.01 "Minimal power taken from the wind";
+  parameter Real pwrat=0.9 "maximum variation rate of power taken from the wind";
   parameter Real Kptrq=3.0 "Gain Torque Controller";
   parameter Real Kitrq=0.6 "Gain of integrator of Torque Controller";
   parameter Real Tpc=0.05 "Time Constant Torque controller";
   parameter Real KQi=0.1 "Gain constant of first PI in DFIG electrical control model";
   parameter Real KVi=40 "Gain constant of second PI in DFIG electrical control model";
-  parameter Real xiqmax=0.4 "Up saturation of second PI in DFIG electrical control model";
-  parameter Real xiqmin=-0.5 "Down saturation of second PI in DFIG electrical control model";
+  parameter Real xiqmax=1 "Up saturation of second PI in DFIG electrical control model";
+  parameter Real xiqmin=0 "Down saturation of second PI in DFIG electrical control model";
   parameter Real Kpllp=30;
   parameter Real Xpp=0.8;
-  parameter Real qmax=0.312;
-  parameter Real qmin=-0.436;
+  parameter Real qmax=0.5;
+  parameter Real qmin=-0.5;
   parameter Real nmass=2 "Mono-mass or Two-mass model";
   parameter Real Hg=0.62 "Inertia 2";
   parameter Real H=4.33 "Inertia";
@@ -107,22 +106,20 @@ model Windfarm6
         origin={45.0,60.0},
         extent={{-10.0,-10.0},{10.0,10.0}},
         rotation=0)));
- Modelica.Blocks.Sources.Step step(height = 0.05, offset = 1, startTime = 500) annotation(
+ Modelica.Blocks.Sources.Step step(height = 0, offset = 1.05, startTime = 90) annotation(
     Placement(visible = true, transformation(origin = {-110, -45}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
  iPSL.Electrical.Buses.Bus PQbus annotation(
     Placement(visible = true, transformation(origin = {10.5, -56.5}, extent = {{-12.5, -12.5}, {12.5, 12.5}}, rotation = 0)));
  iPSL.Electrical.Branches.PSAT.TwoWindingTransformer twoWindingTransformer(Sb = 100, Sn = 500, V_b = 12500, Vn = 12500, fn = 50, kT = 12500 / 750) annotation(
     Placement(visible = true, transformation(origin = {43.5, -56.5}, extent = {{-12.5, -12.5}, {12.5, 12.5}}, rotation = 0)));
- iPSL.Electrical.Buses.InfiniteBus2 infiniteBus21(angle = 0) annotation(
-    Placement(visible = true, transformation(origin = {-58.5, -46.5}, extent = {{-12.5, -12.5}, {12.5, 12.5}}, rotation = 0)));
  iPSL.Electrical.Buses.Bus PVbus annotation(
     Placement(visible = true, transformation(origin = {71.5, -56.5}, extent = {{-12.5, -12.5}, {12.5, 12.5}}, rotation = 0)));
  Modelica.Blocks.Sources.Constant const1(k = 0)  annotation(
     Placement(visible = true, transformation(origin = {-50, 90}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
- Modelica.Blocks.Sources.Constant const2(k = 0.9)  annotation(
-    Placement(visible = true, transformation(origin = {-110, 60}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
- Modelica.Blocks.Sources.CombiTimeTable windspeed(fileName = "C:/Users/Caner/Desktop/Multi-Energy-Systems-Thesis-Project/Co_simulation/Case 1/windspeed.txt", smoothness = Modelica.Blocks.Types.Smoothness.ContinuousDerivative, tableName = "tab1", tableOnFile = true) annotation(
-    Placement(visible = true, transformation(origin = {-109, 87}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
+ iPSL.Electrical.Buses.InfiniteBus2 infiniteBus21(angle = 0) annotation(
+    Placement(visible = true, transformation(origin = {-58.5, -46.5}, extent = {{-12.5, -12.5}, {12.5, 12.5}}, rotation = 0)));
+ Modelica.Blocks.Sources.CombiTimeTable windspeed(extrapolation = Modelica.Blocks.Types.Extrapolation.NoExtrapolation,fileName = "C:/Users/Caner/Desktop/Multi-Energy-Systems-Thesis-Project/Co_simulation/Base Case/windspeed.txt", smoothness = Modelica.Blocks.Types.Smoothness.ContinuousDerivative, tableName = "tab1", tableOnFile = true) annotation(
+    Placement(visible = true, transformation(origin = {-119, 37}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
 protected
   function cp_init
     input Real lambda;
@@ -322,7 +319,7 @@ initial algorithm
   wt_x9_0 := 0.0;
   wndtge_ang0 := -pmech/(Ktg*genbc_k_speed);
 equation
- connect(turbine_Model1.Pord, electrical_Control1.Pord) annotation(
+  connect(turbine_Model1.Pord, electrical_Control1.Pord) annotation(
     Line(points = {{-44, 65}, {-23.0125, 65}, {-23.0125, 60.1186}, {-18, 60.1186}}, color = {0, 0, 127}));
   P = generator1.Pgen * GEN_base / SYS_base;
   Q = generator1.Qgen * GEN_base / SYS_base;
@@ -334,22 +331,22 @@ equation
     Line(points = {{71.5, -56.5}, {57, -56.5}}, color = {0, 0, 255}));
   connect(twoWindingTransformer.p, PQbus.p) annotation(
     Line(points = {{30, -56.5}, {10.5, -56.5}}, color = {0, 0, 255}));
-  connect(PQbus.p, infiniteBus21.p) annotation(
-    Line(points = {{10.5, -56.5}, {0.25, -56.5}, {0.25, -46.5}, {-45, -46.5}}, color = {0, 0, 255}));
+  connect(generator1.p, PVbus.p) annotation(
+    Line(points = {{45, 50}, {45, 50}, {45, -35}, {120, -35}, {120, -55}, {70, -55}, {70, -55}}, color = {0, 0, 255}));
+  connect(const1.y, electrical_Control1.Qord) annotation(
+    Line(points = {{-40, 90}, {-30, 90}, {-30, 70}, {-20, 70}, {-20, 65}, {-20, 65}}, color = {0, 0, 127}));
+  connect(generator1.Qgen, electrical_Control1.Qgen) annotation(
+    Line(points = {{55, 55}, {75, 55}, {75, 40}, {-35, 40}, {-35, 50}, {-20, 50}, {-20, 50}}, color = {0, 0, 127}));
+  connect(generator1.Pgen, turbine_Model1.Pelec) annotation(
+    Line(points = {{55, 60}, {100, 60}, {100, 35}, {-80, 35}, {-80, 50}, {-60, 50}, {-60, 50}}, color = {0, 0, 127}));
+  connect(generator1.Vt, electrical_Control1.Vterm) annotation(
+    Line(points = {{55, 65}, {70, 65}, {70, 80}, {-25, 80}, {-25, 55}, {-20, 55}, {-20, 55}}, color = {0, 0, 127}));
   connect(step.y, infiniteBus21.V) annotation(
     Line(points = {{-99, -45}, {-89.5, -45}, {-89.5, -46.5}, {-72, -46.5}}, color = {0, 0, 127}));
- connect(generator1.p, PVbus.p) annotation(
-    Line(points = {{45, 50}, {45, 50}, {45, -35}, {120, -35}, {120, -55}, {70, -55}, {70, -55}}, color = {0, 0, 255}));
- connect(step.y, electrical_Control1.Vterm) annotation(
-    Line(points = {{-100, -45}, {-90, -45}, {-90, 25}, {-25, 25}, {-25, 55}, {-20, 55}, {-20, 55}}, color = {0, 0, 127}));
+  connect(PQbus.p, infiniteBus21.p) annotation(
+    Line(points = {{10.5, -56.5}, {0.25, -56.5}, {0.25, -46.5}, {-45, -46.5}}, color = {0, 0, 255}));
  connect(windspeed.y[1], turbine_Model1.Wind_Speed) annotation(
-    Line(points = {{-98, 87}, {-70, 87}, {-70, 65}, {-60, 65}}, color = {0, 0, 127}));
- connect(const2.y, turbine_Model1.Pelec) annotation(
-    Line(points = {{-99, 60}, {-85, 60}, {-85, 52}, {-60, 52}}, color = {0, 0, 127}));
- connect(const1.y, electrical_Control1.Qord) annotation(
-    Line(points = {{-40, 90}, {-30, 90}, {-30, 70}, {-20, 70}, {-20, 65}, {-20, 65}}, color = {0, 0, 127}));
- connect(generator1.Qgen, electrical_Control1.Qgen) annotation(
-    Line(points = {{55, 55}, {75, 55}, {75, 40}, {-35, 40}, {-35, 50}, {-20, 50}, {-20, 50}}, color = {0, 0, 127}));
+    Line(points = {{-108, 37}, {-100, 37}, {-100, 65}, {-60, 65}}, color = {0, 0, 127}));
   annotation (
     Icon(coordinateSystem(
         
@@ -394,9 +391,7 @@ equation
 <li>DTU: <a href=\"http://www.dtu.dk/english\"> http://www.dtu.dk/english</a></li>
 </ul>
 <p>The authors can be contacted by email: <a href=\"mailto:info@itesla-ipsl.org\">info@itesla-ipsl.org</a></p>
-
 <p>This Source Code Form is subject to the terms of the Mozilla Public License, v. 2.0. </p>
 <p>If a copy of the MPL was not distributed with this file, You can obtain one at <a href=\"http://mozilla.org/MPL/2.0/\"> http://mozilla.org/MPL/2.0</a>.</p>
 </html>"));
-
 end Windfarm6;

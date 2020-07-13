@@ -44,5 +44,5 @@ equation
     Line(points = {{-2, 36}, {6, 36}, {6, 86}, {28, 86}, {28, 86}}, color = {0, 0, 127}));
 protected
   annotation(
-    Icon(coordinateSystem(initialScale = 0.1), graphics = {Text(origin = {-42, 57}, extent = {{-20, 37}, {34, -51}}, textString = "Porder"), Text(origin = {73, 53}, extent = {{-25, 27}, {15, -17}}, textString = "Pelec"), Text(origin = {75, -50}, extent = {{-25, 32}, {13, -24}}, textString = "nH2"), Text(origin = {-6, 11}, lineColor = {0, 0, 255}, extent = {{-68, 49}, {80, -77}}, textString = "Electrolyser_ detailed"), Rectangle(extent = {{-100, 100}, {100, -100}})}));
+    Icon(coordinateSystem(initialScale = 0.1), graphics = {Text(origin = {-42, 57}, extent = {{-20, 37}, {34, -51}}, textString = "Porder"), Text(origin = {73, 51}, extent = {{-25, 27}, {15, -17}}, textString = "Ppu"), Text(origin = {75, -50}, extent = {{-25, 32}, {13, -24}}, textString = "nH2"), Text(origin = {-6, 11}, lineColor = {0, 0, 255}, extent = {{-68, 49}, {80, -77}}, textString = "Electrolyser_ detailed"), Rectangle(extent = {{-100, 100}, {100, -100}})}));
 end electrolyser_detailed;

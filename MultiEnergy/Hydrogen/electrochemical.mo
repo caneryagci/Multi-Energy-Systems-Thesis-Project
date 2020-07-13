@@ -14,12 +14,12 @@ model electrochemical
   parameter Real Tamb = 298.15;
   parameter Real F = 96485 "Faraday constant";
   parameter Real R = 8.314 "ideal gas constant";
-  Modelica.SIunits.Voltage Vcell "Cell Voltage";
+  Real Vcell "Cell Voltage";
   Real Vocv "Open-circuit Voltage";
   Real Vact "Activation Overpotential";
   Real Vohm "Ohmic Overpotential";
   Real Vrev "Reverse cell voltage in standard conditions 1.229 at 298K";
-  SI.Power Pcell "Electric power input of the electrolyzer";
+  Real Pcell "Electric power input of the electrolyzer";
   //Real Pdc_mw "Electric power input of the electrolyzer in MW";
   //SI.Power Pel "Electric power consumed by the electrolyzer";
   parameter Real Pcat = 30;
@@ -47,8 +47,9 @@ model electrochemical
   //Real nH "Total hydrogen production rate in Nm3/h";
   //Real efficiency1;
   Real efficiency2;
+  //Real Pprod;
   
-  extends Modelica.Electrical.Analog.Interfaces.ConditionalHeatPort(T = Tstd);
+  //extends Modelica.Electrical.Analog.Interfaces.ConditionalHeatPort(T = Tstd);
   Modelica.Blocks.Interfaces.RealInput Pord annotation(
     Placement(visible = true, transformation(origin = {-100, 16}, extent = {{-20, -20}, {20, 20}}, rotation = 0), iconTransformation(origin = {-100, 16}, extent = {{-20, -20}, {20, 20}}, rotation = 0)));
   //initial equation
@@ -76,7 +77,7 @@ protected
 
 initial equation
 //i_an= i_an_0;
-  Top= 333.15;
+  Top= 323.15;
 
 equation
 //Voltages
@@ -124,11 +125,11 @@ equation
   efficiency2 = 1.25 / Vcell;
 //Pin
 //Pout = Vcell * Icell * n_cells * efficiency2 / Pn;
-  Pout = Vcell * Icell * n_cells / Pnom;
+  Pout = Vcell * Icell * n_cells / (Pnom * efficiency2);
+  //Pprod = Vcell * Icell * n_cells / (Pnom);
 //Vcell * n_cells = p.v - n.v;
 //0 = p.i + n.i;
 //Icell = p.i;
-  LossPower = Wpem;
   annotation(
     uses(Modelica(version = "3.2.3")),
     Icon(graphics = {Rectangle(extent = {{-100, 100}, {100, -100}}), Text(origin = {-4, 21}, lineColor = {0, 0, 255}, extent = {{-68, 49}, {80, -77}}, textString = "Electrochemical"), Text(origin = {86, 29}, extent = {{-50, 51}, {4, -9}}, textString = "Pelec"), Text(origin = {78, -43}, extent = {{-46, 49}, {14, -13}}, textString = "Wpem"), Text(origin = {65, -64}, extent = {{23, -14}, {-23, 14}}, textString = "Icell")}, coordinateSystem(initialScale = 0.1)),

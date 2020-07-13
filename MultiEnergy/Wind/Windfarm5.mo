@@ -1,15 +1,13 @@
 within Wind;
 
 model Windfarm5
-  outer iPSL.Electrical.SystemBase sysData annotation(
-    Placement(visible = true, transformation(origin = {70, 90}, extent = {{-10, -10}, {14, 10}}, rotation = 0)));
   
   import Modelica.Constants.pi;
   import Modelica.Constants.eps;
-  parameter Real _V0=1.01 "Terminal Voltage from Power Flow";
-  parameter Real _Ang0=0 "Terminal Angle from Power Flow";
-  parameter Real _P0=1.3 "Active Power from Power Flow";
-  parameter Real _Q0=-0.0003 "Reactive Power from Power Flow";
+  //parameter Real _V0=1.01 "Terminal Voltage from Power Flow";
+  //parameter Real _Ang0=0 "Terminal Angle from Power Flow";
+  //parameter Real _P0=0.8 "Active Power from Power Flow";
+  //parameter Real _Q0=-0.0003 "Reactive Power from Power Flow";
   parameter Real GEN_base=1 "Base Power from the Electrical Generator";
   parameter Real WT_base=1 "Base Power from the Turbine";
   parameter Real SYS_base=1 "Base Power from the power system";
@@ -110,18 +108,12 @@ model Windfarm5
         origin={87.5, 32.5},
         extent={{-22.5, -22.5}, {22.5, 22.5}},
         rotation=0)));
-  Modelica.Blocks.Sources.CombiTimeTable windspeed(fileName = "C:/Users/Caner/Desktop/Multi-Energy-Systems-Thesis-Project/Co_simulation/Case 1/windspeed.txt", smoothness = Modelica.Blocks.Types.Smoothness.ContinuousDerivative, tableName = "tab1", tableOnFile = true) annotation(
-    Placement(visible = true, transformation(origin = {-134, 62}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
-  iPSL.Electrical.Buses.Bus PVbus annotation(
-    Placement(visible = true, transformation(origin = {71.5, -56.5}, extent = {{-12.5, -12.5}, {12.5, 12.5}}, rotation = 0)));
-  iPSL.Electrical.Branches.PSAT.TwoWindingTransformer twoWindingTransformer(Sb = 100,Sn = 500, V_b = 12500, Vn = 12500, fn = 50, kT = 12500 / 750) annotation(
-    Placement(visible = true, transformation(origin = {43.5, -56.5}, extent = {{-12.5, -12.5}, {12.5, 12.5}}, rotation = 0)));
-  iPSL.Electrical.Buses.Bus PQbus annotation(
-    Placement(visible = true, transformation(origin = {10.5, -56.5}, extent = {{-12.5, -12.5}, {12.5, 12.5}}, rotation = 0)));
-  iPSL.Electrical.Buses.InfiniteBus2 infiniteBus21(angle = 0) annotation(
-    Placement(visible = true, transformation(origin = {-58.5, -46.5}, extent = {{-12.5, -12.5}, {12.5, 12.5}}, rotation = 0)));
-  Modelica.Blocks.Sources.Step step(height = 0.02, offset = 1, startTime = 40)  annotation(
-    Placement(visible = true, transformation(origin = {-110, -50}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
+  Modelica.Blocks.Sources.Constant const1 annotation(
+    Placement(visible = true, transformation(origin = {-135, 55}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
+  iPSL.Electrical.Buses.InfiniteBus infiniteBus annotation(
+    Placement(visible = true, transformation(origin = {-75, -55}, extent = {{10, -10}, {-10, 10}}, rotation = 0)));
+  inner iPSL.Electrical.SystemBase SysData annotation(
+    Placement(visible = true, transformation(origin = {100, 95}, extent = {{-10, -10}, {14, 10}}, rotation = 0)));
 protected
   function cp_init
     input Real lambda;
@@ -333,30 +325,22 @@ equation
     Line(points = {{9, 45}, {30.5, 45}, {30.5, 44}, {69.5, 44}}, color = {0, 0, 127}));
   connect(electrical_Control1.Efd, generator1.Efd) annotation(
     Line(points = {{9, 26}, {23.75, 26}, {23.75, 20}, {69.5, 20}}, color = {0, 0, 127}));
-  connect(PVbus.p, generator1.p) annotation(
-    Line(points = {{71.5, -56.5}, {87.5, -56.5}, {87.5, 8}}, color = {0, 0, 255}));
-  connect(PVbus.p, twoWindingTransformer.n) annotation(
-    Line(points = {{71.5, -56.5}, {57, -56.5}}, color = {0, 0, 255}));
-  connect(twoWindingTransformer.p, PQbus.p) annotation(
-    Line(points = {{30, -56.5}, {10.5, -56.5}}, color = {0, 0, 255}));
-  connect(PQbus.p, infiniteBus21.p) annotation(
-    Line(points = {{10.5, -56.5}, {0.25, -56.5}, {0.25, -46.5}, {-45, -46.5}}, color = {0, 0, 255}));
   connect(turbine_Model1.Pord, electrical_Control1.Pord) annotation(
     Line(points = {{-80, 38}, {-55, 38}, {-55, 30}, {-40, 30}}, color = {0, 0, 127}));
-  connect(windspeed.y[1], turbine_Model1.Wind_Speed) annotation(
-    Line(points = {{-125, 60}, {-120, 60}, {-120, 40}, {-110, 40}, {-110, 40}}, color = {0, 0, 127}));
-  connect(generator1.Pgen, turbine_Model1.Pelec) annotation(
-    Line(points = {{105, 30}, {120, 30}, {120, -20}, {-130, -20}, {-130, 15}, {-110, 15}, {-110, 15}}, color = {0, 0, 127}));
   connect(generator1.Qgen, electrical_Control1.Qgen) annotation(
     Line(points = {{105, 20}, {110, 20}, {110, -15}, {-60, -15}, {-60, 0}, {-40, 0}, {-40, 0}}, color = {0, 0, 127}));
   connect(const.y, electrical_Control1.Qord) annotation(
     Line(points = {{-70, 70}, {-65, 70}, {-65, 45}, {-40, 45}, {-40, 45}}, color = {0, 0, 127}));
+  connect(generator1.Pgen, turbine_Model1.Pelec) annotation(
+    Line(points = {{105, 30}, {130, 30}, {130, -20}, {-130, -20}, {-130, 15}, {-110, 15}, {-110, 15}}, color = {0, 0, 127}));
   connect(generator1.Vt, electrical_Control1.Vterm) annotation(
-    Line(points = {{105, 50}, {125, 50}, {125, 70}, {-60, 70}, {-60, 15}, {-40, 15}, {-40, 15}}, color = {0, 0, 127}));
-  connect(step.y, infiniteBus21.V) annotation(
-    Line(points = {{-99, -50}, {-89.5, -50}, {-89.5, -46.5}, {-72, -46.5}}, color = {0, 0, 127}));
+    Line(points = {{105, 50}, {125, 50}, {125, 65}, {-55, 65}, {-55, 15}, {-40, 15}, {-40, 15}}, color = {0, 0, 127}));
+  connect(const1.y, turbine_Model1.Wind_Speed) annotation(
+    Line(points = {{-125, 55}, {-115, 55}, {-115, 40}, {-110, 40}, {-110, 40}}, color = {0, 0, 127}));
+  connect(infiniteBus.p, generator1.p) annotation(
+    Line(points = {{-65, -55}, {90, -55}, {90, 10}, {90, 10}}, color = {0, 0, 255}));
   annotation(
-    Diagram(coordinateSystem(extent = {{-148.5, -85}, {138.5, 105}}, grid = {5, 5}, initialScale = 0.1), graphics = {Text(origin = {-62.5, -25}, lineColor = {0, 0, 255}, extent = {{-7.5, 0}, {12.5, -5}}, textString = "Infinite Bus")}),
+    Diagram(coordinateSystem(extent = {{-148.5, -85}, {138.5, 105}}, grid = {5, 5}, initialScale = 0.1)),
     Icon(coordinateSystem(grid = {5, 5}, extent = {{-148.5, -85}, {138.5, 105}}, initialScale = 0.1), graphics = {Rectangle(extent = {{-100, 100}, {100, -100}}), Text(lineColor = {0, 0, 255}, extent = {{-60, 40}, {60, -40}}, textString = "WF")}),
     Documentation(info = "<html>
 <table cellspacing=\"1\" cellpadding=\"1\" border=\"1\"><tr>

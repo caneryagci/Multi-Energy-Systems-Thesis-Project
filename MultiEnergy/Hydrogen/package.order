@@ -26,3 +26,9 @@ massflow
 pressure
 electrochemical_simple
 Model_validation2
+controller_P2G
+Controller_P2G2
+Controller_P2G3
+P2G_basecase
+first_order
+gain

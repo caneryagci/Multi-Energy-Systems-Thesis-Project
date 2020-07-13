@@ -4,7 +4,7 @@ model Windfarm4
 
   iPSL.Electrical.Wind.GE.Type_3.GE_WT ge_wt1 annotation(
     Placement(visible = true, transformation(origin = {84, -24}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
-  Modelica.Blocks.Sources.CombiTimeTable windspeed(fileName = "C:/Users/Caner/Desktop/Multi-Energy-Systems-Thesis-Project/Co_simulation/Case 1/windspeed.txt", smoothness = Modelica.Blocks.Types.Smoothness.ContinuousDerivative, tableName = "tab1", tableOnFile = true) annotation(
+  Modelica.Blocks.Sources.CombiTimeTable windspeed(fileName = "C:/Users/Caner/Desktop/Multi-Energy-Systems-Thesis-Project/Co_simulation/Base Case/windspeed.txt", smoothness = Modelica.Blocks.Types.Smoothness.ContinuousDerivative, tableName = "tab1", tableOnFile = true) annotation(
     Placement(visible = true, transformation(origin = {26, 32}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
   iPSL.Electrical.SystemBase sysData annotation(
     Placement(visible = true, transformation(origin = {74, 86}, extent = {{-10, -10}, {14, 10}}, rotation = 0)));

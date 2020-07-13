@@ -27,7 +27,7 @@ model Windfarm3
     Placement(visible = true, transformation(origin = {-16, -42}, extent = {{-8, -8}, {8, 8}}, rotation = 0)));
   Wind.synchronousmachine_ext GEN(DPu = 0, H = 4, PStart = -4.75e+08, QStart = 0, SNom = 3.6e+06, Tpd0 = 5.143, Tppd0 = 0.042, Tppq0 = 0.083, Tpq0 = 2.16, UNom = 750, UPhaseStart = 0, UStart = 21000, portVariablesPhases = true, raPu = 0, referenceGenerator = true, xdPu = 2, xlPu = 0.15, xpdPu = 0.35, xppdPu = 0.25, xppqPu = 0.3, xpqPu = 0.5, xqPu = 1.8)  annotation(
     Placement(visible = true, transformation(origin = {-14, 10}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
-  Modelica.Blocks.Sources.CombiTimeTable windspeed(fileName = "C:/Users/Caner/Desktop/Multi-Energy-Systems-Thesis-Project/Co_simulation/Case 1/windspeed.txt", smoothness = Modelica.Blocks.Types.Smoothness.ContinuousDerivative, tableName = "tab1", tableOnFile = true) annotation(
+  Modelica.Blocks.Sources.CombiTimeTable windspeed(fileName = "C:/Users/Caner/Desktop/Multi-Energy-Systems-Thesis-Project/Co_simulation/Base Case/windspeed.txt", smoothness = Modelica.Blocks.Types.Smoothness.ContinuousDerivative, tableName = "tab1", tableOnFile = true) annotation(
     Placement(visible = true, transformation(origin = {-108, 48}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
 equation
   connect(zero2.y, LOAD.QRefIn) annotation(

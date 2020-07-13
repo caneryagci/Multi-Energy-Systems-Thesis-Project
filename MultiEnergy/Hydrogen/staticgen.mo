@@ -2,8 +2,8 @@ within Hydrogen;
 
 model staticgen
   iPSL.Connectors.PwPin p annotation(Placement(visible = true, transformation(origin = {55, 22.7992}, extent = {{-10, -10}, {10, 10}}, rotation = 0), iconTransformation(origin = {110, 0}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
-  parameter Real S_b = 100 "System base power (MVA)" annotation(Dialog(group = "Power flow data"));
-  parameter Real Sn = 100 "Nominal power (MVA)";
+  parameter Real S_b = 50 "System base power (MVA)" annotation(Dialog(group = "Power flow data"));
+  parameter Real Sn = 50 "Nominal power (MVA)";
   /*parameter Real V_0 = 1.00018548610126 "Voltage magnitude (pu)" annotation(Dialog(group = "Power flow data"));
   parameter Real angle_0 = -0.0000253046024029618 "Voltage angle (deg)" annotation(Dialog(group = "Power flow data"));
   parameter Real P_0 = 0.4 "Active power (pu)" annotation(Dialog(group = "Power flow data"));
@@ -56,9 +56,9 @@ equation
   p.ii = id "change of sign due to the fact than in modelica when entering is + and in this case is going out";
   p.vr = vq;
   p.vi = -vd;
-  Pgen=P;
+  Pgen=P*50;
   Qgen=Q;
-  annotation(Icon(coordinateSystem( initialScale = 0.1, grid = {10, 10}), graphics = {Rectangle(fillColor = {255, 255, 255}, extent = {{-100, -100}, {100, 100}}), Text(origin = {-20, -4.69}, lineColor = {0, 0, 255}, fillPattern = FillPattern.Solid, extent = {{-31.42, -20.07}, {81.42, 70.07}}, textString = "Staticgen", fontName = "Arial"), Text(origin = {-45, 70}, extent = {{-15, 20}, {25, -30}}, textString = "V"), Text(origin = {-30, -20}, extent = {{-40, 40}, {30, -40}}, textString = "Vangle"), Text(origin = {-25, -65}, extent = {{25, -35}, {-35, 35}}, textString = "Pord"), Text(origin = {85, -45}, extent = {{-45, 35}, {5, -5}}, textString = "Pgen"), Text(origin = {-30, 20},extent = {{70, -70}, {120, -110}}, textString = "Qgen")}), Diagram(coordinateSystem(extent = {{-148.5, -105.0}, {148.5, 105.0}}, preserveAspectRatio = true, initialScale = 0.1, grid = {5, 5})), Documentation(info = "<html>
+  annotation(Icon(coordinateSystem( initialScale = 0.1, grid = {10, 10}), graphics = {Rectangle(fillColor = {255, 255, 255}, extent = {{-100, -100}, {100, 100}}), Text(origin = {-20, -4.69}, lineColor = {0, 0, 255}, fillPattern = FillPattern.Solid, extent = {{-31.42, -20.07}, {81.42, 70.07}}, textString = "Staticgen", fontName = "Arial"), Text(origin = {-45, 70}, extent = {{-15, 20}, {25, -30}}, textString = "V"), Text(origin = {-30, -20}, extent = {{-40, 40}, {30, -40}}, textString = "Vangle"), Text(origin = {-25, -65}, extent = {{25, -35}, {-35, 35}}, textString = "Pord"), Text(origin = {85, -45}, extent = {{-45, 35}, {5, -5}}, textString = "PLoad"), Text(origin = {-30, 20},extent = {{70, -70}, {120, -110}}, textString = "QLoad")}), Diagram(coordinateSystem(extent = {{-148.5, -105.0}, {148.5, 105.0}}, preserveAspectRatio = true, initialScale = 0.1, grid = {5, 5})), Documentation(info = "<html>
 <table cellspacing=\"1\" cellpadding=\"1\" border=\"1\"><tr>
 <td align=center  width=50%><p>Development level</p></td>
 <td align=center width=25% bgcolor=yellow><p> 2 </p></td>

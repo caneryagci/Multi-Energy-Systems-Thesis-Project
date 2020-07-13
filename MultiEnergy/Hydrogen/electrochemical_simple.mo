@@ -95,7 +95,7 @@ equation
   jcell * A_cm = Icell;
   Icell = Pcell / Vcell;
 //Icell = Pcell / Vcell * efficiency2;
-  Pcell * n_cells = Pord * Pnom;
+  Pcell * n_cells = Pord * Pnom *efficiency2;
 //Partial pressures
 //ppHtO_atm = 6.1078e-3 * Modelica.Math.exp(17.2694 * ((Top - 273.15) / (Top - 34.85)));
 //ppH_atm = Pcat - (ppHtO_atm/101325);
