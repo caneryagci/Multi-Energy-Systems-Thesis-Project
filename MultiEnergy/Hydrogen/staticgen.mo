@@ -56,7 +56,7 @@ equation
   p.ii = id "change of sign due to the fact than in modelica when entering is + and in this case is going out";
   p.vr = vq;
   p.vi = -vd;
-  Pgen=P*50;
+  Pgen=P;
   Qgen=Q;
   annotation(Icon(coordinateSystem( initialScale = 0.1, grid = {10, 10}), graphics = {Rectangle(fillColor = {255, 255, 255}, extent = {{-100, -100}, {100, 100}}), Text(origin = {-20, -4.69}, lineColor = {0, 0, 255}, fillPattern = FillPattern.Solid, extent = {{-31.42, -20.07}, {81.42, 70.07}}, textString = "Staticgen", fontName = "Arial"), Text(origin = {-45, 70}, extent = {{-15, 20}, {25, -30}}, textString = "V"), Text(origin = {-30, -20}, extent = {{-40, 40}, {30, -40}}, textString = "Vangle"), Text(origin = {-25, -65}, extent = {{25, -35}, {-35, 35}}, textString = "Pord"), Text(origin = {85, -45}, extent = {{-45, 35}, {5, -5}}, textString = "PLoad"), Text(origin = {-30, 20},extent = {{70, -70}, {120, -110}}, textString = "QLoad")}), Diagram(coordinateSystem(extent = {{-148.5, -105.0}, {148.5, 105.0}}, preserveAspectRatio = true, initialScale = 0.1, grid = {5, 5})), Documentation(info = "<html>
 <table cellspacing=\"1\" cellpadding=\"1\" border=\"1\"><tr>

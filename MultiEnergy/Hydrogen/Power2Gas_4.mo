@@ -48,6 +48,8 @@ equation
     Line(points = {{-54, 10}, {-54, 14}, {44, 14}, {44, 18}}, color = {0, 0, 127}));
   connect(pid.y, electrolyser4.Pord) annotation(
     Line(points = {{55, 30}, {84, 30}, {84, 90}, {-76, 90}, {-76, -2}, {-64, -2}, {-64, 0}}, color = {0, 0, 127}));
+  connect(combiTimeTable.y[1], pid.u_s) annotation(
+    Line(points = {{44, 72}, {8, 72}, {8, 30}, {32, 30}, {32, 30}}, color = {0, 0, 127}));
 protected
   annotation(
     Diagram(graphics = {Text(origin = {-25, -59}, lineColor = {0, 0, 255}, extent = {{-11, 1}, {11, -1}}, textString = "infinite bus")}, coordinateSystem(initialScale = 0.1)));

@@ -7,6 +7,7 @@ model massflow
   parameter Real Molar_massO = 31.999e-3 "molar mass of oxygen at 353 Kelvin";
   parameter Real densityH = 0.06953 "density of hydrogen at 353 K";
   parameter Real densityO = 1.104 "density of oxygen at 353 K";
+  parameter Real scaling = 1086.956"50MW/46kW";
   //Real nH_pu;
   //Real nH "Total hydrogen production rate in Nm3/h";
   //Real nO "Total oxygen production rate";

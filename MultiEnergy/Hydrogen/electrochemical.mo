@@ -6,7 +6,7 @@ model electrochemical
   import Modelica.Math;
   import ModelicaReference.Operators;
   import Modelica.ComplexMath;
-  parameter Real Sb=100 "System base(MVA)";
+  parameter Real Sb=50 "System base(MVA)";
   parameter Real Pnom = 46000 "Nominal power (W)";
   parameter Real Vstd = 1.23 "Cell voltage at standard conditions";
   //Real Top (start=Top_0);
@@ -95,29 +95,8 @@ equation
   jcell * A_cm = Icell;
   Icell = Pcell / Vcell;
 //Icell = Pcell / Vcell * efficiency2;
-  Pcell * n_cells = Pord * Pnom;
-//Partial pressures
-//ppHtO_atm = 6.1078e-3 * Modelica.Math.exp(17.2694 * ((Top - 273.15) / (Top - 34.85)));
-//ppH_atm = Pcat - (ppHtO_atm/101325);
-//ppO_atm = Pan - (ppHtO_atm/101325);
-//Convert from Pa to atm
-//ppH_atm = ppH_Pa / 101325;
-//ppO_atm = ppO_Pa / 101325;
-//ppHtO_atm = ppHtO_Pa / 101325;
-//Heat Loss from Electric Power
-//Mass/flow equations
-//nH = n_cells * Icell / (2 * F);
-//(Nm3/h)/(mol/s)
-//nH_pu = nH/0.161;
-//nO = n_cells * Icell / (4 * F);
-/*Thermal submodel
-  Cth * der(Top) = (Wpem + Wpump -Qcooling - Qloss - Hloss);
-  Wpem = (Vcell - Vtn) * Icell * n_cells;
-  Qloss = (1 / Rth) * (Top - Tamb);
-  Hloss=nH*CpH*(Top-Tamb)+nO*CpO*(Top-Tamb);
-  CpH=(29.11-1.92e-3*Top+4e-6*Top^2-8.7e-10*Top^3);
-  CpO=(25.48+1.52e-2*Top-7.16e-6*Top^2+1.31e-9*Top^3);
-*/
+  Pcell * n_cells = (Pord/Sb) * Pnom;
+
 //efficiency
 //efficiency1 = nH / (Pcell * n_cells);
   Wpem = (Vcell - Vtn) * Icell * n_cells;
@@ -125,7 +104,8 @@ equation
   efficiency2 = 1.25 / Vcell;
 //Pin
 //Pout = Vcell * Icell * n_cells * efficiency2 / Pn;
-  Pout = Vcell * Icell * n_cells / (Pnom * efficiency2);
+  //Pout = (Vcell * Icell * n_cells* Sb / Pnom) * efficiency2;
+  Pout = (Vcell * Icell * n_cells* Sb / Pnom);
   //Pprod = Vcell * Icell * n_cells / (Pnom);
 //Vcell * n_cells = p.v - n.v;
 //0 = p.i + n.i;

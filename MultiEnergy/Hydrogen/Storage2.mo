@@ -11,7 +11,7 @@ model Storage2
   Modelica.Blocks.Interfaces.RealInput nH2_i annotation(
     Placement(visible = true, transformation(origin = {-100, -72}, extent = {{-20, -20}, {20, 20}}, rotation = 0), iconTransformation(origin = {-80, -62}, extent = {{-20, -20}, {20, 20}}, rotation = 0)));
 
-  Modelica.Blocks.Interfaces.RealOutput S_storage (start = 3) annotation(
+  Modelica.Blocks.Interfaces.RealOutput S_storage (start = 50) "m3" annotation(
     Placement(visible = true, transformation(origin = {106, 56}, extent = {{-22, -22}, {22, 22}}, rotation = 0), iconTransformation(origin = {122, 40}, extent = {{-22, -22}, {22, 22}}, rotation = 0)));
 equation
 //tank pressure [Bar]
