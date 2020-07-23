@@ -27,7 +27,7 @@ equation
 //Thermal submodel
   Cth * der(Top) = Wpem + Wpump - Qcooling - Qloss - Hloss;
 //Wpem = (Vcell - Vtn) * Icell * n_cells;
-  Qcooling = 200 + 0.05 * Pelec;
+  Qcooling = 2000 + 0.05 * Pelec;
   Qloss = (1 / Rth) * (Top - Tamb);
   Hloss=nH*CpH*(Top-Tamb)+nO*CpO*(Top-Tamb);
   CpH=(29.11-1.92e-3*Top+4e-6*Top^2-8.7e-10*Top^3);

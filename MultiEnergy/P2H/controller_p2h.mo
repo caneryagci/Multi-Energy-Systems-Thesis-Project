@@ -114,6 +114,6 @@ error_pu= balance_error/0.002;
   connect(limiter1.y, firstOrder.u) annotation(
     Line(points = {{65, -3}, {109.5, -3}, {109.5, -2}, {148, -2}}, color = {0, 0, 127}));
   annotation(
-    Icon(graphics = {Text(origin = {-50, -7}, extent = {{-30, 19}, {124, -27}}, textString = "generation"), Text(origin = {-57, 114}, extent = {{-25, 12}, {123, -70}}, textString = "S_storage"), Text(origin = {-46, -66}, extent = {{-34, 8}, {128, -24}}, textString = "P_total"), Rectangle(extent = {{-100, 100}, {100, -100}}), Text(origin = {-64, 53}, extent = {{-30, 19}, {164, -41}}, textString = "demand")}, coordinateSystem(initialScale = 0.1)),
+    Icon(graphics = {Text(origin = {-62, -25}, extent = {{-30, 19}, {72, -23}}, textString = "generation"), Text(origin = {-59, 106}, extent = {{-25, 12}, {81, -60}}, textString = "S_storage"), Text(origin = {-64, -66}, extent = {{-34, 8}, {74, -16}}, textString = "P_total"), Rectangle(extent = {{-100, 100}, {100, -100}}), Text(origin = {-48, 43}, extent = {{-30, 19}, {50, -23}}, textString = "demand"), Text(origin = {-20, 23}, lineColor = {0, 0, 255}, extent = {{-50, 19}, {104, -57}}, textString = "Controller")}, coordinateSystem(initialScale = 0.1)),
     Diagram(graphics = {Bitmap(extent = {{-44, -22}, {-44, -22}})}, coordinateSystem(initialScale = 0.1)));
 end controller_p2h;

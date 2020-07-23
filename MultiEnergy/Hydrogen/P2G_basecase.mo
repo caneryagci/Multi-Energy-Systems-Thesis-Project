@@ -5,7 +5,7 @@ model P2G_basecase
     Placement(visible = true, transformation(origin = {44, -70}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
   iPSL.Electrical.Buses.InfiniteBus2 infiniteBus2(angle = 0) annotation(
     Placement(visible = true, transformation(origin = {-24, -72}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
-  iPSL.Electrical.Branches.PSAT.TwoWindingTransformer twoWindingTransformer1(Sn = 100, V_b = 12500, Vn = 12500, kT = 12500 / 575) annotation(
+  iPSL.Electrical.Branches.PSAT.TwoWindingTransformer twoWindingTransformer1(Sb = 50,Sn = 100, V_b = 12500, Vn = 12500, fn = 50, kT = 12500 / 575) annotation(
     Placement(visible = true, transformation(origin = {24, -70}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
   iPSL.Electrical.Buses.Bus bus annotation(
     Placement(visible = true, transformation(origin = {-4, -70}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
@@ -16,17 +16,17 @@ model P2G_basecase
   Hydrogen.Storage2 storage2(S_storage)  annotation(
     Placement(visible = true, transformation(origin = {-25, 51}, extent = {{-17, -17}, {17, 17}}, rotation = 0)));
   Hydrogen.electrolyser_detailed electrolyser_detailed1 annotation(
-    Placement(visible = true, transformation(origin = {-68, -2}, extent = {{-18, -18}, {18, 18}}, rotation = 0)));
-  Hydrogen.Controller_P2G3 controller_P2G3(Pgain = 20000)  annotation(
-    Placement(visible = true, transformation(origin = {60, 24}, extent = {{-22, -22}, {22, 22}}, rotation = 0)));
-  Modelica.Blocks.Sources.CombiTimeTable combiTimeTable(extrapolation = Modelica.Blocks.Types.Extrapolation.NoExtrapolation, fileName = "C:/Users/Caner/Desktop/Multi-Energy-Systems-Thesis-Project/Electrolyser/Text/gas_demand_pu.txt", tableName = "tab1", tableOnFile = true)  annotation(
-    Placement(visible = true, transformation(origin = {34, 76}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
+    Placement(visible = true, transformation(origin = {-68, -4}, extent = {{-20, -20}, {20, 20}}, rotation = 0)));
   Modelica.Blocks.Sources.Constant const(k = 1.02)  annotation(
     Placement(visible = true, transformation(origin = {-68, -72}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
   Hydrogen.LCOH lcoh annotation(
-    Placement(visible = true, transformation(origin = {0, -106}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
+    Placement(visible = true, transformation(origin = {8, -120}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
   Modelica.Blocks.Sources.RealExpression realExpression(y = electrolyser_detailed1.electrochemical.efficiency2)  annotation(
-    Placement(visible = true, transformation(origin = {-36, -106}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
+    Placement(visible = true, transformation(origin = {-28, -120}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
+  Hydrogen.Controller_P2G3 controller_P2G3(S_emergency = 51)  annotation(
+    Placement(visible = true, transformation(origin = {50.5198, 51.1101}, extent = {{-22.4881, -28.1101}, {37.4802, 18.7401}}, rotation = 0)));
+  Modelica.Blocks.Interfaces.RealInput gas_demand annotation(
+    Placement(visible = true, transformation(origin = {-76, 88}, extent = {{-20, -20}, {20, 20}}, rotation = 0), iconTransformation(origin = {-76, 88}, extent = {{-20, -20}, {20, 20}}, rotation = 0)));
 equation
   connect(twoWindingTransformer1.p, bus.p) annotation(
     Line(points = {{13, -70}, {-4, -70}}, color = {0, 0, 255}));
@@ -39,30 +39,30 @@ equation
   connect(staticgen.p, bus1.p) annotation(
     Line(points = {{84, -34}, {98, -34}, {98, -70}, {44, -70}}, color = {0, 0, 255}));
   connect(electrolyser_detailed1.nH2, storage2.nH2_i) annotation(
-    Line(points = {{-47, -14}, {-6, -14}, {-6, 26}, {-62, 26}, {-62, 40}, {-39, 40}}, color = {0, 0, 127}));
-  connect(storage2.S_storage, controller_P2G3.S_storage) annotation(
-    Line(points = {{-4, 58}, {32, 58}, {32, 42}, {41, 42}}, color = {0, 0, 127}));
-  connect(electrolyser_detailed1.nH2, controller_P2G3.generation) annotation(
-    Line(points = {{-47, -14}, {14, -14}, {14, 21}, {40, 21}}, color = {0, 0, 127}));
+    Line(points = {{-45, -17}, {-6, -17}, {-6, 26}, {-62, 26}, {-62, 40}, {-39, 40}}, color = {0, 0, 127}));
   connect(electrolyser_detailed1.Pelec, staticgen.P_0) annotation(
-    Line(points = {{-47, 10}, {30, 10}, {30, -48}, {48, -48}}, color = {0, 0, 127}));
-  connect(electrolyser_detailed1.Pelec, controller_P2G3.P) annotation(
-    Line(points = {{-47, 10}, {36, 10}, {36, 8}, {40, 8}}, color = {0, 0, 127}));
-  connect(controller_P2G3.Pmin, electrolyser_detailed1.Porder) annotation(
-    Line(points = {{84, 24}, {94, 24}, {94, 92}, {-92, 92}, {-92, 10}, {-81, 10}}, color = {0, 0, 127}));
+    Line(points = {{-44, 9}, {30, 9}, {30, -48}, {48, -48}}, color = {0, 0, 127}));
   connect(const.y, infiniteBus2.V) annotation(
     Line(points = {{-56, -72}, {-36, -72}, {-36, -72}, {-34, -72}}, color = {0, 0, 127}));
-  connect(combiTimeTable.y[1], controller_P2G3.demand) annotation(
-    Line(points = {{46, 76}, {66, 76}, {66, 50}, {26, 50}, {26, 32}, {40, 32}, {40, 32}}, color = {0, 0, 127}));
   connect(const.y, staticgen.V_0) annotation(
     Line(points = {{-56, -72}, {-44, -72}, {-44, -20}, {48, -20}, {48, -20}}, color = {0, 0, 127}));
-  connect(combiTimeTable.y[1], storage2.nH2_o) annotation(
-    Line(points = {{46, 76}, {46, 76}, {46, 64}, {0, 64}, {0, 76}, {-62, 76}, {-62, 58}, {-38, 58}, {-38, 58}}, color = {0, 0, 127}));
   connect(realExpression.y, lcoh.efficiency) annotation(
-    Line(points = {{-24, -106}, {-20, -106}, {-20, -110}, {-8, -110}, {-8, -110}}, color = {0, 0, 127}));
+    Line(points = {{-17, -120}, {-12, -120}, {-12, -124}, {0, -124}}, color = {0, 0, 127}));
+  connect(storage2.S_storage, controller_P2G3.S_storage) annotation(
+    Line(points = {{-4, 58}, {18, 58}, {18, 64}, {35, 64}}, color = {0, 0, 127}));
+  connect(electrolyser_detailed1.nH2, controller_P2G3.generation) annotation(
+    Line(points = {{-45, -17}, {16, -17}, {16, 36}, {35, 36}}, color = {0, 0, 127}));
+  connect(electrolyser_detailed1.Pelec, controller_P2G3.P) annotation(
+    Line(points = {{-44, 9}, {22, 9}, {22, 26}, {35, 26}}, color = {0, 0, 127}));
+  connect(controller_P2G3.Pmin, electrolyser_detailed1.Porder) annotation(
+    Line(points = {{94, 62}, {100, 62}, {100, 108}, {-96, 108}, {-96, 12}, {-82, 12}, {-82, 10}}, color = {0, 0, 127}));
+  connect(gas_demand, controller_P2G3.demand) annotation(
+    Line(points = {{-76, 88}, {14, 88}, {14, 53}, {35, 53}}, color = {0, 0, 127}));
+  connect(gas_demand, storage2.nH2_o) annotation(
+    Line(points = {{-76, 88}, {-54, 88}, {-54, 58}, {-38, 58}}, color = {0, 0, 127}));
 protected
   annotation(
-    Diagram(graphics = {Text(origin = {-25, -59}, lineColor = {0, 0, 255}, extent = {{-11, 1}, {11, -1}}, textString = "infinite bus")}, coordinateSystem(extent = {{-120, -120}, {120, 120}})),
+    Diagram(graphics = {Text(origin = {-25, -59}, lineColor = {0, 0, 255}, extent = {{-11, 1}, {11, -1}}, textString = "infinite bus")}, coordinateSystem(extent = {{-120, -120}, {120, 120}}, initialScale = 0.1)),
     Icon(coordinateSystem(extent = {{-120, -120}, {120, 120}})));
 
 
