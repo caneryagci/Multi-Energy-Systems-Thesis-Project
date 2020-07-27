@@ -6,6 +6,7 @@ model Controller_P2G3
   parameter Real Pnom = 46000;
   parameter Real Pshutdown = 0.1;
   parameter Real Pgain = 18000;
+  parameter Real P_initial = 49;
   //Real error_pu;
   Modelica.Blocks.Interfaces.RealInput S_storage annotation(
     Placement(visible = true, transformation(origin = {-100, 82}, extent = {{-14, -14}, {14, 14}}, rotation = 0), iconTransformation(origin = {-102, 80}, extent = {{-18, -18}, {18, 18}}, rotation = 0)));
@@ -43,7 +44,7 @@ model Controller_P2G3
     Placement(visible = true, transformation(origin = {72, -32}, extent = {{10, -10}, {-10, 10}}, rotation = 0)));
   Modelica.Blocks.Sources.Constant flexibility_service(k = 0) annotation(
     Placement(visible = true, transformation(origin = {108, -32}, extent = {{10, -10}, {-10, 10}}, rotation = 0)));
-  Hydrogen.first_order first_order1(T = 10, k = 1) annotation(
+  Hydrogen.first_order first_order1(T = 10, k = 1, y(fixed = true), y_start = P_initial) annotation(
     Placement(visible = true, transformation(origin = {154, 10}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
   Hydrogen.gain gain(k = Pgain)  annotation(
     Placement(visible = true, transformation(origin = {-44, -22}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));

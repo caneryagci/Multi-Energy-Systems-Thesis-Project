@@ -77,7 +77,7 @@ protected
 
 initial equation
 //i_an= i_an_0;
-  Top= 323.15;
+  Top= 333.15;
 
 equation
 //Voltages

@@ -6,7 +6,7 @@ model electrochemical_simple
   import Modelica.Math;
   import ModelicaReference.Operators;
   import Modelica.ComplexMath;
-  parameter Real Sb=100 "System base(MVA)";
+  parameter Real Sb=50 "System base(MVA)";
   parameter Real Pnom = 46000 "Nominal power (W)";
   parameter Real Vstd = 1.23 "Cell voltage at standard conditions";
   //Real Top (start=Top_0);
@@ -14,12 +14,12 @@ model electrochemical_simple
   parameter Real Tamb = 298.15;
   parameter Real F = 96485 "Faraday constant";
   parameter Real R = 8.314 "ideal gas constant";
-  Modelica.SIunits.Voltage Vcell "Cell Voltage";
+  Real Vcell "Cell Voltage";
   Real Vocv "Open-circuit Voltage";
   Real Vact "Activation Overpotential";
   Real Vohm "Ohmic Overpotential";
   Real Vrev "Reverse cell voltage in standard conditions 1.229 at 298K";
-  SI.Power Pcell "Electric power input of the electrolyzer";
+  Real Pcell "Electric power input of the electrolyzer";
   //Real Pdc_mw "Electric power input of the electrolyzer in MW";
   //SI.Power Pel "Electric power consumed by the electrolyzer";
   parameter Real Pcat = 30;
@@ -95,7 +95,8 @@ equation
   jcell * A_cm = Icell;
   Icell = Pcell / Vcell;
 //Icell = Pcell / Vcell * efficiency2;
-  Pcell * n_cells = Pord * Pnom *efficiency2;
+  Pcell * n_cells = (Pord/Sb) * Pnom;
+  //Pcell * n_cells = Pord * Pnom *efficiency2;
 //Partial pressures
 //ppHtO_atm = 6.1078e-3 * Modelica.Math.exp(17.2694 * ((Top - 273.15) / (Top - 34.85)));
 //ppH_atm = Pcat - (ppHtO_atm/101325);
@@ -125,7 +126,7 @@ equation
   efficiency2 = 1.25 / Vcell;
 //Pin
 //Pout = Vcell * Icell * n_cells * efficiency2 / Pn;
-  Pout = Vcell * Icell * n_cells / Pnom;
+  Pout = (Vcell * Icell * n_cells* Sb / Pnom);
 //Vcell * n_cells = p.v - n.v;
 //0 = p.i + n.i;
 //Icell = p.i;

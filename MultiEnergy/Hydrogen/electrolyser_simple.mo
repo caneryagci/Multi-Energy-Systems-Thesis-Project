@@ -5,7 +5,7 @@ model electrolyser_simple
     Placement(visible = true, transformation(origin = {41, -55}, extent = {{-19, -19}, {19, 19}}, rotation = 0)));
   Hydrogen.pressure pressure annotation(
     Placement(visible = true, transformation(origin = {65, -11}, extent = {{-17, -17}, {17, 17}}, rotation = 0)));
-  Modelica.Blocks.Sources.Constant const(k = 323.15)  annotation(
+  Modelica.Blocks.Sources.Constant const(k = 333.15)  annotation(
     Placement(visible = true, transformation(origin = {-78, -36}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
   Hydrogen.electrochemical_simple electrochemical_simple annotation(
     Placement(visible = true, transformation(origin = {-35, 19}, extent = {{-17, -17}, {17, 17}}, rotation = 0)));
@@ -36,5 +36,5 @@ equation
     Line(points = {{-66, -36}, {-64, -36}, {-64, 14}, {-52, 14}, {-52, 14}}, color = {0, 0, 127}));
 protected
   annotation(
-    Icon(coordinateSystem(initialScale = 0.1), graphics = {Text(origin = {76, 80}, extent = {{-16, 24}, {16, -24}}, textString = "Pelec"), Text(origin = {78, -47}, extent = {{-12, 13}, {12, -13}}, textString = "nH2"), Text(origin = {-45, 21}, extent = {{-23, 21}, {23, -21}}, textString = "Porder"), Text(origin = {-4, 7}, lineColor = {0, 0, 255}, extent = {{-68, 49}, {80, -77}}, textString = "Electrolyser_simple"), Rectangle(extent = {{-100, 100}, {100, -100}})}));
+    Icon(coordinateSystem(initialScale = 0.1), graphics = {Text(origin = {56, 90}, extent = {{-16, 24}, {32, -44}}, textString = "Pelec"), Text(origin = {66, -39}, extent = {{-12, 13}, {28, -31}}, textString = "nH2"), Text(origin = {-59, 71}, extent = {{-23, 21}, {43, -29}}, textString = "Porder"), Text(origin = {-6, 15}, lineColor = {0, 0, 255}, extent = {{-68, 49}, {80, -77}}, textString = "Electrolyser_A"), Rectangle(extent = {{-100, 100}, {100, -100}})}));
 end electrolyser_simple;

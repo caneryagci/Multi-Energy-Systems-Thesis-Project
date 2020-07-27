@@ -1,0 +1,131 @@
+# -*- coding: utf-8 -*-
+"""
+Created on Mon Jul 27 14:22:06 2020
+
+@author: Caner
+"""
+import matplotlib.pyplot as plt
+import pandas as pd
+import numpy as np
+
+T=333.15
+seconds = np.arange(0,691200,43200)
+hours = np.arange(0,204,12)
+
+fig0,ax = plt.subplots()
+df = pd.read_csv(r'C:\Users\Caner\Desktop\Python Figures\electrolysereff.csv')
+df.plot(x='time', y='electrolyser_simple.electrochemical_simple.efficiency2',ax=ax, xticks=seconds, title='Electrolyser Efficiency vs. Time',figsize=(12,8),fontsize=12, color='b')
+df.plot(x='time', y='electrolyser_detailed1.electrochemical.efficiency2', ax=ax, color = 'r')
+ax.legend(["Model A", "Model B"],fontsize=16);
+ax.set_xticklabels(hours)
+ax.axvline(86400, color='y', linestyle='--')
+ax.axvline(172800, color='y', linestyle='--')
+ax.axvline(259200, color='y', linestyle='--')
+ax.axvline(345600, color='y', linestyle='--')
+ax.axvline(432000, color='y', linestyle='--')
+ax.axvline(518400, color='y', linestyle='--')
+ax.axvline(604800, color='y', linestyle='--')
+ax.axvline(691200, color='y', linestyle='--')
+ax.title.set_size(20)
+ax.set_xlabel('Time [h]', fontsize=16)
+ax.set_ylabel('Efficiency', fontsize=16)  
+plt.savefig('electrolyserefficiencyversustime.png')
+
+
+fig1, ax1 = plt.subplots()
+df = pd.read_csv(r'C:\Users\Caner\Desktop\Python Figures\electrolysertemp.csv')
+df.plot(x='time', y='electrolyser_detailed1.electrochemical.Top', title='Electrolyser Temperature vs. Time',ax=ax1,xticks = hours, figsize=(12,8),fontsize=12, color='r')
+ax1.legend(["Model B"],fontsize=16);
+ax1.axhline(333.15, color='b')
+ax1.axvline(24, color='y', linestyle='--')
+ax1.axvline(48, color='y', linestyle='--')
+ax1.axvline(72, color='y', linestyle='--')
+ax1.axvline(96, color='y', linestyle='--')
+ax1.axvline(120, color='y', linestyle='--')
+ax1.axvline(144, color='y', linestyle='--')
+ax1.axvline(168, color='y', linestyle='--')
+ax1.axvline(191, color='y', linestyle='--')
+ax1.title.set_size(20)
+ax1.set_xlabel('Time [h]', fontsize=16)
+ax1.set_ylabel('Temperature [Kelvin]', fontsize=16)  
+plt.savefig('electrolysertemperatureversustime.png')
+
+fig2, ax2 = plt.subplots()
+df = pd.read_csv(r'C:\Users\Caner\Desktop\Python Figures\ptg_load.csv')
+df.plot(x='time', y='electrolyser_simple.Pelec', title='Power-to-Gas Active Power Load vs. Time',ax=ax2,xticks = hours, figsize=(12,8),fontsize=12, color='b')
+df.plot(x='time', y='electrolyser_detailed1.Pelec', ax=ax2, color = 'r')
+ax2.legend(["Model A","Model B"],fontsize=16);
+ax2.axvline(24, color='y', linestyle='--')
+ax2.axvline(48, color='y', linestyle='--')
+ax2.axvline(72, color='y', linestyle='--')
+ax2.axvline(96, color='y', linestyle='--')
+ax2.axvline(120, color='y', linestyle='--')
+ax2.axvline(144, color='y', linestyle='--')
+ax2.axvline(168, color='y', linestyle='--')
+ax2.axvline(191, color='y', linestyle='--')
+ax2.title.set_size(20)
+ax2.set_xlabel('Time [h]', fontsize=16)
+ax2.set_ylabel('Active Power [MW]', fontsize=16)  
+plt.savefig('Pload_ptg.png')
+
+fig3, ax3 = plt.subplots()
+df = pd.read_csv(r'C:\Users\Caner\Desktop\Python Figures\COPvstime.csv')
+df.plot(x='time', y='hp1.COP', title='Heat Pump COP vs. Time',ax=ax3, figsize=(12,8),fontsize=12, color='b',xticks=hours)
+df = pd.read_csv(r'C:\Users\Caner\Desktop\Python Figures\COPB.csv')
+df.plot(x='time', y='hp2.COP', ax=ax3, color = 'r')
+df = pd.read_csv(r'C:\Users\Caner\Desktop\Python Figures\COPC.csv')
+df.plot(x='time', y='hP_with_boiler.COP', ax=ax3, color = 'g')
+ax3.legend(["Model A","Model B","Model C"],fontsize=16,loc='lower right');
+ax3.axvline(24, color='y', linestyle='--')
+ax3.axvline(48, color='y', linestyle='--')
+ax3.axvline(72, color='y', linestyle='--')
+ax3.axvline(96, color='y', linestyle='--')
+ax3.axvline(120, color='y', linestyle='--')
+ax3.axvline(144, color='y', linestyle='--')
+ax3.axvline(168, color='y', linestyle='--')
+ax3.axvline(191, color='y', linestyle='--')
+ax3.title.set_size(20)
+ax3.set_xlabel('Time [h]', fontsize=16)
+ax3.set_ylabel('Coefficient of Performance', fontsize=16)  
+plt.savefig('COPvstime.png')
+
+fig4, ax4 = plt.subplots()
+df = pd.read_csv(r'C:\Users\Caner\Desktop\Python Figures\pth_load.csv')
+df.plot(x='time', y='hp1.Pelec', title='Power-to-Heat Active Power Load vs. Time',ax=ax4, figsize=(12,8),fontsize=12, color='b',xticks=hours)
+df = pd.read_csv(r'C:\Users\Caner\Desktop\Python Figures\ploadB.csv')
+df.plot(x='time', y='hp2.Pelec', ax=ax4, color = 'r')
+df = pd.read_csv(r'C:\Users\Caner\Desktop\Python Figures\ploadC.csv')
+df.plot(x='time', y='hP_with_boiler.Pelec', ax=ax4, color = 'g')
+ax4.legend(["Model A","Model B","Model C"],fontsize=16,loc='lower right');
+ax4.axvline(24, color='y', linestyle='--')
+ax4.axvline(48, color='y', linestyle='--')
+ax4.axvline(72, color='y', linestyle='--')
+ax4.axvline(96, color='y', linestyle='--')
+ax4.axvline(120, color='y', linestyle='--')
+ax4.axvline(144, color='y', linestyle='--')
+ax4.axvline(168, color='y', linestyle='--')
+ax4.axvline(191, color='y', linestyle='--')
+ax4.title.set_size(20)
+ax4.set_xlabel('Time [h]', fontsize=16)
+ax4.set_ylabel('Active Power [MW]', fontsize=16)  
+plt.savefig('Pload_pth.png')
+
+
+fig5, ax5 = plt.subplots()
+df = pd.read_csv(r'C:\Users\Caner\Desktop\Python Figures\ptg_load.csv')
+df.plot(x='time', y='electrolyser_detailed1.Pelec', title='Total Active Power Demand vs. Time',ax=ax5,xticks = hours, figsize=(12,8),fontsize=12, color='b')
+df = pd.read_csv(r'C:\Users\Caner\Desktop\Python Figures\ploadB.csv')
+df.plot(x='time', y='hp2.Pelec', ax=ax5, color = 'r')
+ax5.legend(["Industrial Hydrogen (Electrolyser Model B)","District Heating (Heat Pump Model B)"],fontsize=11);
+ax5.axvline(24, color='y', linestyle='--')
+ax5.axvline(48, color='y', linestyle='--')
+ax5.axvline(72, color='y', linestyle='--')
+ax5.axvline(96, color='y', linestyle='--')
+ax5.axvline(120, color='y', linestyle='--')
+ax5.axvline(144, color='y', linestyle='--')
+ax5.axvline(168, color='y', linestyle='--')
+ax5.axvline(191, color='y', linestyle='--')
+ax5.title.set_size(20)
+ax5.set_xlabel('Time [h]', fontsize=16)
+ax5.set_ylabel('Active Power [MW]', fontsize=16)  
+plt.savefig('Pload_total.png')

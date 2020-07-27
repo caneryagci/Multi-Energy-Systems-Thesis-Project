@@ -33,3 +33,5 @@ P2G_basecase
 first_order
 gain
 LCOH
+ptg_model_A
+ptg_model_B

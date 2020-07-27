@@ -6,3 +6,8 @@ storage
 P2H_basecase
 controller_p2h
 LCODH
+pth_model_A
+pth_model_B
+pth_model_C
+HP_with_boiler
+controller_APL

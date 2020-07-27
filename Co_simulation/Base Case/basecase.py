@@ -13,7 +13,7 @@ import numpy as np, pandas as pd
 
 #og = ['Bus 0.V', 'Bus 1.V', 'Bus 12.V']
 #cost = -100
-my_world = World(stop_time=3600*3., logging = True, clean_up = True, interpolate_results=False, exchange = 3)
+my_world = World(stop_time=1800, logging = True, clean_up = False, interpolate_results=False, exchange = 300)
 
 simulators_dir = r'C:\Users\Caner\Desktop\Multi-Energy-Systems-Thesis-Project\Co_simulation\Base Case'
 
@@ -50,7 +50,7 @@ connections = {#'cprice.y':'controller.C',  #data to fmu
                #'Emergency.y':'controller.E_c',  #emergency controller signal = 1
                #'grid1.wind12.P':'controller.P',  #generated wind power to controller
                'gas_data.demand':'p2g.gas_demand',
-               'p2g.staticgen.Pgen':'Power2Gas.P'
+               'p2g.staticgen.Pgen':'grid1.Power2Gas.P'
                }
 
 my_world.add_connections(connections)

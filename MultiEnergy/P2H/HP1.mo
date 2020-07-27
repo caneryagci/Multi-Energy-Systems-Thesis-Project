@@ -18,7 +18,7 @@ parameter Real c=4.190"specific heat of water kj/(K.kg) at 70C";
 parameter Real density=977.74"density of water(kg/m3)";
 
 
-parameter Real Tdesign = 10;
+parameter Real Tdesign = 1;
 
   Modelica.Blocks.Interfaces.RealInput Tamb "Celcius" annotation(
     Placement(visible = true, transformation(origin = {-100, 74}, extent = {{-20, -20}, {20, 20}}, rotation = 0), iconTransformation(origin = {-80, 60}, extent = {{-20, -20}, {20, 20}}, rotation = 0)));

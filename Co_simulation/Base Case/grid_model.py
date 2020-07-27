@@ -110,41 +110,14 @@ net = grid_net()
 
 
 
-# create an empty dataframe with all necessary columns
-profiles = pd.DataFrame(columns=['class', 'component', 'parameter', 'file', 'column', 'profile'])
-# for the active and reactive power 'p_mw' and 'q_mvar' of 'static generator' with class 'sgen' the columns '1' and '2' from file 'pvgen.csv' should be used
-profiles.loc[0] = ['res_sgen', 'WF', 'p_mw',  r'resgen.csv', '1', None] 
-profiles.loc[1] = ['res_sgen', 'PV', 'p_mw',  r'resgen.csv', '2', None] 
-
-net.profiles = profiles
-net.profiles
-
-net.result_file = os.path.join(os.getcwd(), 'pandapower_results.csv')
-net.result_file
-
-fmi_input_vars = {}
-# active power generation 'p_mw' of 'generator' with class 'gen' is defined as input to the FMU
-fmi_input_vars['Real'] = ['load.Power2Gas.p_mw'] 
-# set network attribute
-net.fmi_input_vars = fmi_input_vars
-
-
-fmi_output_vars = {}
-# active and reactive power generation 'p_mw' and 'q_mvar' of 'static generator' with class 'sgen' is defined as output of the FMU
-fmi_output_vars['Real'] = ['sgen.WF.p_mw']
-# set network attribute
-net.fmi_output_vars = fmi_output_vars
-
-
-net.time_step = 10.0
 
 # save as pickle
 pp.to_pickle(net, os.path.join(simulators_dir, 'gridModel.p'))  # absolute path
 
-#print(net.res_bus)
+print(net.res_bus)
 print(net.res_sgen)
-#print(net.res_load)
-#print(net.res_ext_grid)
-#print(net.res_line)
+print(net.res_load)
+print(net.res_ext_grid)
+print(net.res_line)
 
 #simple_plot(net)
