@@ -1015,37 +1015,47 @@ generation = [wind + pv];
 % legend('Industrial Hydrogen','District Heating','Location','southeast','FontSize',15)
 
 figure
-plot (hours,(wind),hours,(pv),'LineWidth',2);
-title('Power Capacity of RES','FontSize',15)
+plot (hours,(wind),hours,(pv),'LineWidth',1);
+%title('Power Capacity of RES','FontSize',15)
 xlabel('Time[h]','FontSize',15)
 xticks([0 12 24 36 48 60 72 84 96 108 120 132 144 156 168 180 192])
-xline(23,'--r',{'07.02.2019'});
-xline(47,'--r',{'23.03.2019'});
-xline(71,'--r',{'07.05.2019'});
-xline(95,'--r',{'23.06.2019'});
-xline(119,'--r',{'07.08.2019'});
-xline(143,'--r',{'23.09.2019'});
-xline(167,'--r',{'07.11.2019'});
-xline(191,'--r',{'23.12.2019'});
-ylabel('P(t)/50 MW ','FontSize',15)
+xline(23,'--y',{'07.02.2019'});
+xline(47,'--y',{'23.03.2019'});
+xline(71,'--y',{'07.05.2019'});
+xline(95,'--y',{'23.06.2019'});
+xline(119,'--y',{'07.08.2019'});
+xline(143,'--y',{'23.09.2019'});
+xline(167,'--y',{'07.11.2019'});
+xline(191,'--y',{'23.12.2019'});
+ylabel('Active Power [MW] ','FontSize',15)
 xlim([0 192])
 %ylim([0 2.0])
-legend('Wind Farm','PV Farm','Location','southeast','FontSize',15)
-
+legend('Wind Farm','PV Farm','Location','southeast','FontSize',8)
+% Set x and y font sizes
+set(gca,'FontSize',6)
+set(gcf, 'PaperPosition', [0 0 14 6]); 
+set(gcf, 'PaperSize', [14 6]); %Set the paper to have width 5 and height 5.
+saveas(gcf,'powercapacityofres2.pdf')
+system('pdfcrop powercapacityofres2.pdf powercapacityofres2.pdf');
 
 figure
-plot (hours,generation,hours,(demand+20),'LineWidth',2)
-title('Flexible Demand of MES','FontSize',15)
+plot (hours,generation,hours,(demand+20),'LineWidth',1)
+%title('Flexible Demand of MES','FontSize',15)
 xlim([0 192])
 xticks([0 12 24 36 48 60 72 84 96 108 120 132 144 156 168 180 192])
-xline(23,'--r',{'07.02.2019'});
-xline(47,'--r',{'23.03.2019'});
-xline(71,'--r',{'07.05.2019'});
-xline(95,'--r',{'23.06.2019'});
-xline(119,'--r',{'07.08.2019'});
-xline(143,'--r',{'23.09.2019'});
-xline(167,'--r',{'07.11.2019'});
-xline(191,'--r',{'23.12.2019'});
-xlabel('Time [h]','FontSize',15)
+xline(23,'--y',{'07.02.2019'});
+xline(47,'--y',{'23.03.2019'});
+xline(71,'--y',{'07.05.2019'});
+xline(95,'--y',{'23.06.2019'});
+xline(119,'--y',{'07.08.2019'});
+xline(143,'--y',{'23.09.2019'});
+xline(167,'--y',{'07.11.2019'});
+xline(191,'--y',{'23.12.2019'});
+xlabel('Time [h]','FontSize',10)
 ylabel('Active Power [MW]','FontSize',15)
-legend('Total Generation of MES','Total Demand of MES','Location','southeast','FontSize',15)
+legend('Total Generation of MES','Total Demand of MES','Location','southeast','FontSize',8)
+set(gca,'FontSize',6)
+set(gcf, 'PaperPosition', [0 0 14 6]); 
+set(gcf, 'PaperSize', [14 6]); %Set the paper to have width 5 and height 5
+saveas(gcf,'flexibledemandofmes2.pdf')
+system('pdfcrop flexibledemandofmes2.pdf flexibledemandofmes2.pdf');

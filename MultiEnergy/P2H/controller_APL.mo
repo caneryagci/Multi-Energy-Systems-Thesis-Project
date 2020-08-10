@@ -52,7 +52,7 @@ model controller_APL
     Placement(visible = true, transformation(origin = {184, -124}, extent = {{-14, -14}, {14, 14}}, rotation = 0), iconTransformation(origin = {214, -40}, extent = {{-14, -14}, {14, 14}}, rotation = 0)));
   Modelica.Blocks.Logical.Switch switch13 annotation(
     Placement(visible = true, transformation(origin = {138, -124}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
-  Modelica.Blocks.Sources.Constant const3(k = 50)  annotation(
+  Modelica.Blocks.Sources.Constant const3(k = 40)  annotation(
     Placement(visible = true, transformation(origin = {-84, -114}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
   Modelica.Blocks.Logical.Switch switch14 annotation(
     Placement(visible = true, transformation(origin = {-16, -122}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));

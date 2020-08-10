@@ -27,6 +27,8 @@ model ptg_model_B
     Placement(visible = true, transformation(origin = {50.5198, 51.1101}, extent = {{-22.4881, -28.1101}, {37.4802, 18.7401}}, rotation = 0)));
   Modelica.Blocks.Sources.CombiTimeTable Demand_Profile(extrapolation = Modelica.Blocks.Types.Extrapolation.NoExtrapolation, fileName = "C:/Users/Caner/Desktop/Multi-Energy-Systems-Thesis-Project/Co_simulation/gas_demand.txt", tableName = "tab1", tableOnFile = true) annotation(
     Placement(visible = true, transformation(origin = {-73, 79}, extent = {{-13, -13}, {13, 13}}, rotation = 0)));
+  Modelica.Blocks.Sources.CombiTimeTable T_ambient(extrapolation = Modelica.Blocks.Types.Extrapolation.NoExtrapolation, fileName = "C:/Users/Caner/Desktop/Multi-Energy-Systems-Thesis-Project/Co_simulation/Tambient_hourly.txt", tableName = "tab1", tableOnFile = true)  annotation(
+    Placement(visible = true, transformation(origin = {-104, -46}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
 equation
   connect(twoWindingTransformer1.p, bus.p) annotation(
     Line(points = {{13, -70}, {-4, -70}}, color = {0, 0, 255}));
@@ -60,6 +62,8 @@ equation
     Line(points = {{-58, 80}, {-50, 80}, {-50, 58}, {-38, 58}, {-38, 58}}, color = {0, 0, 127}));
   connect(Demand_Profile.y[1], controller_P2G3.demand) annotation(
     Line(points = {{-58, 80}, {8, 80}, {8, 52}, {34, 52}, {34, 52}}, color = {0, 0, 127}));
+  connect(T_ambient.y[1], electrolyser_detailed1.T_ambient) annotation(
+    Line(points = {{-92, -46}, {-86, -46}, {-86, -28}, {-104, -28}, {-104, -16}, {-84, -16}, {-84, -16}}, color = {0, 0, 127}));
 protected
   annotation(
     Diagram(graphics = {Text(origin = {-25, -59}, lineColor = {0, 0, 255}, extent = {{-11, 1}, {11, -1}}, textString = "infinite bus")}, coordinateSystem(extent = {{-120, -120}, {120, 120}}, initialScale = 0.1)),

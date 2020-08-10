@@ -15,8 +15,8 @@ model electrolyser_detailed
     Placement(visible = true, transformation(origin = {-38, -50}, extent = {{-20, -20}, {20, 20}}, rotation = 0)));
   Hydrogen.electrochemical electrochemical annotation(
     Placement(visible = true, transformation(origin = {-27, 27}, extent = {{-23, -23}, {23, 23}}, rotation = 0)));
-  Modelica.Blocks.Sources.CombiTimeTable T_ambient(extrapolation = Modelica.Blocks.Types.Extrapolation.NoExtrapolation, fileName = "C:/Users/Caner/Desktop/Multi-Energy-Systems-Thesis-Project/Co_simulation/Tambient_hourly.txt", tableName = "tab1", tableOnFile = true) annotation(
-    Placement(visible = true, transformation(origin = {-94, -90}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
+  Modelica.Blocks.Interfaces.RealInput T_ambient annotation(
+    Placement(visible = true, transformation(origin = {-98, -94}, extent = {{-20, -20}, {20, 20}}, rotation = 0), iconTransformation(origin = {-80, -60}, extent = {{-20, -20}, {20, 20}}, rotation = 0)));
 equation
   connect(massflow.nH, nH2) annotation(
     Line(points = {{64, -30}, {74, -30}, {74, -84}, {90, -84}, {90, -84}}, color = {0, 0, 127}));
@@ -44,9 +44,9 @@ equation
     Line(points = {{80, 34}, {98, 34}, {98, 66}, {-14, 66}, {-14, 50}, {-16, 50}}, color = {0, 0, 127}));
   connect(electrochemical.Pout, Pelec) annotation(
     Line(points = {{-2, 36}, {6, 36}, {6, 86}, {28, 86}, {28, 86}}, color = {0, 0, 127}));
-  connect(T_ambient.y[1], thermal.Tamb) annotation(
-    Line(points = {{-82, -90}, {-30, -90}, {-30, -66}, {-30, -66}}, color = {0, 0, 127}));
+  connect(T_ambient, thermal.Tamb) annotation(
+    Line(points = {{-98, -94}, {-28, -94}, {-28, -66}, {-30, -66}}, color = {0, 0, 127}));
 protected
   annotation(
-    Icon(coordinateSystem(initialScale = 0.1), graphics = {Text(origin = {-42, 57}, extent = {{-20, 37}, {34, -51}}, textString = "Porder"), Text(origin = {73, 51}, extent = {{-25, 27}, {15, -17}}, textString = "P"), Text(origin = {75, -50}, extent = {{-25, 32}, {13, -24}}, textString = "nH2"), Text(origin = {-6, 11}, lineColor = {0, 0, 255}, extent = {{-68, 49}, {80, -77}}, textString = "Electrolyser_ detailed"), Rectangle(extent = {{-100, 100}, {100, -100}})}));
+    Icon(coordinateSystem(initialScale = 0.1), graphics = {Text(origin = {-42, 57}, extent = {{-20, 37}, {34, -51}}, textString = "Porder"), Text(origin = {73, 51}, extent = {{-25, 27}, {15, -17}}, textString = "P"), Text(origin = {75, -50}, extent = {{-25, 32}, {13, -24}}, textString = "nH2"), Text(origin = {-6, 9}, lineColor = {0, 0, 255}, extent = {{-68, 49}, {80, -77}}, textString = "Electrolyser_ detailed"), Rectangle(extent = {{-100, 100}, {100, -100}}), Text(origin = {-39, -65}, extent = {{-17, 13}, {33, -23}}, textString = "Tamb")}));
 end electrolyser_detailed;

@@ -42,20 +42,20 @@ model Controller_P2G3
     Placement(visible = true, transformation(origin = {42, -80}, extent = {{-6, -6}, {6, 6}}, rotation = 180)));
   Modelica.Blocks.Logical.GreaterThreshold greaterThreshold(threshold = 0.5) annotation(
     Placement(visible = true, transformation(origin = {72, -32}, extent = {{10, -10}, {-10, 10}}, rotation = 0)));
-  Modelica.Blocks.Sources.Constant flexibility_service(k = 0) annotation(
-    Placement(visible = true, transformation(origin = {108, -32}, extent = {{10, -10}, {-10, 10}}, rotation = 0)));
   Hydrogen.first_order first_order1(T = 10, k = 1, y(fixed = true), y_start = P_initial) annotation(
     Placement(visible = true, transformation(origin = {154, 10}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
-  Hydrogen.gain gain(k = Pgain)  annotation(
+  Hydrogen.gain gain(k = Pgain) annotation(
     Placement(visible = true, transformation(origin = {-44, -22}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
   Modelica.Blocks.Interfaces.RealOutput Pmax annotation(
     Placement(visible = true, transformation(origin = {184, -124}, extent = {{-14, -14}, {14, 14}}, rotation = 0), iconTransformation(origin = {214, -40}, extent = {{-14, -14}, {14, 14}}, rotation = 0)));
   Modelica.Blocks.Logical.Switch switch13 annotation(
     Placement(visible = true, transformation(origin = {138, -124}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
-  Modelica.Blocks.Sources.Constant const3(k = 50)  annotation(
+  Modelica.Blocks.Sources.Constant const3(k = 40) annotation(
     Placement(visible = true, transformation(origin = {-84, -114}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
   Modelica.Blocks.Logical.Switch switch14 annotation(
     Placement(visible = true, transformation(origin = {-16, -122}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
+  Modelica.Blocks.Sources.Constant flexibility_service(k = 0) annotation(
+    Placement(visible = true, transformation(origin = {108, -32}, extent = {{10, -10}, {-10, 10}}, rotation = 0)));
 equation
 /*
 error_pu= balance_error/0.002;
@@ -106,8 +106,6 @@ error_pu= balance_error/0.002;
     Line(points = {{35, -80}, {30.5, -80}, {30.5, -76}, {26, -76}}, color = {0, 0, 127}));
   connect(switch11.y, switch12.u3) annotation(
     Line(points = {{82, -70}, {70, -70}, {70, -60}, {26, -60}, {26, -60}}, color = {0, 0, 127}));
-  connect(flexibility_service.y, greaterThreshold.u) annotation(
-    Line(points = {{98, -32}, {86, -32}, {86, -32}, {84, -32}}, color = {0, 0, 127}));
   connect(greaterThreshold.y, switch12.u2) annotation(
     Line(points = {{62, -32}, {42, -32}, {42, -68}, {26, -68}, {26, -68}}, color = {255, 0, 255}));
   connect(switch12.y, first_order1.u) annotation(
@@ -132,6 +130,8 @@ error_pu= balance_error/0.002;
     Line(points = {{-5, -122}, {62, -122}, {62, -116}, {126, -116}}, color = {0, 0, 127}));
   connect(first_order1.y, switch13.u3) annotation(
     Line(points = {{165, 10}, {170, 10}, {170, -102}, {88, -102}, {88, -132}, {126, -132}}, color = {0, 0, 127}));
+  connect(flexibility_service.y, greaterThreshold.u) annotation(
+    Line(points = {{98, -32}, {86, -32}, {86, -32}, {84, -32}}, color = {0, 0, 127}));
   annotation(
     Icon(coordinateSystem(extent = {{-120, -150}, {200, 100}}, initialScale = 0.1), graphics = {Text(origin = {-46, -71}, extent = {{-30, 19}, {98, -31}}, textString = "generation"), Text(origin = {-55, 106}, extent = {{-25, 12}, {93, -64}}, textString = "S_storage"), Text(origin = {-54, -116}, extent = {{-34, 8}, {84, -20}}, textString = "P_total"), Rectangle(extent = {{-120, 100}, {200, -150}}), Text(origin = {-50, 37}, extent = {{-30, 19}, {82, -23}}, textString = "demand"), Text(origin = {162, 62}, extent = {{-30, 34}, {24, -38}}, textString = "Pmin"), Text(origin = {160, -29}, extent = {{-30, 23}, {26, -33}}, textString = "Pmax"), Text(origin = {46, -33}, lineColor = {0, 0, 255}, extent = {{-90, 57}, {68, -35}}, textString = "Controller")}),
     Diagram(graphics = {Bitmap(extent = {{-44, -22}, {-44, -22}})}, coordinateSystem(extent = {{-120, -150}, {200, 100}}, initialScale = 0.1)));

@@ -14,6 +14,7 @@ Real Qtotal;
 Real Qboiler;
 Real Qhp;
 Real COP;
+parameter Real scale_boiler=35 "mass flow of water kg/s";
 parameter Real m=5 "mass flow of water kg/s";
 parameter Real c=4.190"specific heat of water kj/(K.kg) at 70C";
 parameter Real density=977.74"density of water(kg/m3)";
@@ -42,7 +43,7 @@ Q=Qtotal/(c*density*(70-Tamb));
 
 if Tamb < Tdesign then
   Qhp=Php*cop_50*m;
-  Qboiler = m*c*20;
+  Qboiler = m*c*20*scale_boiler;
   COP = cop_50;
 else
   Qhp=Php*cop_70*m;

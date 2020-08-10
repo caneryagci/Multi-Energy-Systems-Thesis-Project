@@ -35,3 +35,7 @@ gain
 LCOH
 ptg_model_A
 ptg_model_B
+ptg_model_B_cosim
+validation1
+ptg_modelA_case1
+ptg_modelB_case1
