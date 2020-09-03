@@ -38,6 +38,8 @@ def grid_net():
     Pmax_PV = 100
     Pmin_PV = 0
     Pmin_WF = 0
+    cost_ptg=-14
+    cost_pth=-12
 
         
         #create buses
@@ -54,24 +56,24 @@ def grid_net():
     pp.create_line(net, bus2, bus3, length_km=10., std_type='NAYY 4x120 SE', max_loading_percent=100)
         
         #create loads
-    l1 = pp.create_load(net, bus3, p_mw=50, q_mvar=0, sn_mva=55, min_p_mw=Pmin_p2g,max_p_mw=Pmax_p2g, max_q_mvar=30, min_q_mvar=-30, scaling=1.0, in_service=True, controllable=True,name='Power2Gas',)
-    l2 = pp.create_load(net, bus3, p_mw=50, q_mvar=0, sn_mva=55, min_p_mw=Pmin_p2h,max_p_mw=Pmax_p2h, max_q_mvar=10, min_q_mvar=-10, scaling=1.0, in_service=True, controllable=False,name='Power2Heat',)
-    l3 = pp.create_load(net, bus3, p_mw=10, q_mvar=0, sn_mva=200, min_p_mw=0,max_p_mw=200, max_q_mvar=50, min_q_mvar=-50, scaling=1.0, in_service=True, controllable=True,name='Electrical')
-    l4 = pp.create_load(net, bus3, p_mw=0, q_mvar=0, sn_mva=20, min_p_mw=0,max_p_mw=20, max_q_mvar=20, min_q_mvar=-20, scaling=1.0, in_service=True, controllable=False,name='Electrical_base')
+    l1 = pp.create_load(net, bus3, p_mw=45, q_mvar=0, sn_mva=55, min_p_mw=48,max_p_mw=50, max_q_mvar=40, min_q_mvar=-40, scaling=1.0, in_service=True, controllable=True,name='Power2Gas',)
+    l2 = pp.create_load(net, bus3, p_mw=45, q_mvar=0, sn_mva=55, min_p_mw=42,max_p_mw=50, max_q_mvar=40, min_q_mvar=-40, scaling=1.0, in_service=True, controllable=False,name='Power2Heat',)
+    l3 = pp.create_load(net, bus3, p_mw=10, q_mvar=0, sn_mva=220, min_p_mw=0,max_p_mw=200, max_q_mvar=20, min_q_mvar=-20, scaling=1.0, in_service=True, controllable=True,name='Electrical')
+    l4 = pp.create_load(net, bus3, p_mw=20, q_mvar=0, sn_mva=20, min_p_mw=0,max_p_mw=20, max_q_mvar=20, min_q_mvar=-20, scaling=1.0, in_service=True, controllable=False,name='Electrical_base')
             
         #create generators
     eg = pp.create_ext_grid(net, bus1,vm_pu=1.0, va_degree=0,min_p_mw=Pmin_extgrid, max_p_mw=Pmax_extgrid, name='external_grid')
-    g0 = pp.create_sgen (net, bus3, p_mw=100, q_mvar=0,   sn_mva=110, name='WF', max_q_mvar=90, min_q_mvar=-90, min_p_mw=Pmin_WF, max_p_mw=Pmax_WF, scaling=1.0, type=None, controllable=False, in_service=True)
-    g1 = pp.create_sgen(net, bus3, p_mw=20,  q_mvar=0,  sn_mva=110, name='PV', max_q_mvar=90, min_q_mvar=-90, min_p_mw=Pmin_PV, max_p_mw=Pmax_PV, scaling=1.0, type=None,  controllable=False, in_service=True)
-    g2 = pp.create_sgen(net, bus3, p_mw=100,  q_mvar=0,  sn_mva=200, name='grid', max_q_mvar=90, min_q_mvar=-90, min_p_mw=0, max_p_mw=220, scaling=1.0, type=None,  controllable=True, in_service=True)
+    g0 = pp.create_sgen (net, bus3, p_mw=89, q_mvar=0,   sn_mva=110, name='WF', max_q_mvar=80, min_q_mvar=-80, min_p_mw=0, max_p_mw=100, scaling=1.0, type=None, controllable=False, in_service=True)
+    g1 = pp.create_sgen(net, bus3, p_mw=0,  q_mvar=0,  sn_mva=110, name='PV', max_q_mvar=80, min_q_mvar=-80, min_p_mw=0, max_p_mw=100, scaling=1.0, type=None,  controllable=False, in_service=True)
+    g2 = pp.create_sgen(net, bus3, p_mw=30,  q_mvar=0,  sn_mva=250, name='grid', max_q_mvar=80, min_q_mvar=-80, min_p_mw=0, max_p_mw=240, scaling=1.0, type=None,  controllable=True, in_service=True)
     
     pp.create_poly_cost(net, 0, 'load', cp1_eur_per_mw=-14)
     pp.create_poly_cost(net, 1, 'load', cp1_eur_per_mw=-12)
-    pp.create_poly_cost(net, 2, 'load', cp1_eur_per_mw=-3)
+    pp.create_poly_cost(net, 2, 'load', cp1_eur_per_mw=1)
     #pp.create_poly_cost(net,0,'ext_grid',cp1_eur_per_mw=20) 
-    pp.create_poly_cost(net, 0, 'sgen', cp1_eur_per_mw=-1)
-    pp.create_poly_cost(net, 1, 'sgen', cp1_eur_per_mw=-1)
-    pp.create_poly_cost(net, 2, 'sgen', cp1_eur_per_mw=2)
+    pp.create_poly_cost(net, 0, 'sgen', cp1_eur_per_mw=3)
+    pp.create_poly_cost(net, 1, 'sgen', cp1_eur_per_mw=3)
+    pp.create_poly_cost(net, 2, 'sgen', cp1_eur_per_mw=20)
     
     pp.runopp(net, calculate_voltage_angles=False, verbose=True)
     return net

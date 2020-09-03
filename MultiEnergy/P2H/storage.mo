@@ -17,7 +17,7 @@ parameter Real V = 2400 "volume of water in tank m3";
 
 equation
 density*heat_capacity*V*der(T)= m*(Q_generation - Q_demand);
-200*der(S)= Q_generation - Q_demand;
+100*der(S)= Q_generation - Q_demand;
 annotation(
     Icon(graphics = {Rectangle(extent = {{-100, 100}, {100, -100}}), Text(origin = {19, -26}, lineColor = {0, 0, 255}, extent = {{-81, 108}, {35, -50}}, textString = "Storage"), Text(origin = {-49, -66}, extent = {{-27, 32}, {25, -6}}, textString = "Gen"), Text(origin = {-47, 56}, extent = {{-37, 44}, {25, -6}}, textString = "Demand"), Text(origin = {72, 73}, extent = {{-30, 21}, {30, -21}}, textString = "S"), Text(origin = {71, 15}, extent = {{-15, 19}, {19, -25}}, textString = "T")}, coordinateSystem(initialScale = 0.1)));
 end storage;

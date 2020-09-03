@@ -1,0 +1,18 @@
+T_evaporation_column50 = [-20	-16	-12	-8	-4	0	4	8	12	16	20 24];
+COP_column50 = [3.393099424	3.64291794	3.926798755	4.250081937	4.625137979	5.060373378	5.574988762	6.195732437	6.945196273	7.866000124	9.056418283	10.58993107
+];
+T_evaporation50 = T_evaporation_column50.'; % column to row
+COP50 = COP_column50.';
+%sftool(T_evaporation,COP)
+cftool(T_evaporation50,COP50)
+
+
+
+T_evaporation_column70 = [-20	-16	-12	-8	-4	0	4	8	12	16	20 24 28 32 36 40 44];
+COP_column70 = [2.417389383	2.558560619	2.714989005	2.888740475	3.083673749	3.301278771	3.547635763	3.829891762	4.151348256	4.519518933	4.955983562	5.461793879	6.073643944	6.817751091	7.745397528	8.901360368	10.44456037
+
+];
+T_evaporation70 = T_evaporation_column70.'; % column to row
+COP70 = COP_column70.';
+%sftool(T_evaporation,COP)
+cftool(T_evaporation70,COP70)

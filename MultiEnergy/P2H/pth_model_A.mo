@@ -28,7 +28,7 @@ model pth_model_A
   Modelica.Blocks.Sources.Constant Vbus(k = 1.02)  annotation(
     Placement(visible = true, transformation(origin = {-82, -50}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
   P2H.controller_APL controller_APL annotation(
-    Placement(visible = true, transformation(origin = {49.5719, 68.8211}, extent = {{-20.6569, -25.8211}, {34.4281, 17.2141}}, rotation = 0)));
+    Placement(visible = true, transformation(origin = {47.5719, 68.8211}, extent = {{-20.6569, -25.8211}, {34.4281, 17.2141}}, rotation = 0)));
 equation
   connect(hp1.Pelec, staticgen.P_0) annotation(
     Line(points = {{9, 14}, {22, 14}, {22, -42}, {32, -42}, {32, -48}, {43, -48}}, color = {0, 0, 127}));
@@ -55,15 +55,15 @@ equation
   connect(Vbus.y, staticgen.V_0) annotation(
     Line(points = {{-70, -50}, {-66, -50}, {-66, -26}, {42, -26}, {42, -28}}, color = {0, 0, 127}));
   connect(storage.S, controller_APL.S_storage) annotation(
-    Line(points = {{10, 74}, {20, 74}, {20, 82}, {34, 82}, {34, 80}}, color = {0, 0, 127}));
+    Line(points = {{10, 74}, {20, 74}, {20, 82}, {33, 82}, {33, 81}}, color = {0, 0, 127}));
   connect(Demand_profile.y[1], controller_APL.demand) annotation(
-    Line(points = {{-60, 78}, {-48, 78}, {-48, 88}, {26, 88}, {26, 70}, {34, 70}, {34, 70}}, color = {0, 0, 127}));
+    Line(points = {{-60, 78}, {-48, 78}, {-48, 88}, {26, 88}, {26, 70}, {33, 70}}, color = {0, 0, 127}));
   connect(hp1.Q, controller_APL.generation) annotation(
-    Line(points = {{10, 26}, {20, 26}, {20, 54}, {34, 54}, {34, 54}}, color = {0, 0, 127}));
+    Line(points = {{10, 26}, {20, 26}, {20, 55}, {33, 55}}, color = {0, 0, 127}));
   connect(hp1.Pelec, controller_APL.P) annotation(
-    Line(points = {{10, 14}, {26, 14}, {26, 46}, {36, 46}, {36, 46}}, color = {0, 0, 127}));
+    Line(points = {{10, 14}, {26, 14}, {26, 46}, {33, 46}}, color = {0, 0, 127}));
   connect(controller_APL.Pmin, hp1.Pord) annotation(
-    Line(points = {{90, 78}, {92, 78}, {92, 96}, {-94, 96}, {-94, -6}, {-36, -6}, {-36, -8}}, color = {0, 0, 127}));
+    Line(points = {{87, 79}, {92, 79}, {92, 96}, {-94, 96}, {-94, -6}, {-36, -6}, {-36, -8}}, color = {0, 0, 127}));
 protected
 
 end pth_model_A;

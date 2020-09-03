@@ -30,6 +30,7 @@ parameter Real Tdesign = 15;
     Placement(visible = true, transformation(origin = {-100, -20}, extent = {{-20, -20}, {20, 20}}, rotation = 0), iconTransformation(origin = {-80, -62}, extent = {{-20, -20}, {20, 20}}, rotation = 0)));
   Modelica.Blocks.Interfaces.RealOutput Pelec "MW" annotation(
     Placement(visible = true, transformation(origin = {115, 29}, extent = {{-15, -15}, {15, 15}}, rotation = 0), iconTransformation(origin = {115, 29}, extent = {{-15, -15}, {15, 15}}, rotation = 0)));
+
 equation
 //Heat Pump
   cop_50 = 3.461e-8 * Tamb ^ 5 + 1.29e-6 * Tamb ^ 4 + 4.353e-5 * Tamb ^ 3 + 0.002387 * Tamb ^ 2 + 0.1186 * Tamb + 5.063;

@@ -2,8 +2,8 @@ within Hydrogen;
 
 
 model thermal
-
-  parameter Real Cth= 162116 "J/K";
+  parameter Real Cth= 165116 "J/K";
+  //parameter Real Cth= 162116 "J/K";
   parameter Real Rth = 0.0668 "K/W";
   //parameter Real Tamb =298.15;
   parameter Real Wpump=1100*0.75;
@@ -29,7 +29,7 @@ equation
 //Thermal submodel
   Cth * der(Top) = Wpem + Wpump - Qcooling - Qloss - Hloss;
 //Wpem = (Vcell - Vtn) * Icell * n_cells;
-  Qcooling = 2000 + 110 * Pelec;
+  Qcooling = 1100 + 70 * Pelec;
   Qloss = (1 / Rth) * (Top - (Tamb+273.15));
   Hloss=nH*CpH*(Top-(Tamb+273.15))+nO*CpO*(Top-(Tamb+273.15));
   CpH=(29.11-1.92e-3*Top+4e-6*Top^2-8.7e-10*Top^3);

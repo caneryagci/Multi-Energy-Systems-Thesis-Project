@@ -27,7 +27,7 @@ model pth_model_C
     Placement(visible = true, transformation(origin = {-80, -62}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
   P2H.HP_with_boiler hP_with_boiler annotation(
     Placement(visible = true, transformation(origin = {-34, 2}, extent = {{-22, -22}, {22, 22}}, rotation = 0)));
-  P2H.controller_APL controller_APL(P_initial = 28)  annotation(
+  P2H.controller_APL controller_APL annotation(
     Placement(visible = true, transformation(origin = {46.415, 70.5831}, extent = {{-20.5935, -25.7419}, {34.3225, 17.1612}}, rotation = 0)));
 equation
   connect(Vangle.y, staticgen.angle_0) annotation(

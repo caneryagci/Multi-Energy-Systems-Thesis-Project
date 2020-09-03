@@ -25,7 +25,7 @@ model pth_model_B
     Placement(visible = true, transformation(origin = {-17, 7}, extent = {{-23, -23}, {23, 23}}, rotation = 0)));
   P2H.controller_APL controller_APL annotation(
     Placement(visible = true, transformation(origin = {47.7017, 69.582}, extent = {{-19.7017, -24.6271}, {32.8361, 16.418}}, rotation = 0)));
-  Modelica.Blocks.Sources.CombiTimeTable Demand_profile(extrapolation = Modelica.Blocks.Types.Extrapolation.NoExtrapolation, fileName = "C:/Users/Caner/Desktop/Multi-Energy-Systems-Thesis-Project/Co_simulation/heat_demand.txt", tableName = "tab1", tableOnFile = true) annotation(
+  Modelica.Blocks.Sources.CombiTimeTable Demand_profile(extrapolation = Modelica.Blocks.Types.Extrapolation.NoExtrapolation, fileName = "C:/Users/Caner/Desktop/Multi-Energy-Systems-Thesis-Project/Co_simulation/heat_demand_half.txt", tableName = "tab1", tableOnFile = true) annotation(
     Placement(visible = true, transformation(origin = {-72, 78}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
   Modelica.Blocks.Sources.Constant V_bus(k = 1.02)  annotation(
     Placement(visible = true, transformation(origin = {-82, -46}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));

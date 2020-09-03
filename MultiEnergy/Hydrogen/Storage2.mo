@@ -17,7 +17,7 @@ equation
 //tank pressure [Bar]
 //p_tank_bar = p_tank * 1e-5 / 1000;
 //Tank Pressure in [Pa]
-  der(S_storage) = nH2_i - nH2_o;
+  100*der(S_storage) = nH2_i - nH2_o;
 //der(p_tank) = R * T / V * (nH2_i - nH2_o);
 //nH2_i = der(p_tank) * V / (R * T) + nH2_o;
   //error = nH2_i - nH2_o;

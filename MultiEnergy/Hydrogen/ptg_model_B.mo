@@ -25,7 +25,7 @@ model ptg_model_B
     Placement(visible = true, transformation(origin = {-28, -120}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
   Hydrogen.Controller_P2G3 controller_P2G3 annotation(
     Placement(visible = true, transformation(origin = {50.5198, 51.1101}, extent = {{-22.4881, -28.1101}, {37.4802, 18.7401}}, rotation = 0)));
-  Modelica.Blocks.Sources.CombiTimeTable Demand_Profile(extrapolation = Modelica.Blocks.Types.Extrapolation.NoExtrapolation, fileName = "C:/Users/Caner/Desktop/Multi-Energy-Systems-Thesis-Project/Co_simulation/gas_demand.txt", tableName = "tab1", tableOnFile = true) annotation(
+  Modelica.Blocks.Sources.CombiTimeTable Demand_Profile(extrapolation = Modelica.Blocks.Types.Extrapolation.NoExtrapolation, fileName = "C:/Users/Caner/Desktop/Multi-Energy-Systems-Thesis-Project/Co_simulation/gas_demand_half.txt", tableName = "tab1", tableOnFile = true) annotation(
     Placement(visible = true, transformation(origin = {-73, 79}, extent = {{-13, -13}, {13, 13}}, rotation = 0)));
   Modelica.Blocks.Sources.CombiTimeTable T_ambient(extrapolation = Modelica.Blocks.Types.Extrapolation.NoExtrapolation, fileName = "C:/Users/Caner/Desktop/Multi-Energy-Systems-Thesis-Project/Co_simulation/Tambient_hourly.txt", tableName = "tab1", tableOnFile = true)  annotation(
     Placement(visible = true, transformation(origin = {-104, -46}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));

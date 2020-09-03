@@ -9,12 +9,88 @@ import pandas as pd
 import numpy as np
 
 T=333.15
-seconds = np.arange(0,691200,43200)
-hours = np.arange(0,204,12)
+seconds = np.arange(0,691200,7200)
+hours = np.arange(0,204,2)
+hours2 =np.arange(0,220,12)
+seconds2 = np.arange(0,691200,900)
+hours3 = np.arange(0,220,0.25)
+
+fig,ax38 = plt.subplots()
+df = pd.read_csv(r'C:\Users\Caner\Desktop\Multi-Energy-Systems-Thesis-Project\Figures\Python Figures\Load_P.csv')
+df.plot(x='time', y='ptg_load',ax=ax38,  figsize=(60,20),fontsize=11,xticks=seconds2, color='b')
+df.plot(x='time', y='pth_load', ax=ax38, color = 'r')
+df.plot(x='time', y='excess_RE', ax=ax38, color = 'g')
+ax38.legend(["PtG Load","PtH Load", "Excess RE"],fontsize=15);
+ax38.title.set_size(20)
+ax38.set_xticklabels(hours3)
+ax38.grid('true')
+ax38.set_xlabel('Time [h]', fontsize=15)
+ax38.set_ylabel('Active Power [MW]', fontsize=15)  
+plt.savefig('case2_load.png')
+plt.savefig('case2_load.pdf',bbox_inches='tight', pad_inches=0.01)
+
+
+fig,ax37 = plt.subplots()
+df = pd.read_csv(r'C:\Users\Caner\Desktop\Multi-Energy-Systems-Thesis-Project\Figures\Python Figures\cost.csv')
+df.plot(x='time', y='ptg_cost1',ax=ax37,  figsize=(12,6),fontsize=15,xticks=seconds, color='b',drawstyle = 'steps')
+df.plot(x='time', y='pth_cost1', ax=ax37, color = 'r',drawstyle = 'steps')
+ax37.legend(["PtG cost","PtH cost"],fontsize=15);
+ax37.title.set_size(20)
+ax37.set_xticklabels(hours)
+ax37.grid('true')
+ax37.set_xlabel('Time [$h$]', fontsize=15)
+ax37.set_ylabel('Cost [$EUR/MWh$]', fontsize=15)  
+plt.savefig('cost.png')
+plt.savefig('cost.pdf',bbox_inches='tight', pad_inches=0.01)
+
+
+fig,ax7 = plt.subplots()
+df = pd.read_csv(r'C:\Users\Caner\Desktop\Multi-Energy-Systems-Thesis-Project\Figures\Python Figures\flexible_demand.csv')
+df.plot(x='time', y='basecase',ax=ax7,  figsize=(12,6),fontsize=12,xticks=seconds, color='g')
+df.plot(x='time', y='case1_ptg', ax=ax7, color = 'b')
+df.plot(x='time', y='case1_pth', ax=ax7, color = 'r')
+ax7.legend(["Base case", "PtG case 1","PtH case 1"],fontsize=15);
+ax7.title.set_size(20)
+ax7.set_xticklabels(hours)
+ax7.grid('true')
+ax7.set_xlabel('Time [h]', fontsize=15)
+ax7.set_ylabel('Active Power [MW]', fontsize=15)  
+plt.savefig('flexible_demand.png')
+plt.savefig('flexible_demand.pdf',bbox_inches='tight', pad_inches=0.01)
+
+
+fig,ax8 = plt.subplots()
+df = pd.read_csv(r'C:\Users\Caner\Desktop\Multi-Energy-Systems-Thesis-Project\Figures\Python Figures\hydrogen_production.csv')
+df.plot(x='time', y='modelA_scale',ax=ax8, figsize=(12,6),fontsize=12, color='b',xticks=seconds)
+df.plot(x='time', y='modelB_scale', ax=ax8, color = 'r')
+ax8.legend(["Model A for case 1", "Model B for case 1"],fontsize=15);
+ax8.title.set_size(20)
+ax8.set_xticklabels(hours)
+ax8.grid('true')
+ax8.set_xlabel('Time [h]', fontsize=15)
+ax8.set_ylabel('Hydrogen Production [$m^3/s$]', fontsize=15)  
+plt.savefig('hydrogen_production.png')
+plt.savefig('hydrogen_production.pdf',bbox_inches='tight', pad_inches=0.01)
+
+
+fig,ax9 = plt.subplots()
+df = pd.read_csv(r'C:\Users\Caner\Desktop\Multi-Energy-Systems-Thesis-Project\Figures\Python Figures\heat_production.csv')
+df.plot(x='time', y='modelA',ax=ax9, figsize=(12,6),fontsize=12, color='b',xticks=seconds)
+df.plot(x='time', y='modelB', ax=ax9, color = 'r')
+df.plot(x='time', y='modelC', ax=ax9, color = 'g')
+ax9.legend(["Model A for case 1", "Model B for case 1", "Model C for case 1"],fontsize=15);
+ax9.set_xticklabels(hours)
+ax9.title.set_size(20)
+ax9.grid('true')
+ax9.set_xlabel('Time [h]', fontsize=15)
+ax9.set_ylabel('Heat Production [$m^3/s$]', fontsize=15)  
+plt.savefig('heat_production.png')
+plt.savefig('heat_production.pdf',bbox_inches='tight', pad_inches=0.01)
+
 
 fig,ax = plt.subplots()
 df = pd.read_csv(r'C:\Users\Caner\Desktop\Multi-Energy-Systems-Thesis-Project\Figures\Python Figures\electrolysereff.csv')
-df.plot(x='time', y='electrolyser_simple.electrochemical_simple.efficiency2',ax=ax, xticks=hours, figsize=(12,6),fontsize=12, color='b')
+df.plot(x='time', y='electrolyser_simple.electrochemical_simple.efficiency2',ax=ax, xticks=hours2, figsize=(12,6),fontsize=12, color='b')
 df.plot(x='time', y='electrolyser_detailed1.electrochemical.efficiency2', ax=ax, color = 'r')
 ax.legend(["Model A", "Model B"],fontsize=15);
 ax.axvline(24, color='y', linestyle='--')
@@ -33,10 +109,11 @@ plt.savefig('electrolyserefficiencyversustime.pdf',bbox_inches='tight', pad_inch
 
 
 fig1, ax1 = plt.subplots()
-df = pd.read_csv(r'C:\Users\Caner\Desktop\Multi-Energy-Systems-Thesis-Project\Figures\Python Figures\electrolysertemp.csv')
-df.plot(x='time', y='electrolyser_detailed1.electrochemical.Top', ax=ax1,xticks = hours, figsize=(12,6),fontsize=12, color='r')
-ax1.legend(["Model B"],fontsize=15);
-ax1.axhline(333.15, color='b')
+df = pd.read_csv(r'C:\Users\Caner\Desktop\Multi-Energy-Systems-Thesis-Project\Figures\Python Figures\electrolysertemp2.csv')
+df.plot(x='time', y='modelA', ax=ax1,xticks = hours2, figsize=(12,6),fontsize=12, color='b')
+df.plot(x='time', y='electrolyser_detailed1.electrochemical.Top', ax=ax1, color='r')
+ax1.legend(["Model A","Model B"],fontsize=15);
+#ax1.axhline(333.15, color='b')
 ax1.axvline(24, color='y', linestyle='--')
 ax1.axvline(48, color='y', linestyle='--')
 ax1.axvline(72, color='y', linestyle='--')
@@ -53,7 +130,7 @@ plt.savefig('electrolysertemperatureversustime.pdf',bbox_inches='tight', pad_inc
 
 fig2, ax2 = plt.subplots()
 df = pd.read_csv(r'C:\Users\Caner\Desktop\Multi-Energy-Systems-Thesis-Project\Figures\Python Figures\ptg_load.csv')
-df.plot(x='time', y='electrolyser_simple.Pelec',ax=ax2,xticks = hours, figsize=(12,6),fontsize=12, color='b')
+df.plot(x='time', y='electrolyser_simple.Pelec',ax=ax2,xticks = hours2, figsize=(12,6),fontsize=12, color='b')
 df.plot(x='time', y='electrolyser_detailed1.Pelec', ax=ax2, color = 'r')
 ax2.legend(["Model A","Model B"],fontsize=16);
 ax2.axvline(24, color='y', linestyle='--')
@@ -73,7 +150,7 @@ plt.savefig('Pload_ptg.pdf',bbox_inches='tight', pad_inches=0.01)
 
 fig3, ax3 = plt.subplots()
 df = pd.read_csv(r'C:\Users\Caner\Desktop\Multi-Energy-Systems-Thesis-Project\Figures\Python Figures\COPvstime.csv')
-df.plot(x='time', y='hp1.COP',ax=ax3, figsize=(12,6),fontsize=12, color='b',xticks=hours)
+df.plot(x='time', y='hp1.COP',ax=ax3, figsize=(12,6),fontsize=12, color='b',xticks=hours2)
 df = pd.read_csv(r'C:\Users\Caner\Desktop\Multi-Energy-Systems-Thesis-Project\Figures\Python Figures\COPB.csv')
 df.plot(x='time', y='hp2.COP', ax=ax3, color = 'r')
 df = pd.read_csv(r'C:\Users\Caner\Desktop\Multi-Energy-Systems-Thesis-Project\Figures\Python Figures\COPC.csv')
@@ -97,7 +174,7 @@ plt.savefig('COPvstime.pdf',bbox_inches='tight', pad_inches=0.01)
 
 fig4, ax4 = plt.subplots()
 df = pd.read_csv(r'C:\Users\Caner\Desktop\Multi-Energy-Systems-Thesis-Project\Figures\Python Figures\pth_load.csv')
-df.plot(x='time', y='hp1.Pelec', ax=ax4, figsize=(12,6),fontsize=12, color='b',xticks=hours)
+df.plot(x='time', y='hp1.Pelec', ax=ax4, figsize=(12,6),fontsize=12, color='b',xticks=hours2)
 df = pd.read_csv(r'C:\Users\Caner\Desktop\Multi-Energy-Systems-Thesis-Project\Figures\Python Figures\ploadB.csv')
 df.plot(x='time', y='hp2.Pelec', ax=ax4, color = 'r')
 df = pd.read_csv(r'C:\Users\Caner\Desktop\Multi-Energy-Systems-Thesis-Project\Figures\Python Figures\ploadC.csv')
@@ -119,7 +196,7 @@ plt.savefig('Pload_pth.pdf',bbox_inches='tight', pad_inches=0.01)
 
 fig5, ax5 = plt.subplots()
 df = pd.read_csv(r'C:\Users\Caner\Desktop\Multi-Energy-Systems-Thesis-Project\Figures\Python Figures\ptg_load.csv')
-df.plot(x='time', y='electrolyser_detailed1.Pelec',ax=ax5,xticks = hours, figsize=(12,6),fontsize=12, color='b')
+df.plot(x='time', y='electrolyser_detailed1.Pelec',ax=ax5,xticks = hours2, figsize=(12,6),fontsize=12, color='b')
 df = pd.read_csv(r'C:\Users\Caner\Desktop\Multi-Energy-Systems-Thesis-Project\Figures\Python Figures\ploadB.csv')
 df.plot(x='time', y='hp2.Pelec', ax=ax5, color = 'r')
 ax5.legend(["Industrial Hydrogen (Electrolyser Model B)","District Heating (Heat Pump Model B)"],fontsize=11);
@@ -139,7 +216,7 @@ plt.savefig('Pload_total.pdf',bbox_inches='tight', pad_inches=0.01)
 
 fig6, ax6 = plt.subplots()
 df = pd.read_csv(r'C:\Users\Caner\Desktop\Multi-Energy-Systems-Thesis-Project\Figures\Python Figures\Tamb.csv')
-df.plot(x='time', y='Tamb_avg', ax=ax6,xticks = hours, figsize=(12,6),fontsize=12, color='b')
+df.plot(x='time', y='Tamb_avg', ax=ax6,xticks = hours2, figsize=(12,6),fontsize=12, color='b')
 df.plot(x='time', y='Tamb', ax=ax6, color = 'r')
 ax6.legend(["Daily Average","Hourly Measured"],fontsize=11);
 ax6.axvline(24, color='y', linestyle='--')

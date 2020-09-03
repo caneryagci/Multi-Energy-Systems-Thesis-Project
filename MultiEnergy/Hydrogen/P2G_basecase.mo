@@ -16,7 +16,7 @@ model P2G_basecase
   Hydrogen.Storage2 storage2(S_storage)  annotation(
     Placement(visible = true, transformation(origin = {-25, 51}, extent = {{-17, -17}, {17, 17}}, rotation = 0)));
   Hydrogen.electrolyser_detailed electrolyser_detailed1 annotation(
-    Placement(visible = true, transformation(origin = {-68, -4}, extent = {{-20, -20}, {20, 20}}, rotation = 0)));
+    Placement(visible = true, transformation(origin = {-68, -6}, extent = {{-20, -20}, {20, 20}}, rotation = 0)));
   Modelica.Blocks.Sources.Constant const(k = 1.02)  annotation(
     Placement(visible = true, transformation(origin = {-68, -72}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
   Hydrogen.LCOH lcoh annotation(
@@ -25,8 +25,14 @@ model P2G_basecase
     Placement(visible = true, transformation(origin = {-28, -120}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
   Hydrogen.Controller_P2G3 controller_P2G3(S_emergency = 51)  annotation(
     Placement(visible = true, transformation(origin = {50.5198, 51.1101}, extent = {{-22.4881, -28.1101}, {37.4802, 18.7401}}, rotation = 0)));
-  Modelica.Blocks.Interfaces.RealInput gas_demand annotation(
-    Placement(visible = true, transformation(origin = {-76, 88}, extent = {{-20, -20}, {20, 20}}, rotation = 0), iconTransformation(origin = {-76, 88}, extent = {{-20, -20}, {20, 20}}, rotation = 0)));
+  Modelica.Blocks.Sources.CombiTimeTable T_ambient(extrapolation = Modelica.Blocks.Types.Extrapolation.NoExtrapolation, fileName = "C:/Users/Caner/Desktop/Multi-Energy-Systems-Thesis-Project/Co_simulation/Tambient_hourly.txt", tableName = "tab1", tableOnFile = true) annotation(
+    Placement(visible = true, transformation(origin = {-104, -46}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
+  Modelica.Blocks.Sources.Constant const1(k = 50)  annotation(
+    Placement(visible = true, transformation(origin = {-106, 14}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
+  Modelica.Blocks.Sources.CombiTimeTable Demand_Profile(extrapolation = Modelica.Blocks.Types.Extrapolation.NoExtrapolation, fileName = "C:/Users/Caner/Desktop/Multi-Energy-Systems-Thesis-Project/Co_simulation/gas_demand_half.txt", tableName = "tab1", tableOnFile = true) annotation(
+    Placement(visible = true, transformation(origin = {-87, 89}, extent = {{-13, -13}, {13, 13}}, rotation = 0)));
+  Modelica.Blocks.Sources.Constant constant1(k = 0) annotation(
+    Placement(visible = true, transformation(origin = {-108, 52}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
 equation
   connect(twoWindingTransformer1.p, bus.p) annotation(
     Line(points = {{13, -70}, {-4, -70}}, color = {0, 0, 255}));
@@ -39,9 +45,9 @@ equation
   connect(staticgen.p, bus1.p) annotation(
     Line(points = {{84, -34}, {98, -34}, {98, -70}, {44, -70}}, color = {0, 0, 255}));
   connect(electrolyser_detailed1.nH2, storage2.nH2_i) annotation(
-    Line(points = {{-45, -17}, {-6, -17}, {-6, 26}, {-62, 26}, {-62, 40}, {-39, 40}}, color = {0, 0, 127}));
+    Line(points = {{-45, -19}, {-6, -19}, {-6, 26}, {-62, 26}, {-62, 40}, {-39, 40}}, color = {0, 0, 127}));
   connect(electrolyser_detailed1.Pelec, staticgen.P_0) annotation(
-    Line(points = {{-44, 9}, {30, 9}, {30, -48}, {48, -48}}, color = {0, 0, 127}));
+    Line(points = {{-44, 7}, {30, 7}, {30, -48}, {48, -48}}, color = {0, 0, 127}));
   connect(const.y, infiniteBus2.V) annotation(
     Line(points = {{-56, -72}, {-36, -72}, {-36, -72}, {-34, -72}}, color = {0, 0, 127}));
   connect(const.y, staticgen.V_0) annotation(
@@ -51,15 +57,19 @@ equation
   connect(storage2.S_storage, controller_P2G3.S_storage) annotation(
     Line(points = {{-4, 58}, {18, 58}, {18, 64}, {35, 64}}, color = {0, 0, 127}));
   connect(electrolyser_detailed1.nH2, controller_P2G3.generation) annotation(
-    Line(points = {{-45, -17}, {16, -17}, {16, 36}, {35, 36}}, color = {0, 0, 127}));
+    Line(points = {{-45, -19}, {16, -19}, {16, 36}, {35, 36}}, color = {0, 0, 127}));
   connect(electrolyser_detailed1.Pelec, controller_P2G3.P) annotation(
-    Line(points = {{-44, 9}, {22, 9}, {22, 26}, {35, 26}}, color = {0, 0, 127}));
-  connect(controller_P2G3.Pmin, electrolyser_detailed1.Porder) annotation(
-    Line(points = {{94, 62}, {100, 62}, {100, 108}, {-96, 108}, {-96, 12}, {-82, 12}, {-82, 10}}, color = {0, 0, 127}));
-  connect(gas_demand, controller_P2G3.demand) annotation(
-    Line(points = {{-76, 88}, {14, 88}, {14, 53}, {35, 53}}, color = {0, 0, 127}));
-  connect(gas_demand, storage2.nH2_o) annotation(
-    Line(points = {{-76, 88}, {-54, 88}, {-54, 58}, {-38, 58}}, color = {0, 0, 127}));
+    Line(points = {{-44, 7}, {22, 7}, {22, 26}, {35, 26}}, color = {0, 0, 127}));
+  connect(T_ambient.y[1], electrolyser_detailed1.T_ambient) annotation(
+    Line(points = {{-92, -46}, {-82, -46}, {-82, -26}, {-106, -26}, {-106, -18}, {-84, -18}}, color = {0, 0, 127}));
+  connect(const1.y, electrolyser_detailed1.Porder) annotation(
+    Line(points = {{-94, 14}, {-94, 8}, {-82, 8}}, color = {0, 0, 127}));
+  connect(Demand_Profile.y[1], storage2.nH2_o) annotation(
+    Line(points = {{-72, 90}, {-54, 90}, {-54, 58}, {-38, 58}, {-38, 58}}, color = {0, 0, 127}));
+  connect(Demand_Profile.y[1], controller_P2G3.demand) annotation(
+    Line(points = {{-72, 90}, {10, 90}, {10, 50}, {34, 50}, {34, 52}, {34, 52}}, color = {0, 0, 127}));
+  connect(constant1.y, controller_P2G3.ptg_switch) annotation(
+    Line(points = {{-96, 52}, {-64, 52}, {-64, 42}, {36, 42}, {36, 44}, {36, 44}}, color = {0, 0, 127}));
 protected
   annotation(
     Diagram(graphics = {Text(origin = {-25, -59}, lineColor = {0, 0, 255}, extent = {{-11, 1}, {11, -1}}, textString = "infinite bus")}, coordinateSystem(extent = {{-120, -120}, {120, 120}}, initialScale = 0.1)),

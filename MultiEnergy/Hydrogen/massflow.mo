@@ -22,6 +22,7 @@ model massflow
 equation
 //Mass/flow equations
   nH = Molar_massH * n_cells * Icell / (2 * F * densityH);
+  
   nHtO = n_cells * Icell / (2 * F);
 //(Nm3/h)/(mol/s)
   //nH_pu = nH / 0.161;

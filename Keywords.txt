@@ -1,7 +1,0 @@
-Flexibility,
-Industrial multi-energy system,
-Degradation,
-Optimization,
-Electrolyser,
-Heat pump,
-Renewable energy,

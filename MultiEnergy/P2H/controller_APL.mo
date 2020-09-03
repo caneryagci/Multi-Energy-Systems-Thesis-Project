@@ -1,12 +1,11 @@
 within P2H;
 
 model controller_APL
-  parameter Real Smax = 2400;
-  parameter Real S_emergency = 1199.9;
-
+  parameter Real Smax = 3000;
+  parameter Real S_emergency = 199.9;
   parameter Real Pshutdown = 0.1;
-  parameter Real Pgain = 1;
-  parameter Real P_initial = 40;
+  parameter Real Pgain = 3;
+  parameter Real P_initial = 22.5;
   //Real error_pu;
   Modelica.Blocks.Interfaces.RealInput S_storage annotation(
     Placement(visible = true, transformation(origin = {-100, 82}, extent = {{-14, -14}, {14, 14}}, rotation = 0), iconTransformation(origin = {-102, 80}, extent = {{-18, -18}, {18, 18}}, rotation = 0)));
@@ -44,18 +43,24 @@ model controller_APL
     Placement(visible = true, transformation(origin = {72, -32}, extent = {{10, -10}, {-10, 10}}, rotation = 0)));
   Modelica.Blocks.Sources.Constant flexibility_service(k = 0) annotation(
     Placement(visible = true, transformation(origin = {108, -32}, extent = {{10, -10}, {-10, 10}}, rotation = 0)));
-  Hydrogen.first_order first_order1(T = 10, k = 1, y(fixed = true), y_start = P_initial) annotation(
+  Hydrogen.first_order first_order1(T = 5, k = 1, y(fixed = true), y_start = P_initial) annotation(
     Placement(visible = true, transformation(origin = {154, 10}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
-  Hydrogen.gain gain(k = Pgain)  annotation(
+  Hydrogen.gain gain(k = Pgain) annotation(
     Placement(visible = true, transformation(origin = {-44, -22}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
   Modelica.Blocks.Interfaces.RealOutput Pmax annotation(
     Placement(visible = true, transformation(origin = {184, -124}, extent = {{-14, -14}, {14, 14}}, rotation = 0), iconTransformation(origin = {214, -40}, extent = {{-14, -14}, {14, 14}}, rotation = 0)));
   Modelica.Blocks.Logical.Switch switch13 annotation(
     Placement(visible = true, transformation(origin = {138, -124}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
-  Modelica.Blocks.Sources.Constant const3(k = 40)  annotation(
+  Modelica.Blocks.Sources.Constant const3(k = 50) annotation(
     Placement(visible = true, transformation(origin = {-84, -114}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
   Modelica.Blocks.Logical.Switch switch14 annotation(
     Placement(visible = true, transformation(origin = {-16, -122}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
+  Modelica.Blocks.Logical.GreaterThreshold greaterThreshold1(threshold = 0.5) annotation(
+    Placement(visible = true, transformation(origin = {22, -164}, extent = {{10, -10}, {-10, 10}}, rotation = 0)));
+  Modelica.Blocks.Logical.Switch switch annotation(
+    Placement(visible = true, transformation(origin = {-36, -162}, extent = {{-10, -10}, {10, 10}}, rotation = 180)));
+  Modelica.Blocks.Interfaces.RealInput pth_switch annotation(
+    Placement(visible = true, transformation(origin = {88, -156}, extent = {{-20, -20}, {20, 20}}, rotation = 0), iconTransformation(origin = {-100, -26}, extent = {{-20, -20}, {20, 20}}, rotation = 0)));
 equation
 /*
 error_pu= balance_error/0.002;
@@ -118,8 +123,6 @@ error_pu= balance_error/0.002;
     Line(points = {{-64, -22}, {-56, -22}, {-56, -22}, {-56, -22}}, color = {0, 0, 127}));
   connect(gain.y, add.u2) annotation(
     Line(points = {{-32, -22}, {-26, -22}, {-26, 10}, {4, 10}, {4, 10}}, color = {0, 0, 127}));
-  connect(switch13.y, Pmax) annotation(
-    Line(points = {{149, -124}, {184, -124}}, color = {0, 0, 127}));
   connect(const3.y, switch14.u1) annotation(
     Line(points = {{-72, -114}, {-28, -114}}, color = {0, 0, 127}));
   connect(lessEqualThreshold.y, switch14.u2) annotation(
@@ -132,8 +135,17 @@ error_pu= balance_error/0.002;
     Line(points = {{-5, -122}, {62, -122}, {62, -116}, {126, -116}}, color = {0, 0, 127}));
   connect(first_order1.y, switch13.u3) annotation(
     Line(points = {{165, 10}, {170, 10}, {170, -102}, {88, -102}, {88, -132}, {126, -132}}, color = {0, 0, 127}));
+  connect(greaterThreshold1.y, switch.u2) annotation(
+    Line(points = {{12, -164}, {2, -164}, {2, -162}, {-24, -162}}, color = {255, 0, 255}));
+  connect(switch13.y, switch.u1) annotation(
+    Line(points = {{150, -124}, {162, -124}, {162, -182}, {-8, -182}, {-8, -170}, {-24, -170}}, color = {0, 0, 127}));
+  connect(first_order1.y, switch.u3) annotation(
+    Line(points = {{166, 10}, {166, 10}, {166, -144}, {-16, -144}, {-16, -154}, {-24, -154}, {-24, -154}}, color = {0, 0, 127}));
+  connect(switch.y, Pmax) annotation(
+    Line(points = {{-46, -162}, {-80, -162}, {-80, -188}, {162, -188}, {162, -126}, {184, -126}, {184, -124}}, color = {0, 0, 127}));
+  connect(pth_switch, greaterThreshold1.u) annotation(
+    Line(points = {{88, -156}, {108, -156}, {108, -164}, {34, -164}, {34, -164}}, color = {0, 0, 127}));
   annotation(
     Icon(coordinateSystem(extent = {{-120, -150}, {200, 100}}, initialScale = 0.1), graphics = {Text(origin = {-46, -71}, extent = {{-30, 19}, {98, -31}}, textString = "generation"), Text(origin = {-55, 106}, extent = {{-25, 12}, {93, -64}}, textString = "S_storage"), Text(origin = {-54, -116}, extent = {{-34, 8}, {84, -20}}, textString = "P_total"), Rectangle(extent = {{-120, 100}, {200, -150}}), Text(origin = {-50, 37}, extent = {{-30, 19}, {82, -23}}, textString = "demand"), Text(origin = {162, 62}, extent = {{-30, 34}, {24, -38}}, textString = "Pmin"), Text(origin = {160, -29}, extent = {{-30, 23}, {26, -33}}, textString = "Pmax"), Text(origin = {46, -33}, lineColor = {0, 0, 255}, extent = {{-90, 57}, {68, -35}}, textString = "Controller")}),
     Diagram(graphics = {Bitmap(extent = {{-44, -22}, {-44, -22}})}, coordinateSystem(extent = {{-120, -150}, {200, 100}}, initialScale = 0.1)));
-
 end controller_APL;
