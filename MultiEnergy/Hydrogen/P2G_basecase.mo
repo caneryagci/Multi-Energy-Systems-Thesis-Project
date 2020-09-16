@@ -20,7 +20,7 @@ model P2G_basecase
   Modelica.Blocks.Sources.Constant const(k = 1.02)  annotation(
     Placement(visible = true, transformation(origin = {-68, -72}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
   Hydrogen.LCOH lcoh annotation(
-    Placement(visible = true, transformation(origin = {8, -120}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
+    Placement(visible = true, transformation(origin = {6, -116}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
   Modelica.Blocks.Sources.RealExpression realExpression(y = electrolyser_detailed1.electrochemical.efficiency2)  annotation(
     Placement(visible = true, transformation(origin = {-28, -120}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
   Hydrogen.Controller_P2G3 controller_P2G3(S_emergency = 51)  annotation(
@@ -53,7 +53,7 @@ equation
   connect(const.y, staticgen.V_0) annotation(
     Line(points = {{-56, -72}, {-44, -72}, {-44, -20}, {48, -20}, {48, -20}}, color = {0, 0, 127}));
   connect(realExpression.y, lcoh.efficiency) annotation(
-    Line(points = {{-17, -120}, {-12, -120}, {-12, -124}, {0, -124}}, color = {0, 0, 127}));
+    Line(points = {{-17, -120}, {-2, -120}}, color = {0, 0, 127}));
   connect(storage2.S_storage, controller_P2G3.S_storage) annotation(
     Line(points = {{-4, 58}, {18, 58}, {18, 64}, {35, 64}}, color = {0, 0, 127}));
   connect(electrolyser_detailed1.nH2, controller_P2G3.generation) annotation(
